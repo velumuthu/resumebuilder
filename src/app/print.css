@@ -1,0 +1,55 @@
+@media print {
+  body, html {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #resume-preview,
+  #resume-preview * {
+    visibility: visible;
+  }
+
+  #resume-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    transform: scale(1);
+    border: none !important;
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  #resume-preview-content, #resume-preview-content * {
+    color: #000000 !important;
+  }
+
+  #resume-preview-content h1, 
+  #resume-preview-content h2, 
+  #resume-preview-content h3, 
+  #resume-preview-content h4, 
+  #resume-preview-content p, 
+  #resume-preview-content span,
+  #resume-preview-content div {
+    color: #000000 !important;
+  }
+
+  #resume-preview-content a {
+    color: #0000ff !important;
+    text-decoration: underline;
+  }
+
+  #resume-preview-content hr {
+    border-color: #cccccc !important;
+  }
+}
