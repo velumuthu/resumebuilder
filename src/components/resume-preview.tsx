@@ -37,19 +37,19 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
         </div>
         <div className="text-center py-4 px-4 print:hidden">
             <h3 className="text-lg font-bold">
-              Ready to Proceed?
+              Support ResumAI's Development
             </h3>
-            <p className="mt-2 text-sm text-muted-foreground">A small payment helps support this tool. Click the button or use the UPI details below.</p>
+            <p className="mt-2 text-sm text-muted-foreground">Your contribution helps keep this tool running. Any amount is appreciated!</p>
             <Button onClick={handlePayNow} className="mt-4">
-              Pay with Google Pay
+              Contribute with Google Pay
             </Button>
             <div className="mt-4 text-sm text-muted-foreground">
-              <p>Or pay directly using:</p>
+              <p>Or contribute directly using:</p>
               <p className="font-semibold text-foreground mt-1">
                 UPI ID: <span className="font-mono bg-muted p-1 rounded-md">velumbalaji-1@oksbi</span>
               </p>
               <p className="font-semibold text-foreground mt-1">
-                Amount: <span className="font-mono bg-muted p-1 rounded-md">₹5.00</span>
+                Amount: <span className="font-mono bg-muted p-1 rounded-md">₹5.00 (or any amount)</span>
               </p>
             </div>
           </div>
