@@ -52,18 +52,6 @@ export default function AuthForm() {
         router.push('/');
       }
     } else {
-      // In a real app, you would integrate with a payment provider like Stripe here.
-      // For now, we'll just show a toast message.
-      toast({
-        title: 'Premium Feature',
-        description: 'Signing up requires a payment. This feature is for demonstration purposes.',
-        variant: 'default',
-        duration: 5000,
-      });
-
-      // To allow testing without payment, we can proceed with signup.
-      // Comment out the toast above and uncomment the block below to enable signup.
-      /*
       const result = await signUp(data);
       if (result.error) {
         toast({ title: 'Sign Up Error', description: result.error, variant: 'destructive' });
@@ -71,7 +59,6 @@ export default function AuthForm() {
         toast({ title: 'Signed Up', description: 'Welcome! Please sign in.' });
         setIsLogin(true);
       }
-      */
     }
     setIsLoading(false);
   };
