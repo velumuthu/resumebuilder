@@ -140,8 +140,8 @@ export default function ResumeBuilder() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-10 w-full border-b bg-background/80 backdrop-blur-sm">
+    <div className="flex flex-col min-h-screen bg-secondary/40">
+      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2 font-semibold text-lg">
             <FileText />
@@ -161,14 +161,18 @@ export default function ResumeBuilder() {
         </div>
       </header>
 
-      <main className="flex-1 container mx-auto p-4 md:p-8">
-        <div className="grid grid-cols-1 gap-8">
-          <div>
-            <ResumeForm resumeData={data} setResumeData={setData} />
+      <main className="flex-1 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-4rem)]">
+          <div className="lg:overflow-y-auto">
+            <div className="p-4 md:p-8">
+              <ResumeForm resumeData={data} setResumeData={setData} />
+            </div>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-primary mb-6">Resume Preview</h2>
-            <ResumePreview ref={previewRef} resumeData={data} />
+          <div className="bg-background lg:h-[calc(100vh-4rem)] lg:fixed lg:right-0 lg:top-16 lg:w-1/2">
+             <div className="p-4 md:p-8 h-full">
+                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-background/80 backdrop-blur-sm py-2 z-10">Resume Preview</h2>
+                <ResumePreview ref={previewRef} resumeData={data} />
+            </div>
           </div>
         </div>
       </main>
