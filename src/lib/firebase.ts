@@ -6,13 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  projectId: "resumai-z3ftb",
-  appId: "1:321201702568:web:97464d3e631d70f06aa49d",
-  storageBucket: "resumai-z3ftb.firebasestorage.app",
   apiKey: "AIzaSyAl7QQdlr_zDAfyWm3GCMYBI8mcNpiq0Ws",
   authDomain: "resumai-z3ftb.firebaseapp.com",
-  measurementId: "",
+  projectId: "resumai-z3ftb",
+  storageBucket: "resumai-z3ftb.firebasestorage.app",
   messagingSenderId: "321201702568",
+  appId: "1:321201702568:web:97464d3e631d70f06aa49d"
 };
 
 // Initialize Firebase

@@ -25,9 +25,12 @@ async function handleAuth(
     if (error instanceof z.ZodError) {
       return { success: false, error: 'Invalid input.' };
     }
+    // Firebase auth errors have a 'code' property.
+    // We can provide more specific error messages.
+    const errorMessage = error.code ? error.code.replace('auth/', '').replace(/-/g, ' ') : (error.message || 'An unknown error occurred.');
     return {
       success: false,
-      error: error.message || 'An unknown error occurred.',
+      error: errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1) + '.',
     };
   }
 }

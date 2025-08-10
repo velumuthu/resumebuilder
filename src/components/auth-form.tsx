@@ -44,7 +44,7 @@ export default function AuthForm() {
   const onSubmit = async (data: AuthFormData) => {
     setIsLoading(true);
     const result = await signIn(data);
-    if (result.error) {
+    if (!result.success) {
       toast({ title: 'Sign In Error', description: result.error, variant: 'destructive' });
     } else {
       toast({ title: 'Signed In', description: 'Welcome back!' });
