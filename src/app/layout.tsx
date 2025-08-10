@@ -6,6 +6,9 @@ import './print.css';
 export const metadata: Metadata = {
   title: 'ResumAI - AI-Powered Resume Builder',
   description: 'Create professional resumes with AI-driven content suggestions.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
