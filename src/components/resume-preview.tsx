@@ -15,13 +15,14 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
        <div id="resume-preview" ref={ref} className="p-2 md:p-4 bg-card shadow-lg rounded-lg transform origin-top lg:scale-90 xl:scale-100">
         <div id="resume-preview-content">
          <ProfessionalTemplate resumeData={resumeData} />
-         <div className="payment-info mt-8 pt-8 border-t-2 border-dashed text-center">
+        </div>
+        <div className="payment-info mt-8 pt-8 border-t-2 border-dashed text-center">
             <h3 className="text-lg font-bold">To support my work, please consider a small payment.</h3>
             <p className="mt-2">Scan the QR code or use the UPI ID below to pay ₹5.</p>
             <div className="flex justify-center items-center mt-4 gap-8">
               <div>
                 <img 
-                  src="/qr.jpg" 
+                  src="https://placehold.co/150x150.png" 
                   alt="UPI QR Code" 
                   width={150} 
                   height={150} 
@@ -36,7 +37,6 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
               </div>
             </div>
          </div>
-        </div>
        </div>
     </ScrollArea>
   );
