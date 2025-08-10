@@ -11,9 +11,17 @@
   }
 
   #resume-preview,
-  #resume-preview * {
+  #resume-preview *,
+  [data-radix-scroll-area-viewport],
+  [data-radix-scroll-area-viewport] * {
     visibility: visible;
   }
+  
+  [data-radix-scroll-area-viewport] {
+    height: auto !important;
+    overflow-y: visible !important;
+  }
+
 
   #resume-preview {
     position: absolute;
