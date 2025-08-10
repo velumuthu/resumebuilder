@@ -143,13 +143,34 @@ export default function ResumeBuilder() {
 
       const imgData = canvas.toDataURL('image/png');
       
+      // A4 paper size in points (width, height)
+      const a4Width = 595.28;
+      const a4Height = 841.89;
+
+      // Calculate aspect ratio to fit on A4
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const canvasAspectRatio = canvasWidth / canvasHeight;
+
+      let pdfWidth = a4Width;
+      let pdfHeight = pdfWidth / canvasAspectRatio;
+
+      // If the height exceeds A4, scale down
+      if (pdfHeight > a4Height) {
+        pdfHeight = a4Height;
+        pdfWidth = pdfHeight * canvasAspectRatio;
+      }
+      
       const pdf = new jsPDF({
         orientation: 'portrait',
-        unit: 'px',
-        format: [canvas.width, canvas.height]
+        unit: 'pt',
+        format: 'a4'
       });
+      
+      const xOffset = (a4Width - pdfWidth) / 2;
+      const yOffset = 0; // Align to top
 
-      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, pdfWidth, pdfHeight);
       pdf.save('resume.pdf');
 
     } catch (error) {
