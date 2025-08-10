@@ -19,6 +19,7 @@ import {
 import { Loader2, Sparkles, FileText } from 'lucide-react';
 import { signIn } from '../app/login/actions';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const authSchema = z.object({
   email: z.string().email(),
@@ -90,7 +91,7 @@ export default function AuthForm() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-center text-center text-sm text-muted-foreground">
-          <p>To create a new account, please contact the administrator.</p>
+           <p>Don&apos;t have an account?&nbsp;<Link href="/signup" className="text-primary hover:underline">Sign up</Link></p>
         </CardFooter>
       </Card>
     </div>

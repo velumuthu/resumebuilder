@@ -3,7 +3,6 @@
 import { z } from 'zod';
 import { auth } from '@/lib/firebase';
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
@@ -31,13 +30,6 @@ async function handleAuth(
       error: error.message || 'An unknown error occurred.',
     };
   }
-}
-
-export async function signUp(data: AuthInput) {
-  return handleAuth(
-    (email, password) => createUserWithEmailAndPassword(auth, email, password),
-    data
-  );
 }
 
 export async function signIn(data: AuthInput) {
