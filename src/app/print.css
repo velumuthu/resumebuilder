@@ -49,14 +49,8 @@
     border-color: #cccccc !important;
   }
 
-  /* Make sure payment info is visible for PDF generation */
-  .payment-info-print-only {
+  .payment-info {
     display: block !important;
     visibility: visible !important;
   }
-}
-
-.payment-info-print-only {
-  /* Hide by default, will be shown by html2canvas capture */
-  display: block;
 }
