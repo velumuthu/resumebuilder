@@ -153,7 +153,7 @@ export default function ResumeBuilder() {
           <div className="flex items-center gap-2">
             <Button onClick={handlePrint} variant="outline">
               <Download className="mr-2 h-4 w-4" />
-              Export PDF
+              Download PDF
             </Button>
             <Button onClick={handleReset} variant="destructive">
               <Trash2 className="mr-2 h-4 w-4" />
