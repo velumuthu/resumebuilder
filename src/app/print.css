@@ -11,17 +11,9 @@
   }
 
   #resume-preview,
-  #resume-preview *,
-  [data-radix-scroll-area-viewport],
-  [data-radix-scroll-area-viewport] * {
+  #resume-preview * {
     visibility: visible;
   }
-  
-  [data-radix-scroll-area-viewport] {
-    height: auto !important;
-    overflow-y: visible !important;
-  }
-
 
   #resume-preview {
     position: absolute;
@@ -36,6 +28,12 @@
     box-shadow: none !important;
     background-color: #ffffff !important;
     color: #000000 !important;
+  }
+  
+  [data-radix-scroll-area-viewport] {
+    height: auto !important;
+    overflow-y: visible !important;
+    visibility: visible !important;
   }
   
   .payment-info-print-only {
