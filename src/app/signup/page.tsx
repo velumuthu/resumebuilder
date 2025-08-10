@@ -18,7 +18,7 @@ import {
 import { Loader2, Sparkles, FileText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { createOrder, verifyPaymentAndCreateUser } from './actions';
+import { signUpUser } from './actions';
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -26,12 +26,6 @@ const signupSchema = z.object({
 });
 
 type SignupFormData = z.infer<typeof signupSchema>;
-
-declare global {
-    interface Window {
-      Razorpay: any;
-    }
-}
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,76 +40,17 @@ export default function SignupPage() {
     resolver: zodResolver(signupSchema),
   });
 
-  const loadRazorpay = () => {
-    return new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-        script.onload = () => {
-            resolve(true);
-        };
-        script.onerror = () => {
-            resolve(false);
-        }
-        document.body.appendChild(script);
-    })
-  }
-
   const onSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
-    const razorpayLoaded = await loadRazorpay();
+    const result = await signUpUser(data);
 
-    if (!razorpayLoaded) {
-        toast({ title: 'Error', description: 'Failed to load Razorpay SDK. Please try again.', variant: 'destructive'});
-        setIsLoading(false);
-        return;
+    if (result.success) {
+      toast({ title: 'Success!', description: 'Your account has been created.' });
+      router.push('/');
+    } else {
+      toast({ title: 'Sign Up Failed', description: result.error, variant: 'destructive' });
     }
-
-    const orderResult = await createOrder({amount: 100, currency: 'INR' });
-
-    if(orderResult.error || !orderResult.order) {
-        toast({ title: 'Error', description: orderResult.error || 'Failed to create payment order.', variant: 'destructive'});
-        setIsLoading(false);
-        return;
-    }
-
-    const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: orderResult.order.amount,
-        currency: orderResult.order.currency,
-        name: "ResumAI Signup",
-        description: "One-time fee for account creation",
-        order_id: orderResult.order.id,
-        handler: async function (response: any) {
-            const verificationResult = await verifyPaymentAndCreateUser({
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-                email: data.email,
-                password: data.password
-            });
-
-            if(verificationResult.success) {
-                toast({ title: 'Success!', description: 'Your account has been created.' });
-                router.push('/');
-            } else {
-                toast({ title: 'Payment Verification Failed', description: verificationResult.error, variant: 'destructive'});
-            }
-        },
-        prefill: {
-            email: data.email,
-        },
-        theme: {
-            color: "#3399cc"
-        }
-    };
-
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
-    
-    paymentObject.on('payment.failed', function (response: any) {
-        toast({ title: 'Payment Failed', description: response.error.description, variant: 'destructive' });
-        setIsLoading(false);
-    });
+    setIsLoading(false);
   };
 
   return (
@@ -129,7 +64,7 @@ export default function SignupPage() {
           </div>
           <CardTitle>Sign Up</CardTitle>
           <CardDescription>
-            Create your account with a one-time payment.
+            Create your free account to get started.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -150,7 +85,7 @@ export default function SignupPage() {
               {isLoading ? (
                 <Loader2 className="animate-spin" />
               ) : (
-                'Pay to Sign Up'
+                'Sign Up'
               )}
             </Button>
           </form>
