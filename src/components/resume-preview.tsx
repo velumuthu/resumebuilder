@@ -1,10 +1,11 @@
 'use client';
 
 import type { ResumeData } from '@/lib/types';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import ProfessionalTemplate from './templates/professional-template';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
+import Image from 'next/image';
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -12,10 +13,16 @@ interface ResumePreviewProps {
 
 const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
   ({ resumeData }, ref) => {
-    const handlePayNow = () => {
-      // UPI link for Google Pay
-      const upiLink = 'upi://pay?pa=velumbalaji-1@oksbi&pn=ResumAI&am=5.00&cu=INR&tn=Resume-Download';
-      window.open(upiLink, '_blank');
+    const [showQr, setShowQr] = useState(false);
+
+    const handlePayClick = () => {
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        const upiLink = 'upi://pay?pa=velumbalaji-1@oksbi&pn=ResumAI&am=5.00&cu=INR&tn=Resume-Download';
+        window.open(upiLink, '_blank');
+      } else {
+        setShowQr(true);
+      }
     };
 
     return (
@@ -40,18 +47,45 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
               Support ResumAI's Development
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">Your contribution helps keep this tool running. Any amount is appreciated!</p>
-            <Button onClick={handlePayNow} className="mt-4">
-              Contribute with Google Pay
-            </Button>
-            <div className="mt-4 text-sm text-muted-foreground">
-              <p>Or contribute directly using:</p>
-              <p className="font-semibold text-foreground mt-1">
-                UPI ID: <span className="font-mono bg-muted p-1 rounded-md">velumbalaji-1@oksbi</span>
-              </p>
-              <p className="font-semibold text-foreground mt-1">
-                Amount: <span className="font-mono bg-muted p-1 rounded-md">₹5.00 (or any amount)</span>
-              </p>
-            </div>
+            
+            {showQr ? (
+              <div className="mt-4">
+                <p className="text-sm text-muted-foreground mb-2">Scan the QR code with your payment app</p>
+                <div className="flex justify-center">
+                   <Image
+                    src="https://placehold.co/150x150.png"
+                    alt="Payment QR Code"
+                    width={150}
+                    height={150}
+                    data-ai-hint="qr code"
+                  />
+                </div>
+                <div className="mt-4 text-sm text-muted-foreground">
+                    <p>Or contribute directly using:</p>
+                    <p className="font-semibold text-foreground mt-1">
+                      UPI ID: <span className="font-mono bg-muted p-1 rounded-md">velumbalaji-1@oksbi</span>
+                    </p>
+                </div>
+                <Button variant="outline" size="sm" onClick={() => setShowQr(false)} className="mt-4">
+                  Close QR Code
+                </Button>
+              </div>
+            ) : (
+               <>
+                <Button onClick={handlePayClick} className="mt-4">
+                  Contribute with Google Pay
+                </Button>
+                <div className="mt-4 text-sm text-muted-foreground">
+                  <p>Or contribute directly using:</p>
+                  <p className="font-semibold text-foreground mt-1">
+                    UPI ID: <span className="font-mono bg-muted p-1 rounded-md">velumbalaji-1@oksbi</span>
+                  </p>
+                  <p className="font-semibold text-foreground mt-1">
+                    Amount: <span className="font-mono bg-muted p-1 rounded-md">₹5.00 (or any amount)</span>
+                  </p>
+                </div>
+              </>
+            )}
           </div>
       </ScrollArea>
     );
