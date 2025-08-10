@@ -44,6 +44,20 @@ const initialData: ResumeData = {
     { id: '3', name: 'Node.js' },
     { id: '4', name: 'Tailwind CSS' },
   ],
+  certifications: [
+    { id: '1', name: 'Certified Kubernetes Application Developer', issuer: 'Cloud Native Computing Foundation', date: '2022-08-15' },
+  ],
+  projects: [
+    { id: '1', name: 'Personal Portfolio Website', description: 'A responsive website to showcase my projects and skills.', url: 'your-portfolio.com' },
+  ],
+  achievements: [
+    { id: '1', description: 'Employee of the Month - Q3 2021' },
+    { id: '2', description: 'Published a technical article on Medium' },
+  ],
+  areasOfInterest: [
+    { id: '1', name: 'Open Source Contribution' },
+    { id: '2', name: 'Competitive Programming' },
+  ],
 };
 
 export default function ResumeBuilder() {
@@ -57,7 +71,20 @@ export default function ResumeBuilder() {
     try {
       const item = localStorage.getItem('resumai-data');
       if (item) {
-        setData(JSON.parse(item));
+        const savedData = JSON.parse(item);
+        // Ensure all fields from initialData are present in saved data
+        setData({
+          ...initialData,
+          ...savedData,
+          personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
+          experience: savedData.experience || initialData.experience,
+          education: savedData.education || initialData.education,
+          skills: savedData.skills || initialData.skills,
+          certifications: savedData.certifications || initialData.certifications,
+          projects: savedData.projects || initialData.projects,
+          achievements: savedData.achievements || initialData.achievements,
+          areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
+        });
       }
     } catch (error) {
       console.error('Failed to load data from localStorage', error);

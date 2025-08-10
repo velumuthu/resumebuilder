@@ -31,9 +31,37 @@ export interface Skill {
   name: string;
 }
 
+export interface Certification {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+}
+
+export interface Achievement {
+  id: string;
+  description: string;
+}
+
+export interface AreaOfInterest {
+  id: string;
+  name: string;
+}
+
 export interface ResumeData {
   personalInfo: PersonalInfo;
   experience: Experience[];
   education: Education[];
   skills: Skill[];
+  certifications: Certification[];
+  projects: Project[];
+  achievements: Achievement[];
+  areasOfInterest: AreaOfInterest[];
 }
