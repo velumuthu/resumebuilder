@@ -1,3 +1,5 @@
+import { User } from 'firebase/auth';
+
 export interface PersonalInfo {
   name: string;
   email: string;
@@ -64,4 +66,10 @@ export interface ResumeData {
   projects: Project[];
   achievements: Achievement[];
   areasOfInterest: AreaOfInterest[];
+}
+
+export interface AuthContextType {
+    user: User | null;
+    loading: boolean;
+    signOut: () => Promise<void>;
 }

@@ -3,10 +3,11 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Download, FileText, Loader2, Sparkles, Trash2 } from 'lucide-react';
+import { Download, FileText, Loader2, LogOut, Sparkles, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
+import { useAuth } from '@/hooks/use-auth';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -65,41 +66,46 @@ export default function ResumeBuilder() {
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
+  const { user, signOut } = useAuth();
+  
+  const getStorageKey = () => `resumai-data-${user?.uid}`;
 
   useEffect(() => {
     setIsClient(true);
-    try {
-      const item = localStorage.getItem('resumai-data');
-      if (item) {
-        const savedData = JSON.parse(item);
-        // Ensure all fields from initialData are present in saved data
-        setData({
-          ...initialData,
-          ...savedData,
-          personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
-          experience: savedData.experience || initialData.experience,
-          education: savedData.education || initialData.education,
-          skills: savedData.skills || initialData.skills,
-          certifications: savedData.certifications || initialData.certifications,
-          projects: savedData.projects || initialData.projects,
-          achievements: savedData.achievements || initialData.achievements,
-          areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
+    if(user){
+      try {
+        const item = localStorage.getItem(getStorageKey());
+        if (item) {
+          const savedData = JSON.parse(item);
+          // Ensure all fields from initialData are present in saved data
+          setData({
+            ...initialData,
+            ...savedData,
+            personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
+            experience: savedData.experience || initialData.experience,
+            education: savedData.education || initialData.education,
+            skills: savedData.skills || initialData.skills,
+            certifications: savedData.certifications || initialData.certifications,
+            projects: savedData.projects || initialData.projects,
+            achievements: savedData.achievements || initialData.achievements,
+            areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load data from localStorage', error);
+        toast({
+          title: 'Error',
+          description: 'Could not load saved data.',
+          variant: 'destructive',
         });
       }
-    } catch (error) {
-      console.error('Failed to load data from localStorage', error);
-      toast({
-        title: 'Error',
-        description: 'Could not load saved data.',
-        variant: 'destructive',
-      });
     }
-  }, [toast]);
+  }, [toast, user, isClient]);
 
   useEffect(() => {
-    if (isClient) {
+    if (isClient && user) {
       try {
-        localStorage.setItem('resumai-data', JSON.stringify(data));
+        localStorage.setItem(getStorageKey(), JSON.stringify(data));
       } catch (error) {
         console.error('Failed to save data to localStorage', error);
         toast({
@@ -109,7 +115,7 @@ export default function ResumeBuilder() {
         });
       }
     }
-  }, [data, isClient, toast]);
+  }, [data, isClient, toast, user]);
   
   const handlePrint = () => {
     window.print();
@@ -156,6 +162,10 @@ export default function ResumeBuilder() {
             <Button onClick={handleReset} variant="destructive">
               <Trash2 className="mr-2 h-4 w-4" />
               Reset
+            </Button>
+             <Button onClick={signOut} variant="outline">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
             </Button>
           </div>
         </div>
