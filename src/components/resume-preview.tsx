@@ -21,7 +21,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
             <div className="flex justify-center items-center mt-4 gap-8">
               <div>
                 <img 
-                  src="https://storage.googleapis.com/stedi-assets/resumai/sample-qr-code.png" 
+                  src="https://storage.googleapis.com/stedi-assets/resumai/velu-m-qr-code.png" 
                   alt="UPI QR Code" 
                   width={150} 
                   height={150} 
@@ -30,9 +30,9 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
               </div>
               <div className="text-left">
                 <p className="font-semibold">UPI ID:</p>
-                <p>your-upi-id@okhdfcbank</p>
+                <p>velumbalaji-1@oksbi</p>
                 <p className="font-semibold mt-2">Amount:</p>
-                <p>₹5</p>
+                <p>₹5.00</p>
               </div>
             </div>
          </div>
