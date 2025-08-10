@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function PaymentPage() {
     const upiLink = 'upi://pay?pa=velumbalaji-1@oksbi&pn=VELU%20M&am=5.00&cu=INR&aid=uGICAgIDX-4z8Ag';
-    const qrCodeBase64 = 'qr.jpg';
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-background">
@@ -17,8 +17,8 @@ export default function PaymentPage() {
                     <CardDescription>Use any UPI app to complete the payment.</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center gap-6">
-                    <img
-                        src={qrCodeBase64}
+                    <Image
+                        src="https://storage.googleapis.com/stedi-assets/resumai/sample-qr-code.png"
                         alt="UPI QR Code"
                         width={250}
                         height={250}
