@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Loader2, Sparkles, FileText } from 'lucide-react';
-import { signUp, signIn } from '../app/login/actions';
+import { signIn } from '../app/login/actions';
 import { useRouter } from 'next/navigation';
 
 const authSchema = z.object({
@@ -28,7 +28,6 @@ const authSchema = z.object({
 type AuthFormData = z.infer<typeof authSchema>;
 
 export default function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -43,22 +42,12 @@ export default function AuthForm() {
 
   const onSubmit = async (data: AuthFormData) => {
     setIsLoading(true);
-    if (isLogin) {
-      const result = await signIn(data);
-      if (result.error) {
-        toast({ title: 'Sign In Error', description: result.error, variant: 'destructive' });
-      } else {
-        toast({ title: 'Signed In', description: 'Welcome back!' });
-        router.push('/');
-      }
+    const result = await signIn(data);
+    if (result.error) {
+      toast({ title: 'Sign In Error', description: result.error, variant: 'destructive' });
     } else {
-      const result = await signUp(data);
-      if (result.error) {
-        toast({ title: 'Sign Up Error', description: result.error, variant: 'destructive' });
-      } else {
-        toast({ title: 'Signed Up', description: 'Welcome! Please sign in.' });
-        setIsLogin(true);
-      }
+      toast({ title: 'Signed In', description: 'Welcome back!' });
+      router.push('/');
     }
     setIsLoading(false);
   };
@@ -72,11 +61,9 @@ export default function AuthForm() {
             <Sparkles className="text-accent" />
             <h1 >ResumAI</h1>
           </div>
-          <CardTitle>{isLogin ? 'Sign In' : 'Sign Up'}</CardTitle>
+          <CardTitle>Sign In</CardTitle>
           <CardDescription>
-            {isLogin
-              ? "Enter your credentials to access your account."
-              : 'Create an account to start building your AI-powered resume.'}
+            Enter your credentials to access your account.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -97,15 +84,13 @@ export default function AuthForm() {
               {isLoading ? (
                 <Loader2 className="animate-spin" />
               ) : (
-                isLogin ? 'Sign In' : 'Sign Up'
+                'Sign In'
               )}
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button variant="link" onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
-          </Button>
+        <CardFooter className="flex justify-center text-center text-sm text-muted-foreground">
+          <p>To create a new account, please contact the administrator.</p>
         </CardFooter>
       </Card>
     </div>
