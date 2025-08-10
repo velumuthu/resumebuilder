@@ -7,6 +7,9 @@ import { Download, FileText, Loader2, Sparkles, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -67,6 +70,7 @@ export default function ResumeBuilder() {
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
   
   useEffect(() => {
     setIsClient(true);
@@ -113,8 +117,51 @@ export default function ResumeBuilder() {
     }
   }, [data, isClient, toast]);
   
-  const handlePrint = () => {
-    window.print();
+  const handleDownloadPdf = async () => {
+    const previewElement = previewRef.current;
+    if (!previewElement) {
+      toast({ title: 'Error', description: 'Preview element not found.', variant: 'destructive' });
+      return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+      // Find the content inside the preview, which is what we want to render
+      const contentElement = previewElement.querySelector('#resume-preview-content') as HTMLElement;
+      if (!contentElement) {
+        toast({ title: 'Error', description: 'Resume content not found.', variant: 'destructive' });
+        setIsDownloading(false);
+        return;
+      }
+      
+      const canvas = await html2canvas(contentElement, {
+        scale: 2, // Higher scale for better quality
+        useCORS: true,
+        backgroundColor: '#ffffff',
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save('resume.pdf');
+
+    } catch (error) {
+      console.error('Failed to download PDF', error);
+      toast({
+        title: 'Error',
+        description: 'Could not download the resume as a PDF.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const handleReset = () => {
@@ -151,8 +198,12 @@ export default function ResumeBuilder() {
             <h1>ResumAI</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button onClick={handlePrint} variant="outline">
-              <Download className="mr-2 h-4 w-4" />
+            <Button onClick={handleDownloadPdf} variant="outline" disabled={isDownloading}>
+              {isDownloading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" />
+              )}
               Download PDF
             </Button>
             <Button onClick={handleReset} variant="destructive">

@@ -10,12 +10,12 @@
     visibility: hidden;
   }
 
-  #resume-preview,
-  #resume-preview * {
+  #resume-preview-content,
+  #resume-preview-content * {
     visibility: visible;
   }
 
-  #resume-preview {
+  #resume-preview-content {
     position: absolute;
     left: 0;
     top: 0;
@@ -30,21 +30,6 @@
     color: #000000 !important;
   }
   
-  [data-radix-scroll-area-viewport] {
-    height: auto !important;
-    overflow-y: visible !important;
-    visibility: visible !important;
-  }
-  
-  .payment-info-print-only {
-    display: block !important;
-    visibility: visible !important;
-  }
-
-  #resume-preview-content, #resume-preview-content * {
-    color: #000000 !important;
-  }
-
   #resume-preview-content h1, 
   #resume-preview-content h2, 
   #resume-preview-content h3, 
@@ -63,8 +48,15 @@
   #resume-preview-content hr {
     border-color: #cccccc !important;
   }
+
+  /* Make sure payment info is visible for PDF generation */
+  .payment-info-print-only {
+    display: block !important;
+    visibility: visible !important;
+  }
 }
 
 .payment-info-print-only {
-  display: none;
+  /* Hide by default, will be shown by html2canvas capture */
+  display: block;
 }

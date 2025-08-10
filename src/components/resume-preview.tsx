@@ -14,6 +14,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
   return (
     <ScrollArea className="h-[calc(100%-4rem)] rounded-lg border-2 border-dashed border-muted">
        <div id="resume-preview" ref={ref} className="p-2 md:p-4 bg-card shadow-lg rounded-lg transform origin-top scale-95">
+        <div id="resume-preview-content">
          <ProfessionalTemplate resumeData={resumeData} />
          <div className="payment-info-print-only mt-8 pt-8 border-t-2 border-dashed text-center">
             <h3 className="text-lg font-bold">To support my work, please consider a small payment.</h3>
@@ -36,6 +37,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
               </div>
             </div>
          </div>
+        </div>
        </div>
     </ScrollArea>
   );
