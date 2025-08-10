@@ -52,12 +52,11 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
               <div className="mt-4">
                 <p className="text-sm text-muted-foreground mb-2">Scan the QR code with your payment app</p>
                 <div className="flex justify-center">
-                   <Image
-                    src="https://placehold.co/150x150.png"
+                   <img
+                    src="/qr.jpg"
                     alt="Payment QR Code"
                     width={150}
                     height={150}
-                    data-ai-hint="qr code"
                   />
                 </div>
                 <div className="mt-4 text-sm text-muted-foreground">
@@ -73,7 +72,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             ) : (
                <>
                 <Button onClick={handlePayClick} className="mt-4">
-                  Contribute with Google Pay
+                  Contribute
                 </Button>
                 <div className="mt-4 text-sm text-muted-foreground">
                   <p>Or contribute directly using:</p>
