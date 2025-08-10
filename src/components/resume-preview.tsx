@@ -5,7 +5,6 @@ import { forwardRef } from 'react';
 import ProfessionalTemplate from './templates/professional-template';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
-import Image from 'next/image';
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -29,17 +28,6 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
           <div id="resume-preview-content" className="transform origin-top lg:scale-90 xl:scale-100">
             <ProfessionalTemplate resumeData={resumeData} />
           </div>
-
-          {/* Payment Section for printing */}
-          <div className="payment-info mt-8 pt-8 border-t-2 border-dashed text-center hidden print:block">
-            <h3 className="text-lg font-bold mb-2">
-              Payment Information
-            </h3>
-            <p className="font-mono">UPI: velumbalaji-1@oksbi</p>
-            <p className="text-sm text-muted-foreground">
-             Payment of ₹5 made to ResumAI.
-            </p>
-          </div>
         </div>
         <div className="text-center py-4 px-4">
             <h3 className="text-lg font-bold">
@@ -47,7 +35,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">A small payment helps support this tool and allows you to download the resume.</p>
             <Button onClick={handlePayNow} className="mt-4">
-              Pay with Google Pay & Download
+              Pay with Google Pay
             </Button>
           </div>
       </ScrollArea>
