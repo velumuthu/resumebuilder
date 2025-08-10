@@ -22,7 +22,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
             <div className="flex justify-center items-center mt-4 gap-8">
               <div>
                 <img 
-                  src="https://placehold.co/150x150.png" 
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJgAAACYCAMAAAAvHNATAAAAA1BMVEX///+nxBvIAAAAIElEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbQAAF8i21dAAAAAElFTkSuQmCC" 
                   alt="UPI QR Code" 
                   width={150} 
                   height={150} 
