@@ -4,7 +4,6 @@ import type { ResumeData } from '@/lib/types';
 import { forwardRef } from 'react';
 import ProfessionalTemplate from './templates/professional-template';
 import { ScrollArea } from './ui/scroll-area';
-import Image from 'next/image';
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -12,7 +11,7 @@ interface ResumePreviewProps {
 
 const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeData }, ref) => {
   return (
-    <ScrollArea className="h-[calc(100%-4rem)] rounded-lg border-2 border-dashed border-muted">
+    <ScrollArea className="h-[calc(100%-4rem)] rounded-lg border-2 border-dashed border-muted print:h-full print:overflow-visible">
        <div id="resume-preview" ref={ref} className="p-2 md:p-4 bg-card shadow-lg rounded-lg transform origin-top scale-95">
         <div id="resume-preview-content">
          <ProfessionalTemplate resumeData={resumeData} />
@@ -21,7 +20,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeDa
             <p className="mt-2">Scan the QR code or use the UPI ID below to pay ₹5.</p>
             <div className="flex justify-center items-center mt-4 gap-8">
               <div>
-                <Image 
+                <img 
                   src="https://storage.googleapis.com/stedi-assets/resumai/sample-qr-code.png" 
                   alt="UPI QR Code" 
                   width={150} 
