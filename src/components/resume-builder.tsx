@@ -162,11 +162,12 @@ export default function ResumeBuilder() {
       </header>
 
       <main className="flex-1 container mx-auto p-4 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 gap-8">
+          <div>
             <ResumeForm resumeData={data} setResumeData={setData} />
           </div>
-          <div className="lg:col-span-3">
+          <div>
+            <h2 className="text-2xl font-bold text-primary mb-6">Resume Preview</h2>
             <ResumePreview ref={previewRef} resumeData={data} />
           </div>
         </div>
