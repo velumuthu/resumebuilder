@@ -136,7 +136,7 @@ export default function ResumeBuilder() {
       }
       
       const canvas = await html2canvas(contentElement, {
-        scale: 2, // Higher scale for better quality
+        scale: 3, // Higher scale for better quality
         useCORS: true,
         backgroundColor: '#ffffff',
       });
@@ -151,16 +151,17 @@ export default function ResumeBuilder() {
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
       const canvasAspectRatio = canvasWidth / canvasHeight;
+      const a4AspectRatio = a4Width / a4Height;
 
       let pdfWidth = a4Width;
-      let pdfHeight = pdfWidth / canvasAspectRatio;
+      let pdfHeight = a4Height;
 
-      // If the height exceeds A4, scale down
-      if (pdfHeight > a4Height) {
-        pdfHeight = a4Height;
-        pdfWidth = pdfHeight * canvasAspectRatio;
+      if (canvasAspectRatio > a4AspectRatio) {
+        pdfHeight = a4Width / canvasAspectRatio;
+      } else {
+        pdfWidth = a4Height * canvasAspectRatio;
       }
-      
+
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'pt',
@@ -168,7 +169,7 @@ export default function ResumeBuilder() {
       });
       
       const xOffset = (a4Width - pdfWidth) / 2;
-      const yOffset = 0; // Align to top
+      const yOffset = (a4Height - pdfHeight) / 2;
 
       pdf.addImage(imgData, 'PNG', xOffset, yOffset, pdfWidth, pdfHeight);
       pdf.save('resume.pdf');

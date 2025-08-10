@@ -12,7 +12,7 @@ interface ResumePreviewProps {
 const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(({ resumeData }, ref) => {
   return (
     <ScrollArea className="h-[calc(100%-4rem)] rounded-lg border-2 border-dashed border-muted print:h-full print:overflow-visible">
-       <div id="resume-preview" ref={ref} className="p-2 md:p-4 bg-card shadow-lg rounded-lg transform origin-top scale-95">
+       <div id="resume-preview" ref={ref} className="p-2 md:p-4 bg-card shadow-lg rounded-lg transform origin-top lg:scale-90 xl:scale-100">
         <div id="resume-preview-content">
          <ProfessionalTemplate resumeData={resumeData} />
          <div className="payment-info-print-only mt-8 pt-8 border-t-2 border-dashed text-center">
