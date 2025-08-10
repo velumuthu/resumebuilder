@@ -13,13 +13,10 @@ const authSchema = z.object({
 
 type AuthInput = z.infer<typeof authSchema>;
 
-async function handleAuth(
-  action: (email: string, pass: string) => Promise<any>,
-  data: AuthInput
-) {
+export async function signIn(data: AuthInput) {
   try {
     const { email, password } = authSchema.parse(data);
-    await action(email, password);
+    await signInWithEmailAndPassword(auth, email, password);
     return { success: true, error: null };
   } catch (error: any) {
     if (error instanceof z.ZodError) {
@@ -33,11 +30,4 @@ async function handleAuth(
       error: errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1) + '.',
     };
   }
-}
-
-export async function signIn(data: AuthInput) {
-  return handleAuth(
-    (email, password) => signInWithEmailAndPassword(auth, email, password),
-    data
-  );
 }

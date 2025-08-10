@@ -44,11 +44,12 @@ export default function AuthForm() {
   const onSubmit = async (data: AuthFormData) => {
     setIsLoading(true);
     const result = await signIn(data);
-    if (!result.success) {
-      toast({ title: 'Sign In Error', description: result.error, variant: 'destructive' });
-    } else {
+    if (result.success) {
       toast({ title: 'Signed In', description: 'Welcome back!' });
       router.push('/');
+      router.refresh(); // Force a refresh to update auth state
+    } else {
+      toast({ title: 'Sign In Error', description: result.error, variant: 'destructive' });
     }
     setIsLoading(false);
   };
