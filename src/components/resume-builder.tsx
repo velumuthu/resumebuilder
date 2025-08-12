@@ -136,42 +136,27 @@ export default function ResumeBuilder() {
       }
       
       const canvas = await html2canvas(contentElement, {
-        scale: 3, // Higher scale for better quality
+        scale: 2, // Use a reasonable scale for good quality
         useCORS: true,
         backgroundColor: '#ffffff',
+        // Ensure we capture the full width and height
+        width: contentElement.offsetWidth,
+        height: contentElement.offsetHeight,
       });
 
       const imgData = canvas.toDataURL('image/png');
       
-      // A4 paper size in points (width, height)
-      const a4Width = 595.28;
-      const a4Height = 841.89;
-
-      // Calculate aspect ratio to fit on A4
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const canvasAspectRatio = canvasWidth / canvasHeight;
-      const a4AspectRatio = a4Width / a4Height;
-
-      let pdfWidth = a4Width;
-      let pdfHeight = a4Height;
-
-      if (canvasAspectRatio > a4AspectRatio) {
-        pdfHeight = a4Width / canvasAspectRatio;
-      } else {
-        pdfWidth = a4Height * canvasAspectRatio;
-      }
+      // Use the dimensions of the captured canvas for the PDF
+      const pdfWidth = canvas.width;
+      const pdfHeight = canvas.height;
 
       const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'pt',
-        format: 'a4'
+        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
+        unit: 'px',
+        format: [pdfWidth, pdfHeight]
       });
       
-      const xOffset = (a4Width - pdfWidth) / 2;
-      const yOffset = (a4Height - pdfHeight) / 2;
-
-      pdf.addImage(imgData, 'PNG', xOffset, yOffset, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('resume.pdf');
 
     } catch (error) {
