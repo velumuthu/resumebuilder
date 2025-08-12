@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 import './print.css';
+import PrintFooter from '@/components/print-footer';
 
 export const metadata: Metadata = {
   title: 'ResumAI - AI-Powered Resume Builder',
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className="font-body antialiased">
         {children}
         <Toaster />
+        <PrintFooter />
       </body>
     </html>
   );
