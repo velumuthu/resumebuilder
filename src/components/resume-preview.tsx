@@ -15,15 +15,16 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
   ({ resumeData }, ref) => {
     const [showQr, setShowQr] = useState(false);
 
+    const isMobile = typeof navigator !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent);
+
     const handlePayClick = () => {
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
       if (isMobile) {
         const upiLink = 'upi://pay?pa=velumbalaji-1@oksbi&pn=ResumAI&am=5.00&cu=INR&tn=Resume-Download';
         window.open(upiLink, '_blank');
       } else {
         setShowQr(true);
       }
-    };
+    }; 
 
     return (
       <ScrollArea className="h-[calc(100%-4rem)] rounded-lg border-2 border-dashed border-muted print:h-full print:overflow-visible print:border-none">
@@ -48,11 +49,11 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">Your contribution helps keep this tool running. Any amount is appreciated!</p>
             
-            {showQr ? (
+            {showQr && !isMobile ? (
               <div className="mt-4">
                 <p className="text-sm text-muted-foreground mb-2">Scan the QR code with your payment app</p>
                 <div className="flex justify-center">
-                   <img
+                   <Image
                     src="/qr.jpg"
                     alt="Payment QR Code"
                     width={150}
@@ -70,7 +71,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
                 </Button>
               </div>
             ) : (
-               <>
+              <>
                 <Button onClick={handlePayClick} className="mt-4">
                   Contribute
                 </Button>
