@@ -1,11 +1,10 @@
 'use client';
 
 import type { ResumeData } from '@/lib/types';
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 import ProfessionalTemplate from './templates/professional-template';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
-import Image from 'next/image';
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -13,17 +12,9 @@ interface ResumePreviewProps {
 
 const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
   ({ resumeData }, ref) => {
-    const [showQr, setShowQr] = useState(false);
-
-    const isMobile = typeof navigator !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent);
-
     const handlePayClick = () => {
-      if (isMobile) {
-        const upiLink = 'upi://pay?pa=velumbalaji-1@oksbi&pn=ResumAI&am=5.00&cu=INR&tn=Resume-Download';
-        window.open(upiLink, '_blank');
-      } else {
-        setShowQr(true);
-      }
+      const upiLink = 'upi://pay?pa=velumbalaji-1@oksbi&pn=ResumAI&am=5.00&cu=INR&tn=Resume-Download';
+      window.open(upiLink, '_blank');
     }; 
 
     return (
@@ -49,43 +40,15 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">Your contribution helps keep this tool running. Any amount is appreciated!</p>
             
-            {showQr && !isMobile ? (
-              <div className="mt-4">
-                <p className="text-sm text-muted-foreground mb-2">Scan the QR code with your payment app</p>
-                <div className="flex justify-center">
-                   <Image
-                    src="/qr.jpg"
-                    alt="Payment QR Code"
-                    width={150}
-                    height={150}
-                  />
-                </div>
-                <div className="mt-4 text-sm text-muted-foreground">
-                    <p>Or contribute directly using:</p>
-                    <p className="font-semibold text-foreground mt-1">
-                      UPI ID: <span className="font-mono bg-muted p-1 rounded-md">velumbalaji-1@oksbi</span>
-                    </p>
-                </div>
-                <Button variant="outline" size="sm" onClick={() => setShowQr(false)} className="mt-4">
-                  Close QR Code
-                </Button>
-              </div>
-            ) : (
-              <>
-                <Button onClick={handlePayClick} className="mt-4">
-                  Contribute
-                </Button>
-                <div className="mt-4 text-sm text-muted-foreground">
-                  <p>Or contribute directly using:</p>
-                  <p className="font-semibold text-foreground mt-1">
-                    UPI ID: <span className="font-mono bg-muted p-1 rounded-md">velumbalaji-1@oksbi</span>
-                  </p>
-                  <p className="font-semibold text-foreground mt-1">
-                    Amount: <span className="font-mono bg-muted p-1 rounded-md">₹5.00 (or any amount)</span>
-                  </p>
-                </div>
-              </>
-            )}
+            <Button onClick={handlePayClick} className="mt-4">
+              Contribute
+            </Button>
+            <div className="mt-4 text-sm text-muted-foreground">
+                <p>Or contribute directly using:</p>
+                <p className="font-semibold text-foreground mt-1">
+                  UPI ID: <span className="font-mono bg-muted p-1 rounded-md">velumbalaji-1@oksbi</span>
+                </p>
+            </div>
           </div>
       </ScrollArea>
     );
