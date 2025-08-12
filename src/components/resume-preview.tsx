@@ -42,7 +42,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             <p className="mt-2 text-sm text-muted-foreground">Your contribution of ₹5 helps keep this tool running. Any amount is appreciated!</p>
             
             <div className="my-4">
-              <Image src="/qr.jpg" alt="QR Code for UPI Payment" width={150} height={150} className="mx-auto rounded-md" />
+              <Image src="https://i.ibb.co/7tYys1mN/qr.jpg" alt="QR Code for UPI Payment" width={150} height={150} className="mx-auto rounded-md" />
             </div>
 
             <Button onClick={handlePayClick} className="mt-4">
