@@ -7,9 +7,6 @@ import { Download, FileText, Loader2, Sparkles, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -70,7 +67,6 @@ export default function ResumeBuilder() {
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
-  const [isDownloading, setIsDownloading] = useState(false);
   
   useEffect(() => {
     setIsClient(true);
@@ -117,58 +113,8 @@ export default function ResumeBuilder() {
     }
   }, [data, isClient, toast]);
   
-  const handleDownloadPdf = async () => {
-    const previewElement = previewRef.current;
-    if (!previewElement) {
-      toast({ title: 'Error', description: 'Preview element not found.', variant: 'destructive' });
-      return;
-    }
-
-    setIsDownloading(true);
-
-    try {
-      // Find the content inside the preview, which is what we want to render
-      const contentElement = previewElement.querySelector('#resume-preview-content') as HTMLElement;
-      if (!contentElement) {
-        toast({ title: 'Error', description: 'Resume content not found.', variant: 'destructive' });
-        setIsDownloading(false);
-        return;
-      }
-      
-      const canvas = await html2canvas(contentElement, {
-        scale: 2, // Use a reasonable scale for good quality
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        // Ensure we capture the full width and height
-        width: contentElement.offsetWidth,
-        height: contentElement.offsetHeight,
-      });
-
-      const imgData = canvas.toDataURL('image/png');
-      
-      // Use the dimensions of the captured canvas for the PDF
-      const pdfWidth = canvas.width;
-      const pdfHeight = canvas.height;
-
-      const pdf = new jsPDF({
-        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
-        unit: 'px',
-        format: [pdfWidth, pdfHeight]
-      });
-      
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('resume.pdf');
-
-    } catch (error) {
-      console.error('Failed to download PDF', error);
-      toast({
-        title: 'Error',
-        description: 'Could not download the resume as a PDF.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsDownloading(false);
-    }
+  const handleDownloadPdf = () => {
+    window.print();
   };
 
   const handleReset = () => {
@@ -197,7 +143,7 @@ export default function ResumeBuilder() {
 
   return (
     <div className="flex flex-col min-h-screen bg-secondary/40">
-      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
+      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm print:hidden">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2 font-semibold text-lg">
             <FileText />
@@ -205,12 +151,8 @@ export default function ResumeBuilder() {
             <h1>ResumAI</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button onClick={handleDownloadPdf} variant="outline" disabled={isDownloading}>
-              {isDownloading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
+            <Button onClick={handleDownloadPdf} variant="outline">
                 <Download className="mr-2 h-4 w-4" />
-              )}
               Download PDF
             </Button>
             <Button onClick={handleReset} variant="destructive">
@@ -223,14 +165,14 @@ export default function ResumeBuilder() {
 
       <main className="flex-1 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-4rem)]">
-          <div className="lg:overflow-y-auto">
+          <div className="lg:overflow-y-auto print:hidden">
             <div className="p-4 md:p-8">
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-background lg:h-[calc(100vh-4rem)] lg:fixed lg:right-0 lg:top-16 lg:w-1/2">
-             <div className="p-4 md:p-8 h-full">
-                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-background/80 backdrop-blur-sm py-2 z-10">Resume Preview</h2>
+          <div className="bg-background lg:h-[calc(100vh-4rem)] lg:fixed lg:right-0 lg:top-16 lg:w-1/2 print:w-full print:h-full print:fixed print:top-0 print:left-0 print:bg-white">
+             <div className="p-4 md:p-8 h-full print:p-0">
+                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-background/80 backdrop-blur-sm py-2 z-10 print:hidden">Resume Preview</h2>
                 <ResumePreview ref={previewRef} resumeData={data} />
             </div>
           </div>
