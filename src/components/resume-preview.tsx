@@ -5,6 +5,7 @@ import { forwardRef } from 'react';
 import ProfessionalTemplate from './templates/professional-template';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
+import Image from 'next/image';
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -38,10 +39,14 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             <h3 className="text-lg font-bold">
               Support ResumAI's Development
             </h3>
-            <p className="mt-2 text-sm text-muted-foreground">Your contribution helps keep this tool running. Any amount is appreciated!</p>
+            <p className="mt-2 text-sm text-muted-foreground">Your contribution of ₹5 helps keep this tool running. Any amount is appreciated!</p>
             
+            <div className="my-4">
+              <Image src="/qr.jpg" alt="QR Code for UPI Payment" width={150} height={150} className="mx-auto rounded-md" />
+            </div>
+
             <Button onClick={handlePayClick} className="mt-4">
-              Contribute
+              Contribute through Google Pay
             </Button>
             <div className="mt-4 text-sm text-muted-foreground">
                 <p>Or contribute directly using:</p>
