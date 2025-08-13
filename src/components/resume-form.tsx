@@ -9,6 +9,7 @@ import type { ResumeData, PersonalInfo } from '@/lib/types';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import type { Dispatch, SetStateAction } from 'react';
 import AiSuggester from './ai-suggester';
+import AdSpace from './ad-space';
 
 interface ResumeFormProps {
   resumeData: ResumeData;
@@ -286,8 +287,8 @@ export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProp
             </Button>
           </AccordionContent>
         </AccordionItem>
-
       </Accordion>
+      <AdSpace />
     </div>
   );
 }
