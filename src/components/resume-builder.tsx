@@ -7,6 +7,7 @@ import { Download, FileText, Loader2, Sparkles, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
+import Link from 'next/link';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -61,6 +62,7 @@ const initialData: ResumeData = {
 };
 
 const STORAGE_KEY = 'resumai-data';
+const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 
 export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData>(initialData);
@@ -71,6 +73,10 @@ export default function ResumeBuilder() {
   useEffect(() => {
     setIsClient(true);
     try {
+      // Only load data from localStorage if consent has been given
+      const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+      if (consent !== 'granted') return;
+
       const item = localStorage.getItem(STORAGE_KEY);
       if (item) {
         const savedData = JSON.parse(item);
@@ -101,6 +107,10 @@ export default function ResumeBuilder() {
   useEffect(() => {
     if (isClient) {
       try {
+        // Only save data to localStorage if consent has been given
+        const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+        if (consent !== 'granted') return;
+        
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       } catch (error) {
         console.error('Failed to save data to localStorage', error);
@@ -120,6 +130,11 @@ export default function ResumeBuilder() {
   const handleReset = () => {
     if (window.confirm('Are you sure you want to reset all data? This cannot be undone.')) {
       setData(initialData);
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (error) {
+         console.error('Failed to clear localStorage', error);
+      }
       toast({
         title: 'Resume Reset',
         description: 'Your resume has been reset to the default template.',
@@ -163,7 +178,7 @@ export default function ResumeBuilder() {
         </div>
       </header>
 
-      <main className="flex-1 w-full">
+      <main className="flex-1 w-full pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-4rem)]">
           <div className="lg:overflow-y-auto print:hidden">
             <div className="p-4 md:p-8">
@@ -178,6 +193,11 @@ export default function ResumeBuilder() {
           </div>
         </div>
       </main>
+      <footer className="w-full border-t bg-background p-4 print:hidden">
+          <div className="container mx-auto text-center text-sm text-muted-foreground">
+              <p>&copy; {new Date().getFullYear()} ResumAI. All Rights Reserved. | <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link></p>
+          </div>
+      </footer>
     </div>
   );
 }

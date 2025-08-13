@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 import './print.css';
 import PrintFooter from '@/components/print-footer';
+import CookieConsent from '@/components/cookie-consent';
 
 export const metadata: Metadata = {
   title: 'ResumAI - AI-Powered Resume Builder',
@@ -29,6 +30,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <PrintFooter />
+        <CookieConsent />
       </body>
     </html>
   );
