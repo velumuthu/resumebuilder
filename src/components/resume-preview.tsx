@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { ResumeData } from '@/lib/types';
@@ -19,9 +20,9 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
     }; 
 
     return (
-      <ScrollArea className="h-[calc(100%-4rem)] rounded-lg border-2 border-dashed border-muted print:h-full print:overflow-visible print:border-none">
+      <ScrollArea className="h-[calc(100vh-14rem)] lg:h-[calc(100%-4rem)] rounded-lg border-2 border-dashed border-muted print:h-full print:overflow-visible print:border-none">
         <div
-          id="resume-preview"
+          id="resume-preview-container"
           ref={ref}
           className="p-2 md:p-4 bg-card shadow-lg"
         >

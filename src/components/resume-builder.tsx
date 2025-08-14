@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { ResumeData } from '@/lib/types';
@@ -8,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
 import Link from 'next/link';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -159,36 +161,63 @@ export default function ResumeBuilder() {
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
               <Home className="h-5 w-5" />
-              <span>ResumAI Home</span>
+              <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2">
-            <Button onClick={handleDownloadPdf} variant="outline">
+            <Button onClick={handleDownloadPdf} variant="outline" size="sm">
                 <Download className="mr-2 h-4 w-4" />
-              Download PDF
+              PDF
             </Button>
-            <Button onClick={handleReset} variant="destructive">
+            <Button onClick={handleReset} variant="destructive" size="sm">
               <Trash2 className="mr-2 h-4 w-4" />
               Reset
             </Button>
           </div>
         </div>
       </header>
-
-      <main className="flex-1 w-full pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-4rem)]">
-          <div className="lg:overflow-y-auto print:hidden">
-            <div className="p-4 md:p-8">
+      
+      <main className="flex-1 w-full print:p-0">
+        {/* Desktop View */}
+        <div className="hidden lg:grid grid-cols-2 h-[calc(100vh-4rem)]">
+           <div className="overflow-y-auto">
+             <div className="p-8">
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-background lg:h-[calc(100vh-4rem)] lg:fixed lg:right-0 lg:top-16 lg:w-1/2 print:w-full print:h-full print:fixed print:top-0 print:left-0 print:bg-white">
-             <div className="p-4 md:p-8 h-full print:p-0">
-                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-background/80 backdrop-blur-sm py-2 z-10 print:hidden">Resume Preview</h2>
+          <div className="bg-background h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2 print:hidden">
+             <div className="p-8 h-full">
+                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-background/80 backdrop-blur-sm py-2 z-10">Resume Preview</h2>
                 <ResumePreview ref={previewRef} resumeData={data} />
             </div>
           </div>
         </div>
+        
+        {/* Mobile View */}
+        <div className="lg:hidden print:hidden">
+          <Tabs defaultValue="form" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 sticky top-16 z-20 rounded-none">
+              <TabsTrigger value="form">Form</TabsTrigger>
+              <TabsTrigger value="preview">Preview</TabsTrigger>
+            </TabsList>
+            <TabsContent value="form">
+              <div className="p-4">
+                <ResumeForm resumeData={data} setResumeData={setData} />
+              </div>
+            </TabsContent>
+            <TabsContent value="preview">
+               <div className="p-4 bg-background">
+                <ResumePreview ref={previewRef} resumeData={data} />
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </main>
+      
+      {/* Print View - separate from main layout */}
+      <div className="hidden print:block w-full h-full bg-white">
+          <ResumePreview ref={previewRef} resumeData={data} />
+      </div>
+
     </div>
   );
 }
