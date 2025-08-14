@@ -1,4 +1,4 @@
-import { FileText } from "lucide-react";
+import { FileText, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function PrivacyPolicy() {
@@ -8,6 +8,7 @@ export default function PrivacyPolicy() {
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
             <FileText />
+            <Sparkles className="text-accent" />
             <h1>ResumAI</h1>
           </Link>
         </div>
@@ -21,33 +22,33 @@ export default function PrivacyPolicy() {
             <p>Welcome to ResumAI ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and store your information when you use our AI-powered resume builder application (the "Service").</p>
 
             <h2>1. Information We Collect</h2>
-            <p>The core functionality of ResumAI is designed to work entirely on your local device. We use your browser's local storage to save your resume data. This includes:</p>
+            <p>The core functionality of ResumAI is designed to work entirely on your local device. We use your browser's local storage to save your resume data.</p>
             <ul>
-                <li><strong>Resume Data:</strong> All information you enter into the resume form, such as personal details, work experience, education, skills, and other related content.</li>
-                <li><strong>AI Interaction Data:</strong> The job history and target job descriptions you provide to our AI content suggester.</li>
+                <li><strong>Resume Data:</strong> All information you enter into the resume form, such as personal details, work experience, education, skills, and other related content, is stored in your browser's local storage.</li>
+                <li><strong>AI Interaction Data:</strong> To provide content suggestions, the job history and target job descriptions you provide are sent to a secure, third-party AI service (Google Gemini). This data is processed to generate suggestions and is not stored by us or used to train AI models.</li>
             </ul>
-            <p><strong>We do not transmit or store your personal resume data on our servers.</strong> Your resume is saved directly in your browser's local storage for your convenience, allowing you to resume your work later.</p>
+            <p><strong>We do not transmit or store your personal resume data on our servers.</strong> Your resume is saved directly in your browser, giving you full control over your information.</p>
 
             <h2>2. How We Use Your Information</h2>
             <ul>
-                <li><strong>To Provide the Service:</strong> We use the data stored locally to render your resume preview and maintain your session.</li>
-                <li><strong>For AI Suggestions:</strong> The job history and description you provide are sent to a secure AI service (such as Google's Gemini) to generate content suggestions. This data is used only to process your request and is not stored or used to train the AI models.</li>
+                <li><strong>To Provide the Service:</strong> We use the data stored locally to render your resume preview and maintain your session across visits.</li>
+                <li><strong>For AI Suggestions:</strong> Your anonymized job history and description are used solely to process your request for AI-powered content suggestions.</li>
             </ul>
             
             <h2>3. Cookies and Local Storage</h2>
-            <p>We use your browser's <strong>local storage</strong> to save your resume data. This is essential for the app's functionality. We also use a single cookie or local storage item to remember your choice regarding cookie consent.</p>
+            <p>We use your browser's <strong>local storage</strong> to save your resume data. This is essential for the app's core "save" functionality. We also use a single local storage item to remember your choice regarding our cookie consent banner, so we don't have to ask you again on every visit.</p>
 
             <h2>4. Data Security</h2>
-            <p>Since your data is stored on your own device, you are in control of it. We recommend using a secure computer and clearing your browser's cache and local storage if you are using a public or shared device.</p>
+            <p>Since your resume data is stored on your own device, you are in control. We recommend using a secure computer and clearing your browser's data if you are using a public or shared device.</p>
 
             <h2>5. Third-Party Services</h2>
-            <p>We use Google AdSense to display advertisements. Google may use cookies to serve ads based on a user's prior visits to this website or other websites. You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google's Ads Settings</a>.</p>
+            <p>We use Google AdSense to display advertisements on our site. Google may use cookies to serve ads based on a user's prior visits. You can learn more about how Google uses this data and how to opt out by visiting Google's Privacy & Terms site and <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google's Ads Settings</a>.</p>
 
             <h2>6. Changes to This Privacy Policy</h2>
-            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
 
             <h2>7. Contact Us</h2>
-            <p>If you have any questions about this Privacy Policy, please contact us at [Your Contact Email].</p>
+            <p>If you have any questions about this Privacy Policy, please feel free to contact us at [Your Contact Email].</p>
         </div>
       </main>
     </div>

@@ -18,7 +18,6 @@ export default function CookieConsent() {
       }
     } catch (error) {
       console.error('Could not access localStorage for cookie consent', error);
-      // Silently fail if localStorage is not available (e.g. in private browsing mode)
     }
   }, []);
 
@@ -52,11 +51,10 @@ export default function CookieConsent() {
         <div className="flex items-start gap-2 text-sm text-foreground">
            <Cookie className="h-5 w-5 mt-0.5 shrink-0" />
            <p>
-            We use essential cookies to save your resume data in your browser. This allows you to pick up where you left off. By continuing, you agree to our cookie use. See our{' '}
+            We use essential local storage to save your resume data in your browser. By continuing, you agree to this. See our{' '}
             <Link href="/privacy" className="underline hover:text-primary">
               Privacy Policy
-            </Link>
-            .
+            </Link> for more details.
           </p>
         </div>
         <div className="flex gap-2 shrink-0">

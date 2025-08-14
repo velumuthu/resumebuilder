@@ -3,7 +3,7 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Download, FileText, Loader2, Sparkles, Trash2 } from 'lucide-react';
+import { Download, FileText, Loader2, Sparkles, Trash2, Home } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
@@ -73,14 +73,12 @@ export default function ResumeBuilder() {
   useEffect(() => {
     setIsClient(true);
     try {
-      // Only load data from localStorage if consent has been given
       const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
       if (consent !== 'granted') return;
 
       const item = localStorage.getItem(STORAGE_KEY);
       if (item) {
         const savedData = JSON.parse(item);
-        // Ensure all fields from initialData are present in saved data
         setData({
           ...initialData,
           ...savedData,
@@ -107,7 +105,6 @@ export default function ResumeBuilder() {
   useEffect(() => {
     if (isClient) {
       try {
-        // Only save data to localStorage if consent has been given
         const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
         if (consent !== 'granted') return;
         
@@ -160,11 +157,10 @@ export default function ResumeBuilder() {
     <div className="flex flex-col min-h-screen bg-secondary/40">
       <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm print:hidden">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-2 font-semibold text-lg">
-            <FileText />
-            <Sparkles className="text-accent" />
-            <h1>ResumAI</h1>
-          </div>
+          <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
+              <Home className="h-5 w-5" />
+              <span>ResumAI Home</span>
+          </Link>
           <div className="flex items-center gap-2">
             <Button onClick={handleDownloadPdf} variant="outline">
                 <Download className="mr-2 h-4 w-4" />
@@ -193,11 +189,6 @@ export default function ResumeBuilder() {
           </div>
         </div>
       </main>
-      <footer className="w-full border-t bg-background p-4 print:hidden">
-          <div className="container mx-auto text-center text-sm text-muted-foreground">
-              <p>&copy; {new Date().getFullYear()} ResumAI. All Rights Reserved. | <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link></p>
-          </div>
-      </footer>
     </div>
   );
 }
