@@ -1,6 +1,26 @@
 @media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
   body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    margin: 0;
+    padding: 1cm;
+    background-color: #ffffff;
+    font-size: 10pt;
+  }
+  
+  .print-footer {
+    position: fixed;
+    bottom: 0.5cm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 8px;
+    color: #888888;
+    visibility: visible;
   }
 }

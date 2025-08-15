@@ -17,10 +17,10 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
         <div
           id="resume-preview-container"
           ref={ref}
-          className="p-2 md:p-4 bg-card shadow-lg"
+          className="p-2 md:p-4 bg-card shadow-lg print:p-0 print:shadow-none"
         >
           {/* The actual content for PDF generation */}
-          <div className="bg-white">
+          <div id="resume-preview-content" className="bg-white">
             <ProfessionalTemplate resumeData={resumeData} />
           </div>
         </div>
