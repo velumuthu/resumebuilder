@@ -1,11 +1,5 @@
 @media print {
-  @page {
-    size: A4;
-    margin: 0;
-  }
-
-  body,
-  html {
+  body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     background: #ffffff;
@@ -13,35 +7,35 @@
     width: 210mm;
     height: 297mm;
     margin: 0;
-    padding: 0;
-  }
-  
-  body {
     padding: 1cm;
   }
 
+  /* Hide everything by default */
   body * {
     visibility: hidden;
   }
 
+  /* Show only resume content */
   #resume-preview-content,
   #resume-preview-content * {
     visibility: visible;
   }
 
+  /* Resume container */
   #resume-preview-content {
     display: block;
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
-    border: none !important;
-    box-shadow: none !important;
     background-color: #ffffff !important;
     color: #000000 !important;
+    border: none;
+    box-shadow: none !important;
     box-sizing: border-box;
   }
 
+  /* Text styles */
   #resume-preview-content h1,
   #resume-preview-content h2,
   #resume-preview-content h3,
@@ -49,31 +43,31 @@
   #resume-preview-content p,
   #resume-preview-content span,
   #resume-preview-content div,
-  #resume-previw-content a {
+  #resume-preview-content a {
     color: #000000 !important;
     line-height: 1.2 !important;
   }
-  
-  #resume-preview-content h1 { font-size: 28pt !important; margin-bottom: 4px !important; }
-  #resume-preview-content h2 { font-size: 12pt !important; margin-bottom: 4px !important; padding-bottom: 2px !important;}
+
+  #resume-preview-content h1 { font-size: 28pt !important; margin-bottom: 4px; }
+  #resume-preview-content h2 { font-size: 12pt !important; margin-bottom: 4px; }
   #resume-preview-content h3 { font-size: 10pt !important; }
-  #resume-preview-content p, #resume-preview-content li, #resume-preview-content span, #resume-preview-content div { font-size: 9pt !important; }
+  #resume-preview-content p,
+  #resume-preview-content li {
+    font-size: 9pt !important;
+  }
   #resume-preview-content section { margin-top: 1rem !important; }
   #resume-preview-content ul { margin-top: 2px !important; }
+  #resume-preview-content a { text-decoration: underline; }
 
+  /* Divider */
+  #resume-preview-content hr { border-color: #cccccc !important; }
 
-  #resume-preview-content a {
-    text-decoration: underline;
-  }
-
-  #resume-preview-content hr {
-    border-color: #cccccc !important;
-  }
-
+  /* Hide unwanted elements */
   .payment-info {
     display: none !important;
   }
 
+  /* Footer for printed PDF */
   .print-footer {
     position: fixed;
     bottom: 0.5cm;
