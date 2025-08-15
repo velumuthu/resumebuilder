@@ -152,14 +152,13 @@ export default function ResumeBuilder() {
 
     try {
       const canvas = await html2canvas(content, {
-        scale: 2, // Higher scale for better quality
+        scale: 2, 
         useCORS: true,
         backgroundColor: '#ffffff',
       });
 
       const imgData = canvas.toDataURL('image/png');
       
-      // A4 page dimensions in mm: 210 x 297
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -168,24 +167,20 @@ export default function ResumeBuilder() {
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const canvasAspectRatio = canvasWidth / canvasHeight;
-      const pdfAspectRatio = pdfWidth / pdfHeight;
-
-      let finalWidth, finalHeight;
-
-      if (canvasAspectRatio > pdfAspectRatio) {
-        finalWidth = pdfWidth;
-        finalHeight = pdfWidth / canvasAspectRatio;
-      } else {
-        finalHeight = pdfHeight;
-        finalWidth = pdfHeight * canvasAspectRatio;
-      }
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = imgWidth / imgHeight;
       
-      // Center the image on the PDF page
+      let finalWidth = pdfWidth;
+      let finalHeight = pdfWidth / ratio;
+      
+      if (finalHeight > pdfHeight) {
+          finalHeight = pdfHeight;
+          finalWidth = pdfHeight * ratio;
+      }
+
       const x = (pdfWidth - finalWidth) / 2;
-      const y = 0; // Start from top
+      const y = 0;
 
       pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
       pdf.save('resume.pdf');

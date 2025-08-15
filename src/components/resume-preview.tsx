@@ -20,7 +20,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
           className="p-2 md:p-4 bg-card shadow-lg"
         >
           {/* The actual content for PDF generation */}
-          <div id="resume-preview-content-wrapper" className="bg-white">
+          <div className="bg-white">
             <ProfessionalTemplate resumeData={resumeData} />
           </div>
         </div>
@@ -28,16 +28,6 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
     );
   }
 );
-
-// This wrapper is needed for html2canvas to capture the content correctly without picking up the parent styling.
-const ProfessionalTemplateWrapper = ({ resumeData }: { resumeData: ResumeData }) => {
-  return (
-    <div id="resume-preview-content">
-      <ProfessionalTemplate resumeData={resumeData} />
-    </div>
-  )
-}
-
 
 ResumePreview.displayName = 'ResumePreview';
 export default ResumePreview;
