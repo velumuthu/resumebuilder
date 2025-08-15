@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Sparkles, CheckCircle } from 'lucide-react';
+import { FileText, Sparkles, CheckCircle, PlayCircle } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function HomePage() {
   const features = [
@@ -89,6 +90,28 @@ export default function HomePage() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </section>
+
+        <section className="mt-24 text-center">
+          <h2 className="text-3xl font-bold mb-12">See It in Action</h2>
+          <div className="max-w-3xl mx-auto">
+            <Link href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" className="block relative bg-background rounded-lg shadow-lg overflow-hidden group">
+              <Image
+                src="https://placehold.co/800x450.png"
+                alt="ResumAI video tutorial placeholder"
+                width={800}
+                height={450}
+                className="w-full"
+                data-ai-hint="tutorial video screenshot"
+              />
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <PlayCircle className="h-20 w-20 text-white" />
+              </div>
+            </Link>
+            <p className="mt-4 text-muted-foreground">
+              Watch a short video to see how ResumAI can help you build the perfect resume in minutes.
+            </p>
           </div>
         </section>
       </main>
