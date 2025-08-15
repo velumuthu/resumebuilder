@@ -8,7 +8,25 @@ import CookieConsent from '@/components/cookie-consent';
 export const metadata: Metadata = {
   title: 'ResumAI - AI-Powered Resume Builder',
   description: 'Create professional resumes for free with AI-driven content suggestions. Build your CV with our smart resume maker and land your dream job.',
-  keywords: ['resume builder', 'AI resume builder', 'free resume builder', 'cv maker', 'resume creator', 'professional resume', 'AI resume writer'],
+  keywords: [
+    'resume builder', 
+    'AI resume builder', 
+    'free resume builder', 
+    'cv maker', 
+    'resume creator', 
+    'professional resume', 
+    'AI resume writer',
+    'online resume builder',
+    'resume templates',
+    'free resume templates',
+    'job application',
+    'career tools',
+    'CV builder',
+    'resume help',
+    'resume software',
+    'job resume',
+    'easy resume builder'
+  ],
   icons: {
     icon: '/favicon.ico',
   },
