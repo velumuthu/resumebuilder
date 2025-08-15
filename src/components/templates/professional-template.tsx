@@ -1,5 +1,6 @@
 import type { ResumeData } from '@/lib/types';
 import { Mail, Phone, Globe, MapPin } from 'lucide-react';
+import Image from 'next/image';
 
 interface TemplateProps {
   resumeData: ResumeData;
@@ -41,6 +42,7 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
 
   return (
     <div id="resume-preview-content" className="bg-white text-gray-800 font-sans p-8 print:p-0 w-full max-w-4xl mx-auto text-[10pt] leading-snug">
+
       <header className="text-center mb-6">
         <h1 className="text-3xl font-bold text-gray-800 tracking-wider uppercase">{personalInfo.name || 'Your Name'}</h1>
         <div className="flex justify-center items-center gap-x-3 text-xs text-gray-600 mt-2 flex-wrap">
