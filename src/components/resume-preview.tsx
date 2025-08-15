@@ -32,7 +32,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
           ref={ref}
           className="p-2 md:p-4 bg-card shadow-lg"
         >
-          <div id="resume-preview-content" className="transform origin-top lg:scale-90 xl:scale-100">
+          <div id="resume-preview-content">
             <ProfessionalTemplate resumeData={resumeData} />
           </div>
         </div>
