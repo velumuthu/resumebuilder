@@ -25,7 +25,26 @@ export const metadata: Metadata = {
     'resume help',
     'resume software',
     'job resume',
-    'easy resume builder'
+    'easy resume builder',
+    'best resume builder 2025',
+    'top resume builder',
+    'latest resume templates',
+    'trending resume formats',
+    'ultimate resume guide',
+    'powerful resume builder',
+    'how to create a resume',
+    'step-by-step resume builder',
+    'build resume online',
+    'create professional cv',
+    'boost your career',
+    'improve resume with AI',
+    'discover resume templates',
+    'master resume writing',
+    'smart resume builder',
+    'essential career tool',
+    'build resume in minutes',
+    'quick resume creator',
+    'instant resume download'
   ],
   icons: {
     icon: '/favicon.ico',
@@ -44,6 +63,26 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2060063571353216" crossOrigin="anonymous"></script>
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "ResumAI",
+              "applicationCategory": "Productivity",
+              "operatingSystem": "Web",
+              "description": "Create professional resumes for free with AI-driven content suggestions. Build your CV with our smart resume maker and land your dream job.",
+              "offers": {
+                "@type": "Offer",
+                "price": "0"
+              },
+              "author": {
+                "@type": "Person",
+                "name": "Velu M"
+              }
+            }
+          `}
+        </script>
       </head>
       <body className="font-body antialiased">
         {children}
