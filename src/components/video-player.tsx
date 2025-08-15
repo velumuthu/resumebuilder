@@ -3,6 +3,8 @@
 import {
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { PlayCircle } from 'lucide-react';
@@ -34,6 +36,9 @@ export default function VideoPlayer({ videoId }: VideoPlayerProps) {
         </button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl p-0 border-0">
+        <DialogHeader className="sr-only">
+          <DialogTitle>ResumAI Video Tutorial</DialogTitle>
+        </DialogHeader>
         <div className="aspect-video">
           <iframe
             src={videoSrc}
