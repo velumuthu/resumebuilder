@@ -110,18 +110,23 @@ export default function HomePage() {
         </section>
 
         <section id="about" className="mt-24 text-left">
-           <h2 className="text-3xl font-bold text-center mb-12">About The Developer</h2>
+           <h2 className="text-3xl font-bold text-center mb-12">About ResumAI</h2>
            <Card className="bg-background shadow-lg max-w-4xl mx-auto">
               <CardContent className="p-8">
-                  <div className="prose prose-invert max-w-none">
-                      <p>ResumAI was created by me, an individual developer passionate about building tools that help people achieve their career goals. I believe that everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience.</p>
-                      <p>I built ResumAI to level the playing field, using the power of artificial intelligence to help you articulate your experience and skills in the most effective way possible.</p>
-                       <h4 className="font-semibold flex items-center gap-2"><Code className="h-5 w-5 text-primary" /> What ResumAI Does</h4>
-                      <ul>
-                          <li><strong>AI-Powered Content Suggestions:</strong> Overcome writer's block with tailored bullet points that highlight your strengths.</li>
-                          <li><strong>Real-Time Editing:</strong> See your resume come to life as you type with a live preview.</li>
-                          <li><strong>Privacy by Design:</strong> Your data is stored locally in your browser, ensuring your information remains private and secure.</li>
-                          <li><strong>Professional Templates:</strong> Start with a polished, modern template that you can customize to fit your style.</li>
+                  <div className="prose prose-invert max-w-none text-muted-foreground space-y-4">
+                      <p>ResumAI was born from a simple idea: everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. I'm an individual developer who is passionate about building tools that empower people to achieve their career goals. I saw that many talented individuals struggled to effectively communicate their value on a resume, and I wanted to change that.</p>
+                      <p>I built ResumAI to level the playing field. By leveraging the power of artificial intelligence, this tool helps you articulate your experience and skills in the most impactful way possible. It's more than just a resume builder; it's your personal career assistant, designed to help you shine.</p>
+                      
+                      <h3 className="text-xl font-semibold text-foreground !mt-8">Our Mission & Commitment</h3>
+                      <p>Our mission is to provide a powerful, user-friendly, and free tool that makes professional resume building accessible to everyone. We are committed to maintaining your privacy, which is why all your data is stored locally in your browser. We will never sell your data or lock essential features behind a paywall. The optional contributions help us cover server costs and continue improving the tool for the community.</p>
+
+                       <h4 className="font-semibold flex items-center gap-2 text-foreground !mt-8"><Code className="h-5 w-5 text-primary" /> What ResumAI Does</h4>
+                      <ul className="!mt-2">
+                          <li><strong>AI-Powered Content Suggestions:</strong> Overcome writer's block with tailored bullet points that highlight your strengths and align with job descriptions.</li>
+                          <li><strong>Real-Time Editing & Preview:</strong> See your resume come to life as you type with a live preview, ensuring what you see is what you get.</li>
+                          <li><strong>Privacy by Design:</strong> Your data is stored locally in your browser, ensuring your information remains private and secure. No sign-up required.</li>
+                          <li><strong>Professional Templates:</strong> Start with a polished, modern template that you can easily customize to fit your style and industry.</li>
+                          <li><strong>Free PDF Export:</strong> Download a pixel-perfect PDF of your resume at any time, for free.</li>
                       </ul>
                   </div>
               </CardContent>
