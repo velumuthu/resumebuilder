@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     'instant resume download'
   ],
   icons: {
-    icon: '/favicon.ico',
+    icon: 'https://i.ibb.co/L6wVwLd/btechnologies-high-resolution-logo-transparent.png',
   },
 };
 

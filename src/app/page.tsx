@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Sparkles, CheckCircle } from 'lucide-react';
+import { FileText, Sparkles, CircleCheckBig } from 'lucide-react';
 import Link from 'next/link';
 import VideoPlayer from '@/components/video-player';
 
@@ -80,7 +80,7 @@ export default function HomePage() {
             <Card className="bg-background">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <CheckCircle className="h-6 w-6 text-green-500" />
+                  <CircleCheckBig className="h-6 w-6 text-green-500" />
                   <span>Privacy First</span>
                 </CardTitle>
               </CardHeader>
