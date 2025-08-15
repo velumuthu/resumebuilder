@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { FileText, Sparkles } from "lucide-react";
 import Link from "next/link";
 
@@ -11,6 +12,16 @@ export default function AboutPage() {
             <Sparkles className="text-accent" />
             <h1>ResumAI</h1>
           </Link>
+          <nav className="hidden md:flex items-center gap-4">
+            <Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">About</Link>
+            <Link href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Contact</Link>
+            <Button asChild>
+              <Link href="/build">Get Started</Link>
+            </Button>
+          </nav>
+           <Button asChild className="md:hidden">
+            <Link href="/build">Get Started</Link>
+          </Button>
         </div>
       </header>
       <main className="container mx-auto py-12 px-4">

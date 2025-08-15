@@ -1,4 +1,4 @@
-import { FileText, Sparkles, Mail, Phone, MapPin } from "lucide-react";
+import { FileText, Sparkles, Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,16 @@ export default function ContactPage() {
             <Sparkles className="text-accent" />
             <h1>ResumAI</h1>
           </Link>
+           <nav className="hidden md:flex items-center gap-4">
+            <Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">About</Link>
+            <Link href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Contact</Link>
+            <Button asChild>
+              <Link href="/build">Get Started</Link>
+            </Button>
+          </nav>
+           <Button asChild className="md:hidden">
+            <Link href="/build">Get Started</Link>
+          </Button>
         </div>
       </header>
       <main className="container mx-auto py-12 px-4">
@@ -61,6 +71,16 @@ export default function ContactPage() {
                             <h3 className="font-semibold">Email</h3>
                             <a href="mailto:support@resumai.app" className="text-primary hover:underline">support@resumai.app</a>
                             <p className="text-sm text-muted-foreground">For general inquiries and support</p>
+                        </div>
+                    </div>
+                     <div className="flex items-start gap-4">
+                        <div className="bg-primary/10 p-3 rounded-full">
+                            <MessageSquare className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold">WhatsApp</h3>
+                            <a href="https://wa.me/918695172090" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">+91 86951 72090</a>
+                            <p className="text-sm text-muted-foreground">For quick questions and support</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-4">
