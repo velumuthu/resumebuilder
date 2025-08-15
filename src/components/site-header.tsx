@@ -15,7 +15,8 @@ export default function SiteHeader() {
 
     const navLinks = [
         { href: '/', label: 'Home' },
-        { href: '/contact', label: 'About & Contact' },
+        { href: '/#about', label: 'About' },
+        { href: '/#contact', label: 'Contact' },
     ];
 
     return (
@@ -29,13 +30,13 @@ export default function SiteHeader() {
 
                 <nav className="hidden md:flex items-center gap-6">
                     {navLinks.map(link => (
-                        <Link key={link.href} href={link.href}
+                         <a key={link.href} href={link.href}
                             className={cn(
                                 "text-sm font-medium transition-colors hover:text-primary",
                                 pathname === link.href ? "text-primary" : "text-muted-foreground"
                             )}>
                             {link.label}
-                        </Link>
+                        </a>
                     ))}
                 </nav>
 
@@ -60,14 +61,14 @@ export default function SiteHeader() {
                                 <h1>ResumAI</h1>
                             </Link>
                             {navLinks.map(link => (
-                                <Link key={link.href} href={link.href}
+                                <a key={link.href} href={link.href}
                                     onClick={() => setOpen(false)}
                                     className={cn(
                                         "text-lg font-medium transition-colors hover:text-primary",
                                         pathname === link.href ? "text-primary" : "text-foreground"
                                     )}>
                                     {link.label}
-                                </Link>
+                                </a>
                             ))}
                             <Button asChild>
                                 <Link href="/build" onClick={() => setOpen(false)}>Get Started</Link>
