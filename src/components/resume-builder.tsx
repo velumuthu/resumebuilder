@@ -10,6 +10,17 @@ import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
 import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -28,7 +39,7 @@ const initialData: ResumeData = {
       location: 'San Francisco, CA',
       startDate: '2020-01-01',
       endDate: 'Present',
-      description: '- Developed and maintained web applications using React and Node.js.\n- Collaborated with cross-functional teams to deliver high-quality software.',
+      description: '- Developed and maintained web applications using React and Node.js.\\n- Collaborated with cross-functional teams to deliver high-quality software.',
     },
   ],
   education: [
@@ -127,18 +138,16 @@ export default function ResumeBuilder() {
   };
 
   const handleReset = () => {
-    if (window.confirm('Are you sure you want to reset all data? This cannot be undone.')) {
-      setData(initialData);
-      try {
-        localStorage.removeItem(STORAGE_KEY);
-      } catch (error) {
-         console.error('Failed to clear localStorage', error);
-      }
-      toast({
-        title: 'Resume Reset',
-        description: 'Your resume has been reset to the default template.',
-      });
+    setData(initialData);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+        console.error('Failed to clear localStorage', error);
     }
+    toast({
+      title: 'Resume Reset',
+      description: 'Your resume has been reset to the default template.',
+    });
   };
   
   if (!isClient) {
@@ -168,10 +177,27 @@ export default function ResumeBuilder() {
                 <Download className="mr-2 h-4 w-4" />
               PDF
             </Button>
-            <Button onClick={handleReset} variant="destructive" size="sm">
-              <Trash2 className="mr-2 h-4 w-4" />
-              Reset
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" size="sm">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Reset
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete your resume
+                    data and reset all fields to the default template.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleReset}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </header>
@@ -221,5 +247,3 @@ export default function ResumeBuilder() {
     </div>
   );
 }
-
-    

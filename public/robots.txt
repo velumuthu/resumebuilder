@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: [TODO: Add sitemap URL here]

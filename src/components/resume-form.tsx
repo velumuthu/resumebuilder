@@ -9,6 +9,7 @@ import type { ResumeData, PersonalInfo } from '@/lib/types';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import type { Dispatch, SetStateAction } from 'react';
 import AiSuggester from './ai-suggester';
+import AdSpace from './ad-space';
 
 interface ResumeFormProps {
   resumeData: ResumeData;
@@ -127,7 +128,7 @@ export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProp
                     <AccordionTrigger className="text-sm text-primary hover:no-underline">AI Content Suggester</AccordionTrigger>
                     <AccordionContent>
                       <AiSuggester
-                        onSuggestionSelect={(suggestion) => handleSectionChange('experience', index, 'description', `${exp.description}\n- ${suggestion}`)}
+                        onSuggestionSelect={(suggestion) => handleSectionChange('experience', index, 'description', `${exp.description}\\n- ${suggestion}`)}
                       />
                     </AccordionContent>
                   </AccordionItem>
@@ -290,5 +291,3 @@ export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProp
     </div>
   );
 }
-
-    
