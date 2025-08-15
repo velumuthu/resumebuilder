@@ -6,9 +6,9 @@ interface TemplateProps {
 }
 
 const SectionTitle = ({ title }: { title: string }) => (
-    <div className="flex items-center mb-4">
-        <h2 className="text-sm font-bold tracking-widest text-gray-700 bg-gray-200 px-3 py-1 rounded-sm uppercase">{title}</h2>
-        <div className="flex-grow border-t border-gray-300 ml-4"></div>
+    <div className="flex items-center mb-2">
+        <h2 className="text-[11pt] font-bold tracking-widest text-gray-700 bg-gray-200 px-3 py-1 rounded-sm uppercase">{title}</h2>
+        <div className="flex-grow border-t-2 border-gray-200 ml-4"></div>
     </div>
 );
 
@@ -20,6 +20,8 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
     if (!dateString) return 'Present';
     try {
       const date = new Date(dateString);
+      // Add a day to the date to avoid timezone issues where it might be off by one day.
+      date.setDate(date.getDate() + 1);
       return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     } catch {
       return dateString;
@@ -29,35 +31,43 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
   const formatYear = (dateString: string) => {
     if (!dateString) return '';
     try {
-        return new Date(dateString).getFullYear().toString();
+        const date = new Date(dateString);
+        date.setDate(date.getDate() + 1);
+        return date.getFullYear().toString();
     } catch {
         return '';
     }
   }
 
   return (
-    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans p-8 w-full max-w-4xl mx-auto rounded-md text-[10pt] leading-snug">
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 tracking-wider">{personalInfo.name || 'VELU M'}</h1>
-        <div className="flex justify-center items-center gap-x-3 text-xs text-gray-600 mt-3 flex-wrap">
+    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans p-8 w-full max-w-4xl mx-auto text-[10pt] leading-snug">
+      <header className="text-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 tracking-wider uppercase">{personalInfo.name || 'Your Name'}</h1>
+        <div className="flex justify-center items-center gap-x-3 text-xs text-gray-600 mt-2 flex-wrap">
           {personalInfo.phone && <a href={`tel:${personalInfo.phone}`} className="flex items-center gap-1.5"><Phone className="h-3 w-3" />{personalInfo.phone}</a>}
-          <span className="text-gray-400">&bull;</span>
-          {personalInfo.address && <p className="flex items-center gap-1.5"><MapPin className="h-3 w-3" />{personalInfo.address}</p>}
-          <span className="text-gray-400">&bull;</span>
-          {personalInfo.website && <a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5"><Globe className="h-3 w-3" />{personalInfo.website}</a>}
-          <span className="text-gray-400">&bull;</span>
-          {personalInfo.email && <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-1.5"><Mail className="h-3 w-3" />{personalInfo.email}</a>}
+          {personalInfo.address && <>
+            <span className="text-gray-400">&bull;</span>
+            <p className="flex items-center gap-1.5"><MapPin className="h-3 w-3" />{personalInfo.address}</p>
+          </>}
+          {personalInfo.website && <>
+           <span className="text-gray-400">&bull;</span>
+           <a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5"><Globe className="h-3 w-3" />{personalInfo.website}</a>
+          </>}
+          {personalInfo.email && <>
+            <span className="text-gray-400">&bull;</span>
+            <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-1.5"><Mail className="h-3 w-3" />{personalInfo.email}</a>
+          </>}
         </div>
       </header>
 
-      <section className="mb-6">
+      <section className="mb-4">
         <SectionTitle title="About Me" />
         <p className="text-sm text-gray-700 leading-relaxed">{personalInfo.summary || 'Professional summary...'}</p>
       </section>
 
-      {education?.length > 0 && <section className="mb-6">
+      {education?.length > 0 && <section className="mb-4">
         <SectionTitle title="Education" />
-        <div className="space-y-3">
+        <div className="space-y-2">
           {education.map((edu) => (
             <div key={edu.id}>
               <div className="flex justify-between items-start">
@@ -72,18 +82,18 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
         </div>
       </section>}
       
-       {skills?.length > 0 && <section className="mb-6">
+       {skills?.length > 0 && <section className="mb-4">
         <SectionTitle title="Skills" />
-        <ul className="grid grid-cols-3 gap-x-8 gap-y-1 text-sm list-disc list-inside">
+        <ul className="grid grid-cols-3 gap-x-6 gap-y-1 text-sm list-disc list-inside">
           {skills.map((skill) => (
-            <li key={skill.id}>{skill.name}</li>
+            <li key={skill.id} className="text-gray-700">{skill.name}</li>
           ))}
         </ul>
       </section>}
 
-      {experience?.length > 0 && <section className="mb-6">
+      {experience?.length > 0 && <section className="mb-4">
         <SectionTitle title="Work Experience" />
-        <div className="space-y-4">
+        <div className="space-y-3">
           {experience.map((exp) => (
             <div key={exp.id}>
               <div className="flex justify-between items-start">
@@ -93,8 +103,8 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
                  </div>
                 <p className="text-xs text-gray-600 font-medium text-right">{formatDate(exp.startDate)} - {formatDate(exp.endDate)}</p>
               </div>
-              <ul className="mt-1.5 list-disc list-inside text-sm text-gray-700 space-y-1 marker:text-gray-400">
-                {exp.description.split('\n').filter(line => line.trim()).map((line, i) => <li key={i}>{line.replace(/^- /, '')}</li>)}
+              <ul className="mt-1 list-disc list-inside text-sm text-gray-700 space-y-1 marker:text-gray-400">
+                {exp.description.split('\\n').filter(line => line.trim()).map((line, i) => <li key={i}>{line.replace(/^- /, '')}</li>)}
               </ul>
             </div>
           ))}
@@ -102,30 +112,30 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
       </section>}
 
 
-      {certifications?.length > 0 && <section className="mb-6">
+      {certifications?.length > 0 && <section className="mb-4">
         <SectionTitle title="Certifications" />
-        <ul className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm list-disc list-inside">
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm list-disc list-inside">
           {certifications.map((cert) => (
-            <li key={cert.id}>{cert.name}, <span className="text-gray-600">{cert.issuer}</span></li>
+            <li key={cert.id} className="text-gray-700">{cert.name}, <span className="text-gray-600">{cert.issuer} ({formatYear(cert.date)})</span></li>
           ))}
         </ul>
       </section>}
       
-      {achievements?.length > 0 && <section className="mb-6">
+      {achievements?.length > 0 && <section className="mb-4">
         <SectionTitle title="Achievements" />
-        <ul className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm list-disc list-inside">
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm list-disc list-inside">
           {achievements.map((ach) => (
-             <li key={ach.id}>{ach.description}</li>
+             <li key={ach.id} className="text-gray-700">{ach.description}</li>
           ))}
         </ul>
       </section>}
 
-      {projects?.length > 0 && <section className="mb-6">
+      {projects?.length > 0 && <section className="mb-4">
         <SectionTitle title="Projects" />
          <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 marker:text-gray-400">
           {projects.map((proj) => (
             <li key={proj.id}>
-                {proj.name}
+                <span className="font-semibold">{proj.name}</span>
                 {proj.description && <span className="text-gray-600"> - {proj.description}</span>}
                 {proj.url && <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2">[Link]</a>}
             </li>
@@ -133,11 +143,11 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
         </ul>
       </section>}
 
-      {areasOfInterest?.length > 0 && <section className="mb-6">
+      {areasOfInterest?.length > 0 && <section className="mb-4">
         <SectionTitle title="Areas of Interest" />
-        <ul className="grid grid-cols-3 gap-x-8 gap-y-1 text-sm list-disc list-inside">
+        <ul className="grid grid-cols-3 gap-x-6 gap-y-1 text-sm list-disc list-inside">
           {areasOfInterest.map((interest) => (
-            <li key={interest.id}>{interest.name}</li>
+            <li key={interest.id} className="text-gray-700">{interest.name}</li>
           ))}
         </ul>
       </section>}

@@ -4,7 +4,7 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Download, FileText, Loader2, Printer, Sparkles, Trash2, Home } from 'lucide-react';
+import { Download, FileText, Loader2, Sparkles, Trash2, Home } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
@@ -21,6 +21,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 const initialData: ResumeData = {
@@ -81,6 +83,7 @@ const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData>(initialData);
   const [isClient, setIsClient] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
   
@@ -134,8 +137,68 @@ export default function ResumeBuilder() {
     }
   }, [data, isClient, toast]);
   
-  const handlePrint = () => {
-    window.print();
+  const handleDownloadPdf = async () => {
+    const content = document.getElementById('resume-preview-content');
+    if (!content) {
+      toast({
+        title: 'Error',
+        description: 'Could not find resume content to download.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+      const canvas = await html2canvas(content, {
+        scale: 2, // Higher scale for better quality
+        useCORS: true,
+        backgroundColor: '#ffffff',
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      
+      // A4 page dimensions in mm: 210 x 297
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const canvasAspectRatio = canvasWidth / canvasHeight;
+      const pdfAspectRatio = pdfWidth / pdfHeight;
+
+      let finalWidth, finalHeight;
+
+      if (canvasAspectRatio > pdfAspectRatio) {
+        finalWidth = pdfWidth;
+        finalHeight = pdfWidth / canvasAspectRatio;
+      } else {
+        finalHeight = pdfHeight;
+        finalWidth = pdfHeight * canvasAspectRatio;
+      }
+      
+      // Center the image on the PDF page
+      const x = (pdfWidth - finalWidth) / 2;
+      const y = 0; // Start from top
+
+      pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+      pdf.save('resume.pdf');
+    } catch (error) {
+      console.error("Failed to download PDF", error);
+      toast({
+        title: 'Download Failed',
+        description: 'An error occurred while generating the PDF.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const handleReset = () => {
@@ -174,9 +237,13 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2">
-            <Button onClick={handlePrint} variant="outline" size="sm">
-                <Printer className="mr-2 h-4 w-4" />
-              Print / PDF
+            <Button onClick={handleDownloadPdf} variant="outline" size="sm" disabled={isDownloading}>
+              {isDownloading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-2 h-4 w-4" />
+              )}
+              Download PDF
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -240,7 +307,7 @@ export default function ResumeBuilder() {
         </div>
       </main>
       
-      {/* Print View - separate from main layout */}
+      {/* This is used for generating the PDF */}
       <div className="hidden print:block w-full h-full bg-white">
           <ResumePreview ref={previewRef} resumeData={data} />
       </div>
