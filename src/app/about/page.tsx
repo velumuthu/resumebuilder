@@ -28,13 +28,14 @@ export default function AboutPage() {
         <div className="prose prose-invert max-w-4xl mx-auto bg-background p-8 rounded-lg shadow-lg">
             <h1>About ResumAI</h1>
             
-            <p>Welcome to ResumAI, your partner in crafting the perfect resume. Our mission is to empower job seekers by providing them with intelligent, easy-to-use tools that simplify the resume-building process and produce professional, high-impact results.</p>
+            <p>Welcome to ResumAI. My mission is to empower job seekers by providing an intelligent, easy-to-use tool that simplifies the resume-building process and produces professional, high-impact results.</p>
+            
+            <h2>From the Developer</h2>
+            <p>ResumAI was created by me, <strong>Velu M</strong>, an individual developer passionate about building tools that help people achieve their career goals. I believe that everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience.</p>
+            <p>I built ResumAI to level the playing field, using the power of artificial intelligence to help you articulate your experience and skills in the most effective way possible.</p>
 
-            <h2>Our Vision</h2>
-            <p>In today's competitive job market, a standout resume is more important than ever. We believe that everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. ResumAI was created to level the playing field, using the power of artificial intelligence to help you articulate your experience and skills in the most effective way possible.</p>
-
-            <h2>What We Do</h2>
-            <p>ResumAI combines state-of-the-art AI technology with intuitive design. Our platform offers:</p>
+            <h2>What ResumAI Does</h2>
+            <p>ResumAI combines state-of-the-art AI technology with intuitive design. The platform offers:</p>
             <ul>
                 <li><strong>AI-Powered Content Suggestions:</strong> Overcome writer's block with tailored bullet points that highlight your strengths.</li>
                 <li><strong>Real-Time Editing:</strong> See your resume come to life as you type with a live preview.</li>
@@ -42,10 +43,10 @@ export default function AboutPage() {
                 <li><strong>Professional Templates:</strong> Start with a polished, modern template that you can customize to fit your style.</li>
             </ul>
 
-            <h2>Our Commitment</h2>
-            <p>We are committed to continuous improvement, constantly updating our AI models and adding new features based on user feedback. Our goal is to be the most trusted and effective resume-building tool available.</p>
+            <h2>My Commitment</h2>
+            <p>I am committed to continuous improvement, constantly updating the AI models and adding new features based on user feedback. My goal is to make ResumAI the most trusted and effective resume-building tool available.</p>
 
-            <p>Thank you for choosing ResumAI. We're excited to be a part of your career journey.</p>
+            <p>Thank you for choosing ResumAI. I'm excited to be a part of your career journey.</p>
         </div>
       </main>
     </div>
