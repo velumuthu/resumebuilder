@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Sparkles, CircleCheckBig } from 'lucide-react';
 import Link from 'next/link';
 import VideoPlayer from '@/components/video-player';
+import AdSpace from '@/components/ad-space';
 
 export default function HomePage() {
   const features = [
@@ -48,7 +49,11 @@ export default function HomePage() {
           </Button>
         </div>
 
-        <section className="mt-24 text-left">
+        <section className="my-12">
+          <AdSpace />
+        </section>
+        
+        <section className="mt-12 text-left">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose ResumAI?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="bg-background">
@@ -117,3 +122,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
