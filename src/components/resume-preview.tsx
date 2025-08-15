@@ -7,6 +7,7 @@ import ProfessionalTemplate from './templates/professional-template';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -14,9 +15,15 @@ interface ResumePreviewProps {
 
 const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
   ({ resumeData }, ref) => {
+    const { toast } = useToast();
+
     const handlePayClick = () => {
       const upiLink = 'upi://pay?pa=velumbalaji-1@oksbi&pn=ResumAI&am=5.00&cu=INR&tn=Resume-Download';
       window.open(upiLink, '_blank');
+      toast({
+        title: 'Thank You for Your Support!',
+        description: 'Your contribution helps keep ResumAI running.',
+      });
     }; 
 
     return (
@@ -32,22 +39,22 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
         </div>
         <div className="payment-info text-center py-4 px-4 hidden print:block">
             <h3 className="text-lg font-bold">
-              Thank you for using ResumAI!
+              Generated with ResumAI
             </h3>
-            <p className="mt-2 text-sm text-muted-foreground">Payment of ₹5 has been made.</p>
+            <p className="mt-2 text-sm text-muted-foreground">Thank you for using our tool!</p>
         </div>
         <div className="text-center py-4 px-4 print:hidden">
             <h3 className="text-lg font-bold">
               Support ResumAI's Development
             </h3>
-            <p className="mt-2 text-sm text-muted-foreground">Your contribution of ₹5 helps keep this tool running. Any amount is appreciated!</p>
+            <p className="mt-2 text-sm text-muted-foreground">If you find this tool helpful, please consider a small contribution to keep it running.</p>
             
             <div className="my-4">
               <Image src="https://i.ibb.co/7tYys1m/qr.jpg" alt="QR Code for UPI Payment" width={150} height={150} className="mx-auto rounded-md" />
             </div>
 
             <Button onClick={handlePayClick} className="mt-4">
-              Contribute through Google Pay
+              Contribute via UPI
             </Button>
             <div className="mt-4 text-sm text-muted-foreground">
                 <p>Or contribute directly using:</p>
