@@ -96,7 +96,7 @@ export default function HomePage() {
         <section className="mt-24 text-center">
           <h2 className="text-3xl font-bold mb-12">See It in Action</h2>
           <div className="max-w-3xl mx-auto">
-            <VideoPlayer videoId="dQw4w9WgXcQ" />
+            <VideoPlayer videoId="DsT1fFy3Wb0" />
             <p className="mt-4 text-muted-foreground">
               Watch a short video to see how ResumAI can help you build the perfect resume in minutes.
             </p>
