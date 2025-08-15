@@ -15,8 +15,7 @@ export default function SiteHeader() {
 
     const navLinks = [
         { href: '/', label: 'Home' },
-        { href: '/about', label: 'About' },
-        { href: '/contact', label: 'Contact' },
+        { href: '/contact', label: 'About & Contact' },
     ];
 
     return (

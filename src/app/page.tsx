@@ -3,7 +3,7 @@ import SiteHeader from '@/components/site-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import VideoPlayer from '@/components/video-player';
-import { CircleCheckBig, FileText, Sparkles } from 'lucide-react';
+import { CircleCheckBig, FileText, Sparkles, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -36,7 +36,21 @@ export default function HomePage() {
           <AdSpace />
         </section>
         
-        <section className="mt-12 text-left">
+        <section className="mt-24 text-left">
+            <h2 className="text-3xl font-bold text-center mb-12">All The Tools You Need</h2>
+            <div className="max-w-4xl mx-auto bg-background p-8 rounded-lg shadow-lg">
+                <ul className="space-y-4">
+                    {features.map((feature, index) => (
+                        <li key={index} className="flex items-start gap-3">
+                            <CheckCircle className="h-6 w-6 text-green-500 mt-1 shrink-0" />
+                            <span className="text-lg text-muted-foreground">{feature}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+
+        <section className="mt-24 text-left">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose ResumAI?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="bg-background">
@@ -95,8 +109,7 @@ export default function HomePage() {
       <footer className="w-full border-t bg-background p-4 print:hidden mt-16">
           <div className="container mx-auto text-center text-sm text-muted-foreground">
               <div className="flex justify-center gap-4 mb-2">
-                  <Link href="/about" className="underline hover:text-primary">About Us</Link>
-                  <Link href="/contact" className="underline hover:text-primary">Contact</Link>
+                  <Link href="/contact" className="underline hover:text-primary">About & Contact</Link>
                   <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
               </div>
               <p>&copy; {new Date().getFullYear()} ResumAI. All Rights Reserved.</p>
