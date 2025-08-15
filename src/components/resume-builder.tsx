@@ -4,7 +4,7 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Download, FileText, Loader2, Sparkles, Trash2, Home } from 'lucide-react';
+import { Download, FileText, Loader2, Printer, Sparkles, Trash2, Home } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -133,7 +134,7 @@ export default function ResumeBuilder() {
     }
   }, [data, isClient, toast]);
   
-  const handleDownloadPdf = () => {
+  const handlePrint = () => {
     window.print();
   };
 
@@ -173,9 +174,9 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2">
-            <Button onClick={handleDownloadPdf} variant="outline" size="sm">
-                <Download className="mr-2 h-4 w-4" />
-              PDF
+            <Button onClick={handlePrint} variant="outline" size="sm">
+                <Printer className="mr-2 h-4 w-4" />
+              Print / PDF
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
