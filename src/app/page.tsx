@@ -114,7 +114,7 @@ export default function HomePage() {
            <Card className="bg-background shadow-lg max-w-4xl mx-auto">
               <CardContent className="p-8">
                   <div className="prose prose-invert max-w-none text-muted-foreground space-y-4">
-                      <p>ResumAI was born from a simple idea: everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. I'm an individual developer who is passionate about building tools that empower people to achieve their career goals. I saw that many talented individuals struggled to effectively communicate their value on a resume, and I wanted to change that.</p>
+                      <p>ResumAI was born from a simple idea: everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. This tool was built by me, <strong>Velumuthu</strong>, an individual developer passionate about creating tools that empower people to achieve their career goals. I saw that many talented individuals struggled to effectively communicate their value on a resume, and I wanted to change that.</p>
                       <p>I built ResumAI to level the playing field. By leveraging the power of artificial intelligence, this tool helps you articulate your experience and skills in the most impactful way possible. It's more than just a resume builder; it's your personal career assistant, designed to help you shine.</p>
                       
                       <h3 className="text-xl font-semibold text-foreground !mt-8">Our Mission & Commitment</h3>
