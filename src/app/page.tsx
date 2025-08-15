@@ -88,7 +88,12 @@ export default function HomePage() {
       
       <footer className="w-full border-t bg-background p-4 print:hidden mt-16">
           <div className="container mx-auto text-center text-sm text-muted-foreground">
-              <p>&copy; {new Date().getFullYear()} ResumAI. All Rights Reserved. | <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link></p>
+              <div className="flex justify-center gap-4 mb-2">
+                  <Link href="/about" className="underline hover:text-primary">About Us</Link>
+                  <Link href="/contact" className="underline hover:text-primary">Contact</Link>
+                  <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
+              </div>
+              <p>&copy; {new Date().getFullYear()} ResumAI. All Rights Reserved.</p>
           </div>
       </footer>
     </div>

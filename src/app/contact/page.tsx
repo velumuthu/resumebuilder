@@ -1,0 +1,93 @@
+import { FileText, Sparkles, Mail, Phone, MapPin } from "lucide-react";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+
+export default function ContactPage() {
+  return (
+    <div className="min-h-screen bg-secondary/40">
+      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
+            <FileText />
+            <Sparkles className="text-accent" />
+            <h1>ResumAI</h1>
+          </Link>
+        </div>
+      </header>
+      <main className="container mx-auto py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-8">Contact Us</h1>
+          <p className="text-center text-muted-foreground mb-12">
+            Have a question, feedback, or need support? We'd love to hear from you.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <Card className="bg-background">
+                <CardHeader>
+                  <CardTitle>Send us a Message</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                   <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input id="name" placeholder="Your Name" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" placeholder="your.email@example.com" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea id="message" placeholder="How can we help you?" rows={5} />
+                  </div>
+                  <Button className="w-full">Send Message</Button>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="space-y-6">
+                <h2 className="text-2xl font-semibold">Contact Information</h2>
+                <p className="text-muted-foreground">Reach out to us directly through the channels below.</p>
+                <div className="space-y-4">
+                    <div className="flex items-start gap-4">
+                        <div className="bg-primary/10 p-3 rounded-full">
+                            <Mail className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold">Email</h3>
+                            <a href="mailto:support@resumai.app" className="text-primary hover:underline">support@resumai.app</a>
+                            <p className="text-sm text-muted-foreground">For general inquiries and support</p>
+                        </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                        <div className="bg-primary/10 p-3 rounded-full">
+                            <Phone className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold">Phone</h3>
+                            <p className="text-primary">+1 (555) 123-4567</p>
+                            <p className="text-sm text-muted-foreground">Mon-Fri, 9am - 5pm EST</p>
+                        </div>
+                    </div>
+                     <div className="flex items-start gap-4">
+                        <div className="bg-primary/10 p-3 rounded-full">
+                            <MapPin className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold">Address</h3>
+                            <p className="text-primary">123 Tech Avenue, Suite 100<br/>Innovation City, 12345</p>
+                            <p className="text-sm text-muted-foreground">We are a remote-first company</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
