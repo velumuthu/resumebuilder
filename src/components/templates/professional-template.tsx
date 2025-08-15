@@ -1,6 +1,5 @@
 import type { ResumeData } from '@/lib/types';
 import { Mail, Phone, Globe, MapPin } from 'lucide-react';
-import Image from 'next/image';
 
 interface TemplateProps {
   resumeData: ResumeData;
