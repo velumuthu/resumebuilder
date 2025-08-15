@@ -6,7 +6,6 @@ import { forwardRef } from 'react';
 import ProfessionalTemplate from './templates/professional-template';
 import { ScrollArea } from './ui/scroll-area';
 import { Button } from './ui/button';
-import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 
 interface ResumePreviewProps {
@@ -49,10 +48,6 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">If you find this tool helpful, please consider a small contribution to keep it running.</p>
             
-            <div className="my-4">
-              <Image src="https://i.ibb.co/7tYys1m/qr.jpg" alt="QR Code for UPI Payment" width={150} height={150} className="mx-auto rounded-md" />
-            </div>
-
             <Button onClick={handlePayClick} className="mt-4">
               Contribute via UPI
             </Button>
