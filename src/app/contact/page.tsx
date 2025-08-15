@@ -1,33 +1,15 @@
-import { FileText, Sparkles, Mail, Phone, MapPin, MessageSquare } from "lucide-react";
-import Link from "next/link";
+import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import SiteHeader from "@/components/site-header";
 
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-secondary/40">
-      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
-            <FileText />
-            <Sparkles className="text-accent" />
-            <h1>ResumAI</h1>
-          </Link>
-           <nav className="hidden md:flex items-center gap-4">
-            <Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">About</Link>
-            <Link href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Contact</Link>
-            <Button asChild>
-              <Link href="/build">Get Started</Link>
-            </Button>
-          </nav>
-           <Button asChild className="md:hidden">
-            <Link href="/build">Get Started</Link>
-          </Button>
-        </div>
-      </header>
+      <SiteHeader />
       <main className="container mx-auto py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-center mb-8">Contact Me</h1>

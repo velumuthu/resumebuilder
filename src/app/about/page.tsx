@@ -1,29 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { FileText, Sparkles } from "lucide-react";
-import Link from "next/link";
+import SiteHeader from "@/components/site-header";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-secondary/40">
-      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
-            <FileText />
-            <Sparkles className="text-accent" />
-            <h1>ResumAI</h1>
-          </Link>
-          <nav className="hidden md:flex items-center gap-4">
-            <Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">About</Link>
-            <Link href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Contact</Link>
-            <Button asChild>
-              <Link href="/build">Get Started</Link>
-            </Button>
-          </nav>
-           <Button asChild className="md:hidden">
-            <Link href="/build">Get Started</Link>
-          </Button>
-        </div>
-      </header>
+      <SiteHeader />
       <main className="container mx-auto py-12 px-4">
         <div className="prose prose-invert max-w-4xl mx-auto bg-background p-8 rounded-lg shadow-lg">
             <h1>About ResumAI</h1>

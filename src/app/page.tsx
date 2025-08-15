@@ -1,9 +1,10 @@
+import AdSpace from '@/components/ad-space';
+import SiteHeader from '@/components/site-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Sparkles, CircleCheckBig } from 'lucide-react';
-import Link from 'next/link';
 import VideoPlayer from '@/components/video-player';
-import AdSpace from '@/components/ad-space';
+import { CircleCheckBig, FileText, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 export default function HomePage() {
   const features = [
@@ -16,25 +17,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-secondary/40 text-foreground">
-      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
-            <FileText />
-            <Sparkles className="text-accent" />
-            <h1>ResumAI</h1>
-          </Link>
-          <nav className="hidden md:flex items-center gap-4">
-            <Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">About</Link>
-            <Link href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Contact</Link>
-            <Button asChild>
-              <Link href="/build">Get Started</Link>
-            </Button>
-          </nav>
-           <Button asChild className="md:hidden">
-            <Link href="/build">Get Started</Link>
-          </Button>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="container mx-auto py-16 px-4 text-center">
         <div className="mx-auto max-w-3xl">
