@@ -4,7 +4,7 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Download, FileText, Loader2, Sparkles, Trash2, Home } from 'lucide-react';
+import { Download, FileText, Loader2, Sparkles, Trash2, Home, Printer } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
@@ -154,6 +154,8 @@ export default function ResumeBuilder() {
             scale: 2, // Higher scale for better quality
             useCORS: true,
             logging: false,
+            width: input.scrollWidth,
+            height: input.scrollHeight
         });
         
         const imgData = canvas.toDataURL('image/png');
@@ -167,14 +169,20 @@ export default function ResumeBuilder() {
 
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
+        
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
-        const ratio = canvasWidth / canvasHeight;
         
-        const width = pdfWidth;
-        const height = width / ratio;
+        const ratio = canvasWidth / canvasHeight;
+        const widthInPdf = pdfWidth;
+        const heightInPdf = widthInPdf / ratio;
 
-        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        let height = heightInPdf;
+        if (heightInPdf > pdfHeight) {
+          height = pdfHeight;
+        }
+
+        pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, height);
         pdf.save('resume.pdf');
 
     } catch (error) {
@@ -189,6 +197,9 @@ export default function ResumeBuilder() {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
 
   const handleReset = () => {
     setData(initialData);
@@ -226,6 +237,10 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
+             <Button onClick={handlePrint} variant="outline" size="sm">
+                  <Printer className="mr-1 h-4 w-4" />
+              <span className="hidden sm:inline">Print</span>
+            </Button>
             <Button onClick={handleDownloadPdf} variant="outline" size="sm" disabled={isDownloading}>
                 {isDownloading ? (
                     <Loader2 className="mr-1 h-4 w-4 animate-spin" />
@@ -270,7 +285,9 @@ export default function ResumeBuilder() {
           <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2 print:hidden">
              <div className="p-4 md:p-8 h-full flex flex-col gap-4">
                 <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center">Resume Preview</h2>
-                <ResumePreview ref={previewRef} resumeData={data} />
+                <div className='p-4 md:p-8 h-full'>
+                  <ResumePreview ref={previewRef} resumeData={data} />
+                </div>
             </div>
           </div>
         </div>

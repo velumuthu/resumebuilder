@@ -13,11 +13,11 @@ interface ResumePreviewProps {
 const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
   ({ resumeData }, ref) => {
     return (
-      <ScrollArea className="h-full w-full print:h-full print:overflow-visible">
+      <ScrollArea className="h-full w-full print:h-full print:overflow-visible bg-card shadow-lg print:shadow-none rounded-lg">
         <div
           id="resume-preview-container"
           ref={ref}
-          className="w-full h-full bg-card shadow-lg print:shadow-none rounded-lg"
+          className="w-full h-full p-4 print:p-0"
         >
             <ProfessionalTemplate resumeData={resumeData} />
         </div>
