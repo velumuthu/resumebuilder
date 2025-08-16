@@ -2,7 +2,9 @@
 'use client';
 
 import type { ResumeData } from '@/lib/types';
-import ProfessionalTemplate from './templates/professional-template';
+import CreativeTemplate from './templates/creative-template';
+import ModernTemplate from './templates/modern-template';
+import ClassicTemplate from './templates/classic-template';
 import { ScrollArea } from './ui/scroll-area';
 
 interface ResumePreviewProps {
@@ -10,13 +12,26 @@ interface ResumePreviewProps {
 }
 
 const ResumePreview = ({ resumeData }: ResumePreviewProps) => {
+    const renderTemplate = () => {
+        switch (resumeData.template) {
+            case 'creative':
+                return <CreativeTemplate resumeData={resumeData} />;
+            case 'modern':
+                return <ModernTemplate resumeData={resumeData} />;
+            case 'classic':
+                return <ClassicTemplate resumeData={resumeData} />;
+            default:
+                return <CreativeTemplate resumeData={resumeData} />;
+        }
+    };
+
     return (
       <ScrollArea className="h-full w-full print:h-full print:overflow-visible bg-card shadow-lg print:shadow-none rounded-lg">
         <div
           id="resume-preview-content"
           className="w-full h-full print:p-0"
         >
-            <ProfessionalTemplate resumeData={resumeData} />
+            {renderTemplate()}
         </div>
       </ScrollArea>
     );

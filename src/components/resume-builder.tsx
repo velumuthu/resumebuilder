@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import TemplateSelector from './template-selector';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -72,6 +73,7 @@ const initialData: ResumeData = {
     { id: '1', name: 'Open Source Contribution' },
     { id: '2', name: 'Competitive Programming' },
   ],
+  template: 'creative',
 };
 
 const STORAGE_KEY = 'resumai-data';
@@ -102,6 +104,7 @@ export default function ResumeBuilder() {
           projects: savedData.projects || initialData.projects,
           achievements: savedData.achievements || initialData.achievements,
           areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
+          template: savedData.template || initialData.template,
         });
       }
     } catch (error) {
@@ -210,6 +213,10 @@ export default function ResumeBuilder() {
         <div className="hidden lg:grid grid-cols-2 h-[calc(100vh-4rem)] print:hidden">
            <div className="overflow-y-auto">
              <div className="p-8">
+              <TemplateSelector
+                  selectedTemplate={data.template}
+                  onSelectTemplate={(template) => setData(prev => ({ ...prev, template }))}
+              />
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
@@ -232,6 +239,10 @@ export default function ResumeBuilder() {
             </TabsList>
             <TabsContent value="form">
               <div className="p-4">
+                 <TemplateSelector
+                    selectedTemplate={data.template}
+                    onSelectTemplate={(template) => setData(prev => ({ ...prev, template }))}
+                  />
                 <ResumeForm resumeData={data} setResumeData={setData} />
               </div>
             </TabsContent>
