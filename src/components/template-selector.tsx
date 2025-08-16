@@ -11,15 +11,15 @@ interface TemplateSelectorProps {
 }
 
 const templates = [
-  { id: 'creative', name: 'Creative', imageUrl: 'https://i.ibb.co/C0GvR9N/creative.png', aiHint: 'creative resume' },
-  { id: 'classic', name: 'Classic', imageUrl: 'https://i.ibb.co/b3smbcr/classic.png', aiHint: 'classic resume' },
-  { id: 'professional', name: 'Professional', imageUrl: 'https://i.ibb.co/qD6JtV9/professional.png', aiHint: 'professional resume' },
-  { id: 'technical', name: 'Technical', imageUrl: 'https://i.ibb.co/M7Nms37/technical.png', aiHint: 'technical resume' },
-  { id: 'minimalist', name: 'Minimalist', imageUrl: 'https://i.ibb.co/rpxg3M5/minimalist.png', aiHint: 'minimalist resume' },
-  { id: 'academic', name: 'Academic', imageUrl: 'https://i.ibb.co/QcY9D6P/academic.png', aiHint: 'academic cv' },
-  { id: 'corporate', name: 'Corporate', imageUrl: 'https://i.ibb.co/3Y8N0v6/corporate.png', aiHint: 'corporate resume' },
-  { id: 'elegant', name: 'Elegant', imageUrl: 'https://i.ibb.co/wYXB2Qv/elegant.png', aiHint: 'elegant resume' },
-  { id: 'bold', name: 'Bold', imageUrl: 'https://i.ibb.co/WpChHpM/bold.png', aiHint: 'bold resume' },
+  { id: 'creative', name: 'Creative', imageUrl: 'https://placehold.co/300x400.png?text=Creative', aiHint: 'creative resume' },
+  { id: 'classic', name: 'Classic', imageUrl: 'https://placehold.co/300x400.png?text=Classic', aiHint: 'classic resume' },
+  { id: 'professional', name: 'Professional', imageUrl: 'https://placehold.co/300x400.png?text=Professional', aiHint: 'professional resume' },
+  { id: 'technical', name: 'Technical', imageUrl: 'https://placehold.co/300x400.png?text=Technical', aiHint: 'technical resume' },
+  { id: 'minimalist', name: 'Minimalist', imageUrl: 'https://placehold.co/300x400.png?text=Minimalist', aiHint: 'minimalist resume' },
+  { id: 'academic', name: 'Academic', imageUrl: 'https://placehold.co/300x400.png?text=Academic', aiHint: 'academic cv' },
+  { id: 'corporate', name: 'Corporate', imageUrl: 'https://placehold.co/300x400.png?text=Corporate', aiHint: 'corporate resume' },
+  { id: 'elegant', name: 'Elegant', imageUrl: 'https://placehold.co/300x400.png?text=Elegant', aiHint: 'elegant resume' },
+  { id: 'bold', name: 'Bold', imageUrl: 'https://placehold.co/300x400.png?text=Bold', aiHint: 'bold resume' },
 ] as const;
 
 export default function TemplateSelector({ selectedTemplate, onSelectTemplate }: TemplateSelectorProps) {
