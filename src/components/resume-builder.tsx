@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import AdSpace from './ad-space';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -172,7 +173,7 @@ export default function ResumeBuilder() {
               <Home className="h-5 w-5" />
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:gap-3">
             <Button onClick={handlePrint} variant="outline" size="sm">
               <Download className="mr-1 h-4 w-4" />
               <span className="hidden sm:inline">Print / </span>PDF
@@ -211,8 +212,11 @@ export default function ResumeBuilder() {
             </div>
           </div>
           <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2 print:hidden">
-             <div className="p-4 md:p-8 h-full">
-                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-secondary/80 backdrop-blur-sm py-2 z-10">Resume Preview</h2>
+             <div className="p-4 md:p-8 h-full flex flex-col gap-4">
+                <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center">Resume Preview</h2>
+                 <div className="ad-space-container print:hidden">
+                    <AdSpace adKey="preview-ad" />
+                 </div>
                 <ResumePreview ref={previewRef} resumeData={data} />
             </div>
           </div>
@@ -232,6 +236,9 @@ export default function ResumeBuilder() {
             </TabsContent>
             <TabsContent value="preview">
                <div className="p-4 bg-secondary">
+                 <div className="ad-space-container print:hidden">
+                    <AdSpace adKey="preview-ad-mobile" />
+                 </div>
                 <ResumePreview ref={previewRef} resumeData={data} />
               </div>
             </TabsContent>
