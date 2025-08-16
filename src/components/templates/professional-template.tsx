@@ -49,10 +49,10 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
   }, {} as Record<string, string[]>);
 
   return (
-    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans text-[10pt] leading-normal w-full max-w-4xl mx-auto print:p-0 print:shadow-none">
+    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans text-[8pt] md:text-[10pt] leading-normal w-full max-w-4xl mx-auto print:p-0 print:shadow-none">
       <header className="text-center pb-2">
-        <h1 className="text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
-        <div className="flex justify-center items-center gap-x-3 text-xs mt-2 text-gray-600">
+        <h1 className="text-xl md:text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
+        <div className="flex justify-center items-center flex-wrap gap-x-3 text-xs mt-2 text-gray-600">
             {personalInfo.phone && <span>{personalInfo.phone}</span>}
             {personalInfo.email && <><span>|</span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></>}
             {personalInfo.website && <><span>|</span><a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Portfolio</a></>}
@@ -87,7 +87,7 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
             <div className="text-xs">
                 {Object.entries(groupedSkills).map(([category, skillList]) => (
                     <div key={category} className="flex items-start mt-1">
-                        <span className="font-semibold w-36">{category}:</span>
+                        <span className="font-semibold w-24 md:w-36">{category}:</span>
                         <span>{skillList.join(', ')}</span>
                     </div>
                 ))}

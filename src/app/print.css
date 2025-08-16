@@ -2,7 +2,7 @@
   @page {
     size: A4;
     margin: 1cm;
-    margin-top: 0.5cm;
+    margin-top: 0;
   }
 
   body {
@@ -10,18 +10,6 @@
     print-color-adjust: exact;
   }
   
-  #resume-preview-container {
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    background: #fff !important;
-  }
-
-  .ad-space-container {
-    display: none !important;
-  }
-
   .print-footer {
     position: fixed;
     bottom: 0.5cm;
@@ -31,5 +19,13 @@
     font-size: 8px;
     color: #888888;
     visibility: visible;
+  }
+
+  .ad-space-container {
+    display: none !important;
+  }
+
+  #resume-preview-container {
+    border: none !important;
   }
 }

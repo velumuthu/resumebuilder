@@ -18,11 +18,11 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
         <div className="ad-space-container print:hidden">
             <AdSpace />
         </div>
-        <ScrollArea className="h-[calc(100%-6rem)] rounded-lg bg-card print:h-full print:overflow-visible print:border-none print:bg-transparent print:shadow-none">
+        <ScrollArea className="h-full rounded-lg bg-card print:h-full print:overflow-visible print:border-none print:bg-transparent print:shadow-none">
           <div
             id="resume-preview-container"
             ref={ref}
-            className="p-2 md:p-4 bg-card shadow-lg print:p-0 print:shadow-none"
+            className="p-2 bg-card shadow-lg print:p-0 print:shadow-none"
           >
               <ProfessionalTemplate resumeData={resumeData} />
           </div>
