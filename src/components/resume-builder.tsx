@@ -168,20 +168,14 @@ export default function ResumeBuilder() {
         toast({ title: 'Error', description: 'Could not find resume content to download.', variant: 'destructive' });
         return;
       }
-      
-      // Temporarily scale up for higher resolution capture
-      resumeElement.style.transform = 'scale(2)';
-      resumeElement.style.transformOrigin = 'top left';
 
       const canvas = await html2canvas(resumeElement, {
         scale: 2, // Capture at a higher resolution
         useCORS: true,
-        logging: false,
+        logging: true, // Enable logging for debugging
+        width: resumeElement.offsetWidth,
+        height: resumeElement.offsetHeight
       });
-
-      // Revert scaling
-      resumeElement.style.transform = '';
-      resumeElement.style.transformOrigin = '';
 
       const imgData = canvas.toDataURL('image/png');
       
