@@ -177,7 +177,7 @@ export default function ResumeBuilder() {
         height: resumeElement.offsetHeight
       });
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
       
       const pdf = new jsPDF({
         orientation: 'portrait',
@@ -197,7 +197,7 @@ export default function ResumeBuilder() {
           console.warn("Resume is too long for a single PDF page. Cropping may occur.");
       }
 
-      pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, heightInPdf);
+      pdf.addImage(imgData, 'JPEG', 0, 0, widthInPdf, heightInPdf);
       pdf.save(`${data.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
     });
   };
