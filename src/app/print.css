@@ -21,10 +21,6 @@
     visibility: visible;
   }
 
-  .ad-space-container {
-    display: none !important;
-  }
-
   #resume-preview-container {
     border: none !important;
   }
