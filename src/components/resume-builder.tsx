@@ -174,14 +174,14 @@ export default function ResumeBuilder() {
           </Link>
           <div className="flex items-center gap-2">
             <Button onClick={handlePrint} variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Print / Save PDF
+              <Download className="mr-1 h-4 w-4" />
+              <span className="hidden sm:inline">Print / </span>PDF
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm">
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Reset
+                  <Trash2 className="mr-1 h-4 w-4" />
+                   <span className="hidden sm:inline">Reset</span>
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -210,9 +210,9 @@ export default function ResumeBuilder() {
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-background h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2 print:hidden">
-             <div className="p-8 h-full">
-                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-background/80 backdrop-blur-sm py-2 z-10">Resume Preview</h2>
+          <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2 print:hidden">
+             <div className="p-4 md:p-8 h-full">
+                <h2 className="text-2xl font-bold text-primary mb-6 sticky top-0 bg-secondary/80 backdrop-blur-sm py-2 z-10">Resume Preview</h2>
                 <ResumePreview ref={previewRef} resumeData={data} />
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function ResumeBuilder() {
               </div>
             </TabsContent>
             <TabsContent value="preview">
-               <div className="p-4 bg-background">
+               <div className="p-4 bg-secondary">
                 <ResumePreview ref={previewRef} resumeData={data} />
               </div>
             </TabsContent>

@@ -37,7 +37,7 @@ export default function HomePage() {
         </div>
 
         <section className="my-12">
-          <AdSpace key="home-ad"/>
+          <AdSpace adKey="home-ad"/>
         </section>
         
         <section className="mt-24 text-left">

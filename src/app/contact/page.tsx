@@ -23,7 +23,7 @@ export default function ContactPage() {
                 <CardHeader className="text-center">
                     <CardTitle className="text-2xl">About the Developer</CardTitle>
                 </CardHeader>
-                <CardContent className="flex flex-col md:flex-row items-center gap-8">
+                <CardContent className="flex flex-col md:flex-row items-center gap-8 p-4 md:p-6">
                    <div className="flex-shrink-0 text-center">
                      <Avatar className="w-32 h-32 mx-auto border-4 border-primary">
                         <AvatarImage src="https://avatars.githubusercontent.com/u/12874249" alt="Velu M" />
