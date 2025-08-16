@@ -13,7 +13,7 @@ const ResumePreview = ({ resumeData }: ResumePreviewProps) => {
     return (
       <ScrollArea className="h-full w-full print:h-full print:overflow-visible bg-card shadow-lg print:shadow-none rounded-lg">
         <div
-          id="resume-preview-container"
+          id="resume-preview-content"
           className="w-full h-full print:p-0"
         >
             <ProfessionalTemplate resumeData={resumeData} />

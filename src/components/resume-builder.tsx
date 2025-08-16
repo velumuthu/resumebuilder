@@ -159,11 +159,8 @@ export default function ResumeBuilder() {
       }
 
       const canvas = await html2canvas(resumeElement, {
-        scale: 2, 
+        scale: 2,
         useCORS: true,
-        logging: true,
-        width: resumeElement.offsetWidth,
-        height: resumeElement.offsetHeight
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
@@ -270,7 +267,7 @@ export default function ResumeBuilder() {
           <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2">
              <div className="p-4 md:p-8 h-full flex flex-col gap-4">
                 <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center">Resume Preview</h2>
-                <div className='p-4 md:p-8 h-full'>
+                <div id="resume-preview-container" className='p-4 md:p-8 h-full'>
                   <ResumePreview resumeData={data} />
                 </div>
             </div>
@@ -290,7 +287,7 @@ export default function ResumeBuilder() {
               </div>
             </TabsContent>
             <TabsContent value="preview">
-               <div className="p-4 bg-secondary">
+               <div id="resume-preview-container-mobile" className="p-4 bg-secondary">
                 <ResumePreview resumeData={data} />
               </div>
             </TabsContent>
