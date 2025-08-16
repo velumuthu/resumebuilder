@@ -4,8 +4,8 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { FileText, Loader2, Sparkles, Trash2, Home } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { FileText, Loader2, Sparkles, Trash2, Home, Download, Crown } from 'lucide-react';
+import { useEffect, useState, useTransition } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
 import Link from 'next/link';
@@ -21,6 +21,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { useSearchParams } from 'next/navigation';
+import PaymentDialog from './payment-dialog';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -75,13 +79,18 @@ const initialData: ResumeData = {
 };
 
 const STORAGE_KEY = 'resumai-data';
+const PAID_STATUS_KEY = 'resumai-paid';
 const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 
 export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData>(initialData);
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
-  
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+  const [isPaid, setIsPaid] = useState(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+
   useEffect(() => {
     setIsClient(true);
     try {
@@ -104,6 +113,12 @@ export default function ResumeBuilder() {
           areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
         });
       }
+      
+      const paidStatus = localStorage.getItem(PAID_STATUS_KEY);
+      if (paidStatus === 'true') {
+        setIsPaid(true);
+      }
+
     } catch (error) {
       console.error('Failed to load data from localStorage', error);
       toast({
@@ -113,6 +128,30 @@ export default function ResumeBuilder() {
       });
     }
   }, [toast]);
+  
+  useEffect(() => {
+    if (searchParams.get('payment_success') === 'true' && isClient) {
+        toast({
+            title: 'Payment Successful!',
+            description: 'Thank you for your purchase. You can now download your PDF.',
+        });
+        localStorage.setItem(PAID_STATUS_KEY, 'true');
+        setIsPaid(true);
+        // Clean up URL
+        window.history.replaceState(null, '', '/build');
+    }
+
+    if (searchParams.get('payment_canceled') === 'true' && isClient) {
+        toast({
+            title: 'Payment Canceled',
+            description: 'Your payment was canceled. You can try again anytime.',
+            variant: 'destructive',
+        });
+         // Clean up URL
+        window.history.replaceState(null, '', '/build');
+    }
+  }, [searchParams, toast, isClient]);
+
 
   useEffect(() => {
     if (isClient) {
@@ -136,6 +175,8 @@ export default function ResumeBuilder() {
     setData(initialData);
     try {
       localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(PAID_STATUS_KEY);
+      setIsPaid(false);
     } catch (error) {
         console.error('Failed to clear localStorage', error);
     }
@@ -143,6 +184,63 @@ export default function ResumeBuilder() {
       title: 'Resume Reset',
       description: 'Your resume has been reset to the default template.',
     });
+  };
+  
+  const handleDownloadPdf = () => {
+    startTransition(async () => {
+      const resumeElement = document.getElementById('resume-preview-content');
+      if (!resumeElement) {
+        toast({ title: 'Error', description: 'Could not find resume content to download.', variant: 'destructive' });
+        return;
+      }
+      
+      // Temporarily scale up for higher resolution capture
+      resumeElement.style.transform = 'scale(2)';
+      resumeElement.style.transformOrigin = 'top left';
+
+      const canvas = await html2canvas(resumeElement, {
+        scale: 2, // Capture at a higher resolution
+        useCORS: true,
+        logging: false,
+      });
+
+      // Revert scaling
+      resumeElement.style.transform = '';
+      resumeElement.style.transformOrigin = '';
+
+      const imgData = canvas.toDataURL('image/png');
+      
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'pt',
+        format: 'a4',
+      });
+      
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const ratio = canvasWidth / canvasHeight;
+      const widthInPdf = pdfWidth;
+      const heightInPdf = widthInPdf / ratio;
+      
+      // If height is more than one page, we'll need to handle splitting it.
+      // For now, we assume it fits on one page. A more complex implementation would loop and add pages.
+      if (heightInPdf > pdfHeight) {
+          console.warn("Resume is too long for a single PDF page. Cropping may occur.");
+      }
+
+      pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, heightInPdf);
+      pdf.save(`${data.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
+    });
+  };
+
+  const handlePremiumClick = () => {
+    if (!isPaid) {
+      setShowPaymentDialog(true);
+    } else {
+      handleDownloadPdf();
+    }
   };
   
   if (!isClient) {
@@ -160,6 +258,8 @@ export default function ResumeBuilder() {
   }
 
   return (
+    <>
+    <PaymentDialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog} />
     <div className="flex flex-col min-h-screen bg-secondary/40">
       <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -168,6 +268,14 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
+             <Button onClick={handlePremiumClick} disabled={isPending} className={!isPaid ? "bg-amber-500 hover:bg-amber-600 text-white" : ""}>
+              {isPending ? (
+                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                isPaid ? <Download className="mr-2 h-4 w-4" /> : <Crown className="mr-2 h-4 w-4" />
+              )}
+              {isPaid ? 'Download PDF' : 'Unlock PDF Download'}
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm">
@@ -232,5 +340,6 @@ export default function ResumeBuilder() {
         </div>
       </main>
     </div>
+    </>
   );
 }
