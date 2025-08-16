@@ -5,32 +5,32 @@ interface TemplateProps {
   resumeData: ResumeData;
 }
 
-const SectionTitle = ({ title }: { title: string }) => (
-  <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 border-b border-gray-300 pb-1 mb-2 mt-3">
-    {title}
-  </h2>
-);
-
-const formatDate = (dateString: string) => {
-    if (!dateString) return 'Present';
-    try {
-      const date = new Date(dateString);
-      // Adjust for timezone offset
-      const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-      return adjustedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-    } catch {
-      return dateString;
-    }
-};
-
-const formatDescription = (desc: string) => {
-    return desc.split('\\n').filter(line => line.trim()).map((line, i) => (
-        <li key={i} className="ml-4">{line.replace(/^- /, '')}</li>
-    ));
-}
-
 export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
   const { personalInfo, experience, education, skills, certifications, projects, achievements, areasOfInterest } = resumeData;
+
+  const SectionTitle = ({ title }: { title: string }) => (
+    <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 border-b border-gray-300 pb-1 mb-2 mt-3">
+      {title}
+    </h2>
+  );
+
+  const formatDate = (dateString: string) => {
+      if (!dateString) return 'Present';
+      try {
+        const date = new Date(dateString);
+        // Adjust for timezone offset
+        const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        return adjustedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      } catch {
+        return dateString;
+      }
+  };
+
+  const formatDescription = (desc: string) => {
+      return desc.split('\\n').filter(line => line.trim()).map((line, i) => (
+          <li key={i} className="ml-4">{line.replace(/^- /, '')}</li>
+      ));
+  }
 
   const groupedSkills = skills.reduce((acc, skill) => {
     const [category, ...skillNames] = skill.name.split(':');
@@ -53,7 +53,6 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
       {/* Header */}
       <header className="text-center pb-2">
         <h1 className="text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
-        <p className="text-sm text-gray-600 mt-1">{personalInfo.summary || 'A brief professional summary'}</p>
         <div className="flex justify-center items-center gap-x-3 text-xs mt-2 text-gray-600">
             {personalInfo.phone && <span>{personalInfo.phone}</span>}
             {personalInfo.email && <><span>|</span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></>}
