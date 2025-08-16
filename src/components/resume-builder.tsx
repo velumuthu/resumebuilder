@@ -214,16 +214,22 @@ export default function ResumeBuilder() {
   };
 
   const onPaymentSuccess = () => {
-    localStorage.setItem(PAID_STATUS_KEY, 'true');
-    setIsPaid(true);
-    handleDownloadPdf();
+    try {
+      localStorage.setItem(PAID_STATUS_KEY, 'true');
+      setIsPaid(true);
+      handleDownloadPdf();
+    } catch (error) {
+       console.error('Failed to update payment status', error);
+       toast({ title: 'Error', description: 'Could not save payment status. Please try downloading again.', variant: 'destructive' });
+    }
   };
 
   const handlePremiumClick = () => {
-    if (!isPaid) {
-      setShowPaymentDialog(true);
-    } else {
+    const paidStatus = localStorage.getItem(PAID_STATUS_KEY);
+    if (isPaid || paidStatus === 'true') {
       handleDownloadPdf();
+    } else {
+      setShowPaymentDialog(true);
     }
   };
   
