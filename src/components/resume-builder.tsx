@@ -4,7 +4,7 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { FileText, Loader2, Sparkles, Trash2, Home, Download, Crown } from 'lucide-react';
+import { FileText, Loader2, Sparkles, Trash2, Home, Download } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import PaymentDialog from './payment-dialog';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -78,7 +77,6 @@ const initialData: ResumeData = {
 };
 
 const STORAGE_KEY = 'resumai-data';
-const PAID_STATUS_KEY = 'resumai-paid';
 const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 
 export default function ResumeBuilder() {
@@ -86,8 +84,6 @@ export default function ResumeBuilder() {
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const [isPaid, setIsPaid] = useState(false);
-  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -111,12 +107,6 @@ export default function ResumeBuilder() {
           areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
         });
       }
-      
-      const paidStatus = localStorage.getItem(PAID_STATUS_KEY);
-      if (paidStatus === 'true') {
-        setIsPaid(true);
-      }
-
     } catch (error) {
       console.error('Failed to load data from localStorage', error);
       toast({
@@ -135,7 +125,8 @@ export default function ResumeBuilder() {
         if (consent !== 'granted') return;
         
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      } catch (error) {
+      } catch (error)
+{
         console.error('Failed to save data to localStorage', error);
         toast({
           title: 'Error',
@@ -150,8 +141,6 @@ export default function ResumeBuilder() {
     setData(initialData);
     try {
       localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(PAID_STATUS_KEY);
-      setIsPaid(false);
     } catch (error) {
         console.error('Failed to clear localStorage', error);
     }
@@ -213,26 +202,6 @@ export default function ResumeBuilder() {
     });
   };
 
-  const onPaymentSuccess = () => {
-    try {
-      localStorage.setItem(PAID_STATUS_KEY, 'true');
-      setIsPaid(true);
-      handleDownloadPdf();
-    } catch (error) {
-       console.error('Failed to update payment status', error);
-       toast({ title: 'Error', description: 'Could not save payment status. Please try downloading again.', variant: 'destructive' });
-    }
-  };
-
-  const handlePremiumClick = () => {
-    const paidStatus = localStorage.getItem(PAID_STATUS_KEY);
-    if (isPaid || paidStatus === 'true') {
-      handleDownloadPdf();
-    } else {
-      setShowPaymentDialog(true);
-    }
-  };
-  
   if (!isClient) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center bg-background gap-4">
@@ -249,11 +218,6 @@ export default function ResumeBuilder() {
 
   return (
     <>
-    <PaymentDialog 
-      open={showPaymentDialog} 
-      onOpenChange={setShowPaymentDialog}
-      onPaymentSuccess={onPaymentSuccess}
-    />
     <div className="flex flex-col min-h-screen bg-secondary/40">
       <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -262,13 +226,13 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
-             <Button onClick={handlePremiumClick} disabled={isPending} className={!isPaid ? "bg-amber-500 hover:bg-amber-600 text-white" : ""}>
+             <Button onClick={handleDownloadPdf} disabled={isPending}>
               {isPending ? (
                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                isPaid ? <Download className="mr-2 h-4 w-4" /> : <Crown className="mr-2 h-4 w-4" />
+                <Download className="mr-2 h-4 w-4" />
               )}
-              {isPaid ? 'Download PDF Again' : 'Unlock PDF Download'}
+              Download PDF
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -282,7 +246,7 @@ export default function ResumeBuilder() {
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. This will permanently delete your resume
-                    data and reset all fields to the default template. This will also clear your payment status.
+                    data and reset all fields to the default template.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
