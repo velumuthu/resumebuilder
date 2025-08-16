@@ -18,7 +18,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>(
         <div className="ad-space-container print:hidden">
             <AdSpace />
         </div>
-        <ScrollArea className="h-[calc(100vh-14rem-4rem)] lg:h-[calc(100%-4rem-4rem)] rounded-lg border-2 border-dashed border-muted print:h-full print:overflow-visible print:border-none">
+        <ScrollArea className="h-[calc(100%-6rem)] rounded-lg bg-card print:h-full print:overflow-visible print:border-none print:bg-transparent print:shadow-none">
           <div
             id="resume-preview-container"
             ref={ref}

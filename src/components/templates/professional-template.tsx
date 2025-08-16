@@ -9,7 +9,7 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
   const { personalInfo, experience, education, skills, certifications, projects, achievements, areasOfInterest } = resumeData;
 
   const SectionTitle = ({ title }: { title: string }) => (
-    <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 border-b border-gray-300 pb-1 mb-2 mt-3">
+    <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 border-b-2 border-blue-200 pb-1 mb-2 mt-3">
       {title}
     </h2>
   );
@@ -49,8 +49,7 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
   }, {} as Record<string, string[]>);
 
   return (
-    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans text-[10pt] leading-normal w-full max-w-4xl mx-auto print:p-0">
-      {/* Header */}
+    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans text-[10pt] leading-normal w-full max-w-4xl mx-auto print:p-0 print:shadow-none">
       <header className="text-center pb-2">
         <h1 className="text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
         <div className="flex justify-center items-center gap-x-3 text-xs mt-2 text-gray-600">
