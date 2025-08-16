@@ -8,74 +8,99 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Crown, Loader2, Star } from 'lucide-react';
 import { useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { createCheckoutSession } from '@/app/actions';
-import { loadStripe } from '@stripe/stripe-js';
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
-);
+import { createRazorpayOrder } from '@/app/actions';
 
 interface PaymentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onPaymentSuccess: () => void;
 }
 
-export default function PaymentDialog({ open, onOpenChange }: PaymentDialogProps) {
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+export default function PaymentDialog({ open, onOpenChange, onPaymentSuccess }: PaymentDialogProps) {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const handleCheckout = () => {
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const handlePayment = () => {
     startTransition(async () => {
-      // In a real app, you'd create a checkout session on the server
-      // and redirect to Stripe. For this prototype, we'll simulate success.
-      
       toast({
-        title: "Redirecting to payment...",
-        description: "You will now be redirected to our secure payment provider.",
+        title: "Initializing payment...",
+        description: "Please wait while we create a secure payment order.",
       });
 
-      // Simulate a small delay for realism
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Set the paid status in local storage and close the dialog
-      // This is a simulation. In a real app, this would be handled
-      // by the success_url redirect from Stripe.
-      localStorage.setItem('resumai-paid', 'true');
-      window.location.href = '/build?payment_success=true';
-
-      /*
-      // REAL STRIPE IMPLEMENTATION:
-      const { sessionId, error } = await createCheckoutSession();
-
-      if (error || !sessionId) {
-        toast({
-          title: 'Error',
-          description: error || 'Could not create a checkout session.',
-          variant: 'destructive',
-        });
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        toast({ title: 'Error', description: 'Could not load payment gateway. Please check your internet connection.', variant: 'destructive' });
         return;
       }
       
-      const stripe = await stripePromise;
-      if (!stripe) {
-         toast({ title: 'Error', description: 'Stripe.js has not loaded yet.', variant: 'destructive' });
-         return;
+      const { orderId, error } = await createRazorpayOrder();
+
+      if (error || !orderId) {
+        toast({ title: 'Error', description: error || 'Could not create a payment order.', variant: 'destructive' });
+        return;
       }
 
-      const { error: stripeError } = await stripe.redirectToCheckout({ sessionId });
-
-      if (stripeError) {
-        toast({
-            title: 'Redirect Error',
-            description: stripeError.message || 'Failed to redirect to Stripe.',
-            variant: 'destructive',
-        })
-      }
-      */
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: "500", // Amount in paise
+        currency: "INR",
+        name: "ResumAI Pro",
+        description: "PDF Resume Download",
+        order_id: orderId,
+        handler: function (response: any) {
+          toast({
+            title: 'Payment Successful!',
+            description: 'Your download will begin shortly.',
+          });
+          onPaymentSuccess();
+          onOpenChange(false);
+        },
+        prefill: {
+            name: "ResumAI User",
+            email: "user@example.com",
+            contact: "9999999999"
+        },
+        notes: {
+            address: "ResumAI Corporate Office"
+        },
+        theme: {
+            color: "#3399cc"
+        }
+      };
+      
+      const rzp = new window.Razorpay(options);
+       rzp.on('payment.failed', function (response: any){
+            toast({
+                title: 'Payment Failed',
+                description: response.error.description,
+                variant: 'destructive',
+            });
+       });
+      
+      rzp.open();
     });
   };
 
@@ -86,7 +111,7 @@ export default function PaymentDialog({ open, onOpenChange }: PaymentDialogProps
             <div className="bg-amber-100 dark:bg-amber-900/50 p-3 rounded-full mb-2">
                  <Crown className="h-8 w-8 text-amber-500" />
             </div>
-          <DialogTitle className="text-2xl">Unlock Pro Features</DialogTitle>
+          <DialogTitle className="text-2xl">Unlock PDF Download</DialogTitle>
           <DialogDescription>
             For a small one-time payment, you can download your professional resume as a high-quality PDF.
           </DialogDescription>
@@ -98,7 +123,7 @@ export default function PaymentDialog({ open, onOpenChange }: PaymentDialogProps
             </div>
             <div className="flex items-start gap-3">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                <p><strong>One-Time Payment:</strong> No subscriptions, no hidden fees. Pay once, use forever.</p>
+                <p><strong>One-Time Payment per Download:</strong> No subscriptions. Pay only when you need to download.</p>
             </div>
              <div className="flex items-start gap-3">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
@@ -106,10 +131,10 @@ export default function PaymentDialog({ open, onOpenChange }: PaymentDialogProps
             </div>
         </div>
         <div className='text-center my-4'>
-            <span className="text-4xl font-bold">$5</span>
-            <span className="text-muted-foreground">/ one-time</span>
+            <span className="text-4xl font-bold">₹5</span>
+            <span className="text-muted-foreground">/ per download</span>
         </div>
-        <Button onClick={handleCheckout} disabled={isPending} size="lg" className="w-full bg-green-600 hover:bg-green-700">
+        <Button onClick={handlePayment} disabled={isPending} size="lg" className="w-full bg-green-600 hover:bg-green-700">
           {isPending ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           ) : (

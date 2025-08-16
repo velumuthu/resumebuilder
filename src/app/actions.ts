@@ -1,9 +1,13 @@
 'use server';
 
 import { suggestResumeContent, type SuggestResumeContentInput } from '@/ai/flows/suggest-resume-content';
-import Stripe from 'stripe';
+import Razorpay from 'razorpay';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID as string,
+  key_secret: process.env.RAZORPAY_KEY_SECRET as string,
+});
+
 
 export async function getAiSuggestions(input: SuggestResumeContentInput) {
   if (!input.jobHistory || !input.jobDescription) {
@@ -21,32 +25,19 @@ export async function getAiSuggestions(input: SuggestResumeContentInput) {
   }
 }
 
-export async function createCheckoutSession() {
+export async function createRazorpayOrder() {
+  const options = {
+    amount: 500, // Amount in paise (e.g., 500 paise = ₹5.00)
+    currency: 'INR',
+    receipt: `receipt_order_${new Date().getTime()}`,
+  };
+
   try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'ResumAI Pro - PDF Download',
-              description: 'One-time payment to download your resume as a professional PDF.',
-            },
-            unit_amount: 500, // $5.00
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_URL}/build?payment_success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/build?payment_canceled=true`,
-    });
-    
-    return { sessionId: session.id };
+    const order = await razorpay.orders.create(options);
+    return { orderId: order.id, error: null };
   } catch (error) {
-    console.error('Error creating checkout session:', error);
+    console.error('Error creating Razorpay order:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
-    return { error: `Failed to create checkout session: ${errorMessage}` };
+    return { orderId: null, error: `Failed to create payment order: ${errorMessage}` };
   }
 }

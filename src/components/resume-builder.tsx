@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { useSearchParams } from 'next/navigation';
 import PaymentDialog from './payment-dialog';
 
 const initialData: ResumeData = {
@@ -86,7 +85,6 @@ export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData>(initialData);
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
-  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [isPaid, setIsPaid] = useState(false);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
@@ -129,29 +127,6 @@ export default function ResumeBuilder() {
     }
   }, [toast]);
   
-  useEffect(() => {
-    if (searchParams.get('payment_success') === 'true' && isClient) {
-        toast({
-            title: 'Payment Successful!',
-            description: 'Thank you for your purchase. You can now download your PDF.',
-        });
-        localStorage.setItem(PAID_STATUS_KEY, 'true');
-        setIsPaid(true);
-        // Clean up URL
-        window.history.replaceState(null, '', '/build');
-    }
-
-    if (searchParams.get('payment_canceled') === 'true' && isClient) {
-        toast({
-            title: 'Payment Canceled',
-            description: 'Your payment was canceled. You can try again anytime.',
-            variant: 'destructive',
-        });
-         // Clean up URL
-        window.history.replaceState(null, '', '/build');
-    }
-  }, [searchParams, toast, isClient]);
-
 
   useEffect(() => {
     if (isClient) {
@@ -224,8 +199,6 @@ export default function ResumeBuilder() {
       const widthInPdf = pdfWidth;
       const heightInPdf = widthInPdf / ratio;
       
-      // If height is more than one page, we'll need to handle splitting it.
-      // For now, we assume it fits on one page. A more complex implementation would loop and add pages.
       if (heightInPdf > pdfHeight) {
           console.warn("Resume is too long for a single PDF page. Cropping may occur.");
       }
@@ -233,6 +206,12 @@ export default function ResumeBuilder() {
       pdf.addImage(imgData, 'PNG', 0, 0, widthInPdf, heightInPdf);
       pdf.save(`${data.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
     });
+  };
+
+  const onPaymentSuccess = () => {
+    localStorage.setItem(PAID_STATUS_KEY, 'true');
+    setIsPaid(true);
+    handleDownloadPdf();
   };
 
   const handlePremiumClick = () => {
@@ -259,7 +238,11 @@ export default function ResumeBuilder() {
 
   return (
     <>
-    <PaymentDialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog} />
+    <PaymentDialog 
+      open={showPaymentDialog} 
+      onOpenChange={setShowPaymentDialog}
+      onPaymentSuccess={onPaymentSuccess}
+    />
     <div className="flex flex-col min-h-screen bg-secondary/40">
       <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -274,7 +257,7 @@ export default function ResumeBuilder() {
               ) : (
                 isPaid ? <Download className="mr-2 h-4 w-4" /> : <Crown className="mr-2 h-4 w-4" />
               )}
-              {isPaid ? 'Download PDF' : 'Unlock PDF Download'}
+              {isPaid ? 'Download PDF Again' : 'Unlock PDF Download'}
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -288,7 +271,7 @@ export default function ResumeBuilder() {
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. This will permanently delete your resume
-                    data and reset all fields to the default template.
+                    data and reset all fields to the default template. This will also clear your payment status.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
