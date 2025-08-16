@@ -170,9 +170,9 @@ export default function ResumeBuilder() {
       }
 
       const canvas = await html2canvas(resumeElement, {
-        scale: 2, // Capture at a higher resolution
+        scale: 2, 
         useCORS: true,
-        logging: true, // Enable logging for debugging
+        logging: true,
         width: resumeElement.offsetWidth,
         height: resumeElement.offsetHeight
       });
@@ -189,12 +189,23 @@ export default function ResumeBuilder() {
       const pdfHeight = pdf.internal.pageSize.getHeight();
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
+      
+      if (!canvasWidth || !canvasHeight) {
+          toast({ title: 'Error', description: 'Failed to capture resume dimensions. Please try again.', variant: 'destructive' });
+          return;
+      }
+
       const ratio = canvasWidth / canvasHeight;
       const widthInPdf = pdfWidth;
       const heightInPdf = widthInPdf / ratio;
       
       if (heightInPdf > pdfHeight) {
           console.warn("Resume is too long for a single PDF page. Cropping may occur.");
+      }
+
+      if (widthInPdf <= 0 || heightInPdf <= 0) {
+        toast({ title: 'Error', description: 'Invalid resume dimensions for PDF generation.', variant: 'destructive' });
+        return;
       }
 
       pdf.addImage(imgData, 'JPEG', 0, 0, widthInPdf, heightInPdf);
