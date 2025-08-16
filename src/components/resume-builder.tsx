@@ -21,6 +21,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -80,6 +82,7 @@ const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData>(initialData);
   const [isClient, setIsClient] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const { toast } = useToast();
   const previewRef = useRef<HTMLDivElement>(null);
   
@@ -133,9 +136,59 @@ export default function ResumeBuilder() {
     }
   }, [data, isClient, toast]);
   
-  const handlePrint = () => {
-    window.print();
+  const handleDownloadPdf = async () => {
+    const input = previewRef.current;
+    if (!input) {
+        toast({
+            title: 'Error',
+            description: 'Could not find resume content to download.',
+            variant: 'destructive',
+        });
+        return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+        const canvas = await html2canvas(input, {
+            scale: 2, // Higher scale for better quality
+            useCORS: true,
+            logging: false,
+        });
+        
+        const imgData = canvas.toDataURL('image/png');
+        
+        // A4 page dimensions in mm: 210 x 297
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4',
+        });
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        
+        const width = pdfWidth;
+        const height = width / ratio;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        pdf.save('resume.pdf');
+
+    } catch (error) {
+        console.error('Failed to generate PDF', error);
+        toast({
+            title: 'Error',
+            description: 'Failed to generate PDF. Please try again.',
+            variant: 'destructive',
+        });
+    } finally {
+        setIsDownloading(false);
+    }
   };
+
 
   const handleReset = () => {
     setData(initialData);
@@ -173,9 +226,13 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
-            <Button onClick={handlePrint} variant="outline" size="sm">
-              <Download className="mr-1 h-4 w-4" />
-              <span className="hidden sm:inline">Print / </span>PDF
+            <Button onClick={handleDownloadPdf} variant="outline" size="sm" disabled={isDownloading}>
+                {isDownloading ? (
+                    <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                ) : (
+                    <Download className="mr-1 h-4 w-4" />
+                )}
+              <span className="hidden sm:inline">Download </span>PDF
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>

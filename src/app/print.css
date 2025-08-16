@@ -1,8 +1,7 @@
 @media print {
   @page {
     size: A4;
-    margin: 1cm;
-    margin-top: 0;
+    margin: 0;
   }
 
   body {
@@ -11,17 +10,11 @@
   }
   
   .print-footer {
-    position: fixed;
-    bottom: 0.5cm;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 8px;
-    color: #888888;
-    visibility: visible;
+    display: none;
   }
 
   #resume-preview-container {
     border: none !important;
+    box-shadow: none !important;
   }
 }
