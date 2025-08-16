@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 declare global {
   interface Window {
@@ -10,50 +10,51 @@ declare global {
 
 const AdSpace = ({ adKey }: { adKey: string }) => {
   const adRef = useRef<HTMLModElement>(null);
-  const [isIntersecting, setIsIntersecting] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  
+
   useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          // Disconnect after first intersection
-          if(observerRef.current) {
-             observerRef.current.disconnect();
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
+    const currentAdRef = adRef.current;
 
-    if (adRef.current) {
-      observerRef.current.observe(adRef.current);
-    }
-
-    return () => {
-       if(observerRef.current) {
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        // Disconnect the observer once the ad is visible to prevent re-triggering
+        if (observerRef.current) {
           observerRef.current.disconnect();
-       }
-    };
-  }, []);
+        }
 
-  useEffect(() => {
-    if (isIntersecting) {
-        if (adRef.current && adRef.current.getAttribute('data-ad-status') === 'filled') {
-            return;
+        // Check if the ad slot has already been filled
+        if (currentAdRef && currentAdRef.getAttribute('data-ad-status') === 'filled') {
+          return;
         }
 
         try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-            if (adRef.current) {
-                adRef.current.setAttribute('data-ad-status', 'filled');
-            }
+          // Push the ad only when the container is visible
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          if (currentAdRef) {
+            currentAdRef.setAttribute('data-ad-status', 'filled');
+          }
         } catch (err) {
-            console.error('AdSense error:', err);
+          console.error('AdSense error:', err);
         }
+      }
+    };
+    
+    // Only set up the observer if the ad container ref exists
+    if (currentAdRef) {
+      observerRef.current = new IntersectionObserver(handleIntersection, {
+        threshold: 0.1, // Trigger when 10% of the element is visible
+      });
+      observerRef.current.observe(currentAdRef);
     }
-  }, [isIntersecting]);
+
+    // Cleanup function to disconnect the observer when the component unmounts
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [adKey]); // Re-run effect if the adKey changes, ensuring unique ad slots are handled
 
   return (
     <div key={adKey} className="my-6 w-full flex items-center justify-center text-muted-foreground ad-space-container">
