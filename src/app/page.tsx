@@ -3,7 +3,7 @@ import SiteHeader from '@/components/site-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import VideoPlayer from '@/components/video-player';
-import { CircleCheckBig, FileText, Sparkles, CheckCircle, Mail, MessageSquare, Phone, MapPin, Code } from 'lucide-react';
+import { CircleCheckBig, FileText, Sparkles, CheckCircle, Mail, MessageSquare, Phone, MapPin, Code, Heart } from 'lucide-react';
 import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -128,6 +128,32 @@ export default function HomePage() {
            </Card>
         </section>
 
+        <section id="support" className="mt-24 text-center">
+          <h2 className="text-3xl font-bold mb-12">Support ResumAI</h2>
+          <Card className="bg-background max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-center gap-2">
+                <Heart className="text-red-500" />
+                <span>Enjoying ResumAI?</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                ResumAI is a free tool, and I plan to keep it that way. If you find it helpful, please consider supporting its development and server costs. Your contribution, no matter how small, helps a lot!
+              </p>
+              <Button asChild size="lg" className="bg-[#1976D2] hover:bg-[#1565C0] text-white">
+                <a href="upi://pay?pa=velumbalaji-1@oksbi&pn=VELU%20M&am=3.00&cu=INR" target="_blank" rel="noopener noreferrer">
+                  Support with Google Pay
+                </a>
+              </Button>
+              <div className="pt-2">
+                <p className="text-sm text-muted-foreground">Or use the UPI ID:</p>
+                <p className="font-mono text-primary bg-secondary/50 rounded px-2 py-1 inline-block">velumbalaji-1@oksbi</p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         <section id="contact" className="mt-24 text-left">
           <h2 className="text-3xl font-bold text-center mb-12">Contact Us</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -207,6 +233,7 @@ export default function HomePage() {
           <div className="container mx-auto text-center text-sm text-muted-foreground">
               <div className="flex justify-center gap-4 mb-2">
                   <a href="#about" className="underline hover:text-primary">About</a>
+                  <a href="#support" className="underline hover:text-primary">Support Us</a>
                   <a href="#contact" className="underline hover:text-primary">Contact</a>
                   <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
               </div>
@@ -216,3 +243,4 @@ export default function HomePage() {
     </div>
   );
 }
+
