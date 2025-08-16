@@ -49,7 +49,7 @@ export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
   }, {} as Record<string, string[]>);
 
   return (
-    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans text-[8pt] md:text-[10pt] leading-normal w-full max-w-4xl mx-auto print:p-0 print:shadow-none">
+    <div id="resume-preview-content" className="bg-white text-gray-800 font-sans text-[8pt] md:text-[10pt] leading-normal w-full max-w-4xl mx-auto p-4 md:p-6 print:p-0">
       <header className="text-center pb-2">
         <h1 className="text-xl md:text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
         <div className="flex justify-center items-center flex-wrap gap-x-3 text-xs mt-2 text-gray-600">
