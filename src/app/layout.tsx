@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
-import './print.css';
-import PrintFooter from '@/components/print-footer';
 import CookieConsent from '@/components/cookie-consent';
 
 export const metadata: Metadata = {
@@ -87,11 +85,8 @@ export default function RootLayout({
       <body className="font-body antialiased">
         {children}
         <Toaster />
-        <PrintFooter />
         <CookieConsent />
       </body>
     </html>
   );
 }
-
-    

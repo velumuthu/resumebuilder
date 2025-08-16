@@ -4,7 +4,7 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { FileText, Loader2, Sparkles, Trash2, Home, Printer } from 'lucide-react';
+import { FileText, Loader2, Sparkles, Trash2, Home } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
@@ -131,10 +131,6 @@ export default function ResumeBuilder() {
       }
     }
   }, [data, isClient, toast]);
-  
-  const handlePrint = () => {
-    window.print();
-  };
 
   const handleReset = () => {
     setData(initialData);
@@ -165,17 +161,13 @@ export default function ResumeBuilder() {
 
   return (
     <div className="flex flex-col min-h-screen bg-secondary/40">
-      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm print:hidden">
+      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
               <Home className="h-5 w-5" />
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
-             <Button onClick={handlePrint} variant="outline" size="sm">
-                  <Printer className="mr-1 h-4 w-4" />
-              <span className="hidden sm:inline">Print / Save PDF</span>
-            </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm">
@@ -201,7 +193,7 @@ export default function ResumeBuilder() {
         </div>
       </header>
       
-      <main className="flex-1 w-full print:p-0">
+      <main className="flex-1 w-full">
         {/* Desktop View */}
         <div className="hidden lg:grid grid-cols-2 h-[calc(100vh-4rem)]">
            <div className="overflow-y-auto">
@@ -209,7 +201,7 @@ export default function ResumeBuilder() {
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2 print:hidden">
+          <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2">
              <div className="p-4 md:p-8 h-full flex flex-col gap-4">
                 <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center">Resume Preview</h2>
                 <div className='p-4 md:p-8 h-full'>
@@ -220,7 +212,7 @@ export default function ResumeBuilder() {
         </div>
         
         {/* Mobile View */}
-        <div className="lg:hidden print:hidden">
+        <div className="lg:hidden">
           <Tabs defaultValue="form" className="w-full">
             <TabsList className="grid w-full grid-cols-2 sticky top-16 z-20 rounded-none">
               <TabsTrigger value="form">Form</TabsTrigger>
@@ -239,12 +231,6 @@ export default function ResumeBuilder() {
           </Tabs>
         </div>
       </main>
-      
-      {/* This is used for generating the PDF */}
-      <div className="hidden print:block w-full h-full bg-white">
-          <ResumePreview resumeData={data} />
-      </div>
-
     </div>
   );
 }
