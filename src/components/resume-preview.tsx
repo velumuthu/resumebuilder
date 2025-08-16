@@ -3,7 +3,6 @@
 
 import type { ResumeData } from '@/lib/types';
 import CreativeTemplate from './templates/creative-template';
-import ModernTemplate from './templates/modern-template';
 import ClassicTemplate from './templates/classic-template';
 import { ScrollArea } from './ui/scroll-area';
 
@@ -16,8 +15,6 @@ const ResumePreview = ({ resumeData }: ResumePreviewProps) => {
         switch (resumeData.template) {
             case 'creative':
                 return <CreativeTemplate resumeData={resumeData} />;
-            case 'modern':
-                return <ModernTemplate resumeData={resumeData} />;
             case 'classic':
                 return <ClassicTemplate resumeData={resumeData} />;
             default:

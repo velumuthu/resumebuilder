@@ -12,7 +12,6 @@ interface TemplateSelectorProps {
 
 const templates = [
   { id: 'creative', name: 'Creative', thumbnailUrl: '/images/template-creative.png' },
-  { id: 'modern', name: 'Modern', thumbnailUrl: '/images/template-modern.png' },
   { id: 'classic', name: 'Classic', thumbnailUrl: '/images/template-classic.png' },
 ] as const;
 
@@ -23,7 +22,7 @@ export default function TemplateSelector({ selectedTemplate, onSelectTemplate }:
         <CardTitle>Select a Template</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {templates.map((template) => (
             <div
               key={template.id}
