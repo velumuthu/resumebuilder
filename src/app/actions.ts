@@ -27,7 +27,7 @@ export async function getAiSuggestions(input: SuggestResumeContentInput) {
 
 export async function createRazorpayOrder() {
   const options = {
-    amount: 500, // Amount in paise (e.g., 500 paise = ₹5.00)
+    amount: 200, // Amount in paise (e.g., 200 paise = ₹2.00)
     currency: 'INR',
     receipt: `receipt_order_${new Date().getTime()}`,
   };

@@ -65,7 +65,7 @@ export default function PaymentDialog({ open, onOpenChange, onPaymentSuccess }: 
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: "500", // Amount in paise
+        amount: "200", // Amount in paise
         currency: "INR",
         name: "ResumAI Pro",
         description: "PDF Resume Download",
@@ -131,7 +131,7 @@ export default function PaymentDialog({ open, onOpenChange, onPaymentSuccess }: 
             </div>
         </div>
         <div className='text-center my-4'>
-            <span className="text-4xl font-bold">₹5</span>
+            <span className="text-4xl font-bold">₹2</span>
             <span className="text-muted-foreground">/ per download</span>
         </div>
         <Button onClick={handlePayment} disabled={isPending} size="lg" className="w-full bg-green-600 hover:bg-green-700">
