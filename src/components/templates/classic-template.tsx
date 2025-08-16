@@ -5,7 +5,7 @@ interface TemplateProps {
 }
 
 export default function ClassicTemplate({ resumeData }: TemplateProps) {
-  const { personalInfo, experience, education, skills, projects, certifications } = resumeData;
+  const { personalInfo, experience, education, skills, projects, certifications, achievements, areasOfInterest } = resumeData;
 
   const formatDate = (dateString: string) => {
     if (!dateString || dateString.toLowerCase() === 'present') return 'Present';
@@ -39,7 +39,7 @@ export default function ClassicTemplate({ resumeData }: TemplateProps) {
         <h1 className="text-4xl font-bold tracking-wider">{personalInfo.name || 'Your Name'}</h1>
         <p className="text-sm mt-2">
           {personalInfo.address} | {personalInfo.phone} | <a href={`mailto:${personalInfo.email}`} className="text-blue-700 hover:underline">{personalInfo.email}</a>
-          {personalInfo.website && <> | <a href={`https://${personalInfo.website}`} className="text-blue-700 hover:underline">Portfolio</a></>}
+          {personalInfo.website && <> | <a href={`https://${personalInfo.website}`} target="_blank" rel="noreferrer noopener" className="text-blue-700 hover:underline">Portfolio</a></>}
         </p>
       </header>
 
@@ -106,6 +106,18 @@ export default function ClassicTemplate({ resumeData }: TemplateProps) {
                  <p key={cert.id} className="text-center">{cert.name} - {cert.issuer} ({formatDate(cert.date)})</p>
             ))}
         </div>
+      </Section>}
+
+      {achievements?.length > 0 && <Section title="Achievements">
+        <ul className="list-disc list-outside ml-5 space-y-1">
+          {achievements.map(ach => (
+            <li key={ach.id}>{ach.description}</li>
+          ))}
+        </ul>
+      </Section>}
+
+      {areasOfInterest?.length > 0 && <Section title="Areas of Interest">
+        <p className="text-center text-gray-700">{areasOfInterest.map(interest => interest.name).join(' • ')}</p>
       </Section>}
     </div>
   );

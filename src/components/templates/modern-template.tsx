@@ -6,7 +6,7 @@ interface TemplateProps {
 }
 
 export default function ModernTemplate({ resumeData }: TemplateProps) {
-  const { personalInfo, experience, education, skills, projects, achievements } = resumeData;
+  const { personalInfo, experience, education, skills, projects, achievements, certifications, areasOfInterest } = resumeData;
 
   const formatDate = (dateString: string, format: 'month-year' | 'year' = 'month-year') => {
     if (!dateString || dateString.toLowerCase() === 'present') return 'Present';
@@ -57,11 +57,20 @@ export default function ModernTemplate({ resumeData }: TemplateProps) {
             ))}
           </section>}
 
-          {skills?.length > 0 && <section>
+          {skills?.length > 0 && <section className="mb-6">
             <h2 className="text-sm font-bold uppercase tracking-wider text-blue-600 mb-3">Skills</h2>
             <div className="flex flex-wrap gap-2">
               {skills.map(skill => (
                 <span key={skill.id} className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full">{skill.name}</span>
+              ))}
+            </div>
+          </section>}
+          
+          {areasOfInterest?.length > 0 && <section>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-blue-600 mb-3">Interests</h2>
+            <div className="flex flex-wrap gap-2">
+              {areasOfInterest.map(item => (
+                <span key={item.id} className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-full">{item.name}</span>
               ))}
             </div>
           </section>}
@@ -103,6 +112,18 @@ export default function ModernTemplate({ resumeData }: TemplateProps) {
                    <ul className="mt-1 list-disc list-outside ml-4 space-y-1">
                     {formatDescription(proj.description)}
                   </ul>
+                </div>
+              ))}
+            </div>
+          </section>}
+          
+          {certifications?.length > 0 && <section className="mb-6">
+            <h2 className="text-lg font-bold text-gray-800 border-b-2 border-gray-200 pb-1 mb-3">Certifications</h2>
+            <div className="space-y-2">
+              {certifications.map(cert => (
+                <div key={cert.id}>
+                  <h3 className="font-semibold text-gray-800">{cert.name}</h3>
+                  <p className="text-sm text-gray-600">{cert.issuer} - {formatDate(cert.date)}</p>
                 </div>
               ))}
             </div>

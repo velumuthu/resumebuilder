@@ -27,7 +27,7 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
   };
 
   const formatDescription = (desc: string) => {
-      return desc.split('\\n').filter(line => line.trim()).map((line, i) => (
+      return desc.split(/\\n|\n/).filter(line => line.trim()).map((line, i) => (
           <li key={i} className="ml-4">{line.replace(/^- /, '')}</li>
       ));
   }
@@ -53,7 +53,8 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
       <header className="text-center pb-2">
         <h1 className="text-xl md:text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
         <div className="flex justify-center items-center flex-wrap gap-x-3 text-xs mt-2 text-gray-600">
-            {personalInfo.phone && <span>{personalInfo.phone}</span>}
+            {personalInfo.address && <span>{personalInfo.address}</span>}
+            {personalInfo.phone && <><span>|</span><span>{personalInfo.phone}</span></>}
             {personalInfo.email && <><span>|</span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></>}
             {personalInfo.website && <><span>|</span><a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Portfolio</a></>}
         </div>
@@ -63,9 +64,33 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
 
       <main className="w-full">
          <section className="mb-2">
-          <SectionTitle title="Objective" />
+          <SectionTitle title="Professional Summary" />
           <p className="text-xs text-gray-700 leading-relaxed">{personalInfo.summary || 'Professional summary...'}</p>
         </section>
+
+        {experience?.length > 0 && <section className="mb-2">
+          <SectionTitle title="Work Experience" />
+          <div className="space-y-2">
+            {experience.map((exp) => (
+              <div key={exp.id} className="text-xs">
+                <div className="flex justify-between items-baseline">
+                   <div>
+                      <h3 className="font-bold text-gray-800">{exp.jobTitle || 'Job Title'}</h3>
+                      <p className="font-semibold text-gray-700">{exp.company || 'Company'}</p>
+                   </div>
+                  <p className="text-gray-600 font-medium text-right whitespace-nowrap">{formatDate(exp.startDate)} - {formatDate(exp.endDate)}</p>
+                </div>
+                 <div className="flex justify-between items-baseline">
+                    <p></p>
+                    <p className="text-gray-600 font-medium text-right whitespace-nowrap">{exp.location || 'Location'}</p>
+                </div>
+                <ul className="mt-1 list-disc text-gray-700 space-y-1">
+                  {formatDescription(exp.description)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>}
 
         {education?.length > 0 && <section className="mb-2">
           <SectionTitle title="Education" />
@@ -93,44 +118,9 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
                 ))}
             </div>
           </section>}
-
-        {certifications?.length > 0 && <section className="mb-2">
-            <SectionTitle title="Certifications" />
-             <ul className="list-disc text-xs text-gray-700 space-y-1">
-                {certifications.map((cert) => (
-                    <li key={cert.id} className="ml-4">
-                        <span className="font-semibold">{cert.name}</span>, <span className="text-gray-600">{cert.issuer} ({formatDate(cert.date)})</span>
-                    </li>
-                ))}
-            </ul>
-        </section>}
-          
-        {experience?.length > 0 && <section className="mb-2">
-          <SectionTitle title="Internships" />
-          <div className="space-y-2">
-            {experience.map((exp) => (
-              <div key={exp.id} className="text-xs">
-                <div className="flex justify-between items-baseline">
-                   <div>
-                      <h3 className="font-bold text-gray-800">{exp.jobTitle || 'Job Title'}</h3>
-                      <p className="font-semibold text-gray-700">{exp.company || 'Company'}</p>
-                   </div>
-                  <p className="text-gray-600 font-medium text-right whitespace-nowrap">{formatDate(exp.startDate)} - {formatDate(exp.endDate)}</p>
-                </div>
-                 <div className="flex justify-between items-baseline">
-                    <p></p>
-                    <p className="text-gray-600 font-medium text-right whitespace-nowrap">{exp.location || 'Location'}</p>
-                </div>
-                <ul className="mt-1 list-disc text-gray-700 space-y-1">
-                  {formatDescription(exp.description)}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>}
         
         {projects?.length > 0 && <section className="mb-2">
-          <SectionTitle title="Academic Projects" />
+          <SectionTitle title="Projects" />
            <div className="space-y-2">
                 {projects.map((proj) => (
                     <div key={proj.id} className="text-xs">
@@ -144,14 +134,34 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
                 ))}
             </div>
         </section>}
+
+        {certifications?.length > 0 && <section className="mb-2">
+            <SectionTitle title="Certifications" />
+             <ul className="list-disc text-xs text-gray-700 space-y-1">
+                {certifications.map((cert) => (
+                    <li key={cert.id} className="ml-4">
+                        <span className="font-semibold">{cert.name}</span>, <span className="text-gray-600">{cert.issuer} ({formatDate(cert.date)})</span>
+                    </li>
+                ))}
+            </ul>
+        </section>}
         
         {achievements?.length > 0 && <section className="mb-2">
-          <SectionTitle title="Extracurricular Activities" />
+          <SectionTitle title="Achievements" />
           <ul className="list-disc text-xs text-gray-700 space-y-1">
             {achievements.map((ach) => (
               <li key={ach.id} className="ml-4">{ach.description}</li>
             ))}
           </ul>
+        </section>}
+
+        {areasOfInterest?.length > 0 && <section className="mb-2">
+            <SectionTitle title="Areas of Interest" />
+            <ul className="list-disc text-xs text-gray-700 space-y-1">
+                {areasOfInterest.map((interest) => (
+                    <li key={interest.id} className="ml-4">{interest.name}</li>
+                ))}
+            </ul>
         </section>}
 
       </main>
