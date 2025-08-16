@@ -64,5 +64,5 @@ export interface ResumeData {
   projects: Project[];
   achievements: Achievement[];
   areasOfInterest: AreaOfInterest[];
-  template: 'creative' | 'classic';
+  template: 'creative' | 'classic' | 'professional' | 'technical' | 'minimalist' | 'academic' | 'corporate' | 'elegant' | 'bold';
 }

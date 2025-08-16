@@ -11,8 +11,15 @@ interface TemplateSelectorProps {
 }
 
 const templates = [
-  { id: 'creative', name: 'Creative', thumbnailUrl: '/images/template-creative.png' },
-  { id: 'classic', name: 'Classic', thumbnailUrl: '/images/template-classic.png' },
+  { id: 'creative', name: 'Creative' },
+  { id: 'classic', name: 'Classic' },
+  { id: 'professional', name: 'Professional' },
+  { id: 'technical', name: 'Technical' },
+  { id: 'minimalist', name: 'Minimalist' },
+  { id: 'academic', name: 'Academic' },
+  { id: 'corporate', name: 'Corporate' },
+  { id: 'elegant', name: 'Elegant' },
+  { id: 'bold', name: 'Bold' },
 ] as const;
 
 export default function TemplateSelector({ selectedTemplate, onSelectTemplate }: TemplateSelectorProps) {
@@ -22,7 +29,7 @@ export default function TemplateSelector({ selectedTemplate, onSelectTemplate }:
         <CardTitle>Select a Template</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {templates.map((template) => (
             <div
               key={template.id}

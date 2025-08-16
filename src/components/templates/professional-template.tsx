@@ -1,160 +1,127 @@
 import type { ResumeData } from '@/lib/types';
-import { Mail, Phone, Globe, Linkedin, Github } from 'lucide-react';
+import { Mail, Phone, Globe, MapPin } from 'lucide-react';
 
 interface TemplateProps {
   resumeData: ResumeData;
 }
 
-export default function CreativeTemplate({ resumeData }: TemplateProps) {
-  const { personalInfo, experience, education, skills, certifications, projects, achievements, areasOfInterest } = resumeData;
-
-  const SectionTitle = ({ title }: { title: string }) => (
-    <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 border-b-2 border-blue-200 pb-1 mb-2 mt-3">
-      {title}
-    </h2>
-  );
+export default function ProfessionalTemplate({ resumeData }: TemplateProps) {
+  const { personalInfo, experience, education, skills, projects, certifications, achievements, areasOfInterest } = resumeData;
 
   const formatDate = (dateString: string) => {
-      if (!dateString) return 'Present';
-      try {
-        const date = new Date(dateString);
-        // Adjust for timezone offset
-        const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-        return adjustedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-      } catch {
-        return dateString;
-      }
+    if (!dateString || dateString.toLowerCase() === 'present') return 'Present';
+    try {
+      const date = new Date(dateString);
+      const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+      return adjustedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    } catch {
+      return dateString;
+    }
   };
 
   const formatDescription = (desc: string) => {
-      return desc.split('\\n').filter(line => line.trim()).map((line, i) => (
-          <li key={i} className="ml-4">{line.replace(/^- /, '')}</li>
-      ));
-  }
-
-  const groupedSkills = skills.reduce((acc, skill) => {
-    const [category, ...skillNames] = skill.name.split(':');
-    const skillName = skillNames.join(':').trim();
-    if (!skillName) {
-        // If no category, put in a default "Others" category
-        if (!acc['Others']) acc['Others'] = [];
-        acc['Others'].push(category.trim());
-        return acc;
-    }
-    if (!acc[category.trim()]) {
-      acc[category.trim()] = [];
-    }
-    acc[category.trim()].push(skillName);
-    return acc;
-  }, {} as Record<string, string[]>);
+    return desc.split(/\\n|\n/).filter(line => line.trim()).map((line, i) => (
+      <li key={i} className="text-gray-700 leading-relaxed">{line.replace(/^- /, '')}</li>
+    ));
+  };
+  
+  const Section = ({ title, children }: { title: string, children: React.ReactNode }) => (
+    <section className="mb-5">
+      <h2 className="text-sm font-bold uppercase tracking-wider text-gray-800 border-b-2 border-gray-300 pb-1 mb-3">
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
 
   return (
-    <div className="bg-white text-gray-800 font-sans text-[8pt] md:text-[10pt] leading-normal w-full max-w-4xl mx-auto p-4 md:p-6 print:p-0 tracking-wide">
-      <header className="text-center pb-2">
-        <h1 className="text-xl md:text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
-        <div className="flex justify-center items-center flex-wrap gap-x-3 text-xs mt-2 text-gray-600">
-            {personalInfo.phone && <span>{personalInfo.phone}</span>}
-            {personalInfo.email && <><span>|</span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></>}
-            {personalInfo.website && <><span>|</span><a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Portfolio</a></>}
+    <div className="bg-white text-gray-800 font-['Times_New_Roman',_serif] text-[11pt] w-full max-w-4xl mx-auto p-8 md:p-10 print:p-0">
+      <header className="text-center mb-6">
+        <h1 className="text-3xl font-bold tracking-wider">{personalInfo.name || 'Your Name'}</h1>
+        <div className="flex justify-center items-center flex-wrap gap-x-4 text-sm text-gray-600 mt-2">
+            {personalInfo.address && <div className="flex items-center gap-1.5"><MapPin size={12} /> {personalInfo.address}</div>}
+            {personalInfo.phone && <div className="flex items-center gap-1.5"><Phone size={12} /> {personalInfo.phone}</div>}
+            {personalInfo.email && <div className="flex items-center gap-1.5"><Mail size={12} /> <a href={`mailto:${personalInfo.email}`} className="text-blue-700 hover:underline">{personalInfo.email}</a></div>}
+            {personalInfo.website && <div className="flex items-center gap-1.5"><Globe size={12} /> <a href={`https://${personalInfo.website}`} target="_blank" rel="noreferrer noopener" className="text-blue-700 hover:underline">{personalInfo.website}</a></div>}
         </div>
       </header>
-      
-      <div className="border-t border-gray-300 my-2"></div>
 
-      <main className="w-full">
-         <section className="mb-2">
-          <SectionTitle title="Objective" />
-          <p className="text-xs text-gray-700 leading-relaxed">{personalInfo.summary || 'Professional summary...'}</p>
-        </section>
+      {personalInfo.summary && <p className="text-center text-base mb-6 leading-relaxed">{personalInfo.summary}</p>}
 
-        {education?.length > 0 && <section className="mb-2">
-          <SectionTitle title="Education" />
-          {education.map((edu) => (
-            <div key={edu.id} className="text-xs mb-2">
-                <div className="flex justify-between">
-                    <h3 className="font-bold text-gray-800">{edu.school || 'School/University'}, <span className="font-normal">{edu.location || 'Location'}</span></h3>
-                    <p className="text-gray-600 font-medium">{formatDate(edu.startDate)} - {formatDate(edu.endDate)}</p>
-                </div>
-                <div className="flex justify-between">
-                    <p className="text-gray-700">{edu.degree || 'Degree'}</p>
-                </div>
+      {experience?.length > 0 && <Section title="Professional Experience">
+        <div className="space-y-4">
+          {experience.map(exp => (
+            <div key={exp.id}>
+              <div className="flex justify-between items-baseline mb-1">
+                <h3 className="text-lg font-semibold">{exp.jobTitle}</h3>
+                <p className="text-sm font-medium">{formatDate(exp.startDate)} - {formatDate(exp.endDate)}</p>
+              </div>
+              <div className="flex justify-between items-baseline mb-1">
+                <p className="font-medium text-gray-700">{exp.company}</p>
+                <p className="text-sm italic text-gray-600">{exp.location}</p>
+              </div>
+              <ul className="list-disc list-outside ml-5 space-y-1">
+                {formatDescription(exp.description)}
+              </ul>
             </div>
           ))}
-        </section>}
-
-         {skills?.length > 0 && <section className="mb-2">
-            <SectionTitle title="Skills" />
-            <div className="text-xs">
-                {Object.entries(groupedSkills).map(([category, skillList]) => (
-                    <div key={category} className="flex items-start mt-1">
-                        <span className="font-semibold w-24 md:w-36">{category}:</span>
-                        <span>{skillList.join(', ')}</span>
-                    </div>
-                ))}
-            </div>
-          </section>}
-
-        {certifications?.length > 0 && <section className="mb-2">
-            <SectionTitle title="Certifications" />
-             <ul className="list-disc text-xs text-gray-700 space-y-1">
-                {certifications.map((cert) => (
-                    <li key={cert.id} className="ml-4">
-                        <span className="font-semibold">{cert.name}</span>, <span className="text-gray-600">{cert.issuer} ({formatDate(cert.date)})</span>
-                    </li>
-                ))}
-            </ul>
-        </section>}
-          
-        {experience?.length > 0 && <section className="mb-2">
-          <SectionTitle title="Internships" />
-          <div className="space-y-2">
-            {experience.map((exp) => (
-              <div key={exp.id} className="text-xs">
-                <div className="flex justify-between items-baseline">
-                   <div>
-                      <h3 className="font-bold text-gray-800">{exp.jobTitle || 'Job Title'}</h3>
-                      <p className="font-semibold text-gray-700">{exp.company || 'Company'}</p>
-                   </div>
-                  <p className="text-gray-600 font-medium text-right whitespace-nowrap">{formatDate(exp.startDate)} - {formatDate(exp.endDate)}</p>
-                </div>
-                 <div className="flex justify-between items-baseline">
-                    <p></p>
-                    <p className="text-gray-600 font-medium text-right whitespace-nowrap">{exp.location || 'Location'}</p>
-                </div>
-                <ul className="mt-1 list-disc text-gray-700 space-y-1">
-                  {formatDescription(exp.description)}
-                </ul>
+        </div>
+      </Section>}
+      
+      {education?.length > 0 && <Section title="Education">
+        <div className="space-y-3">
+          {education.map(edu => (
+            <div key={edu.id}>
+              <div className="flex justify-between items-baseline">
+                <h3 className="text-lg font-semibold">{edu.school}</h3>
+                 <p className="text-sm font-medium">{formatDate(edu.startDate)} - {formatDate(edu.endDate)}</p>
               </div>
-            ))}
-          </div>
-        </section>}
-        
-        {projects?.length > 0 && <section className="mb-2">
-          <SectionTitle title="Academic Projects" />
-           <div className="space-y-2">
-                {projects.map((proj) => (
-                    <div key={proj.id} className="text-xs">
-                        <p className="font-semibold">{proj.name}
-                          {proj.url && <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2">[Link]</a>}
-                        </p>
-                        <ul className="list-disc text-gray-700 space-y-1">
-                          {formatDescription(proj.description)}
-                        </ul>
-                    </div>
-                ))}
+              <p className="font-medium text-gray-700">{edu.degree}</p>
             </div>
-        </section>}
-        
-        {achievements?.length > 0 && <section className="mb-2">
-          <SectionTitle title="Extracurricular Activities" />
-          <ul className="list-disc text-xs text-gray-700 space-y-1">
-            {achievements.map((ach) => (
-              <li key={ach.id} className="ml-4">{ach.description}</li>
-            ))}
-          </ul>
-        </section>}
+          ))}
+        </div>
+      </Section>}
 
-      </main>
+      {skills?.length > 0 && <Section title="Skills">
+         <div className="columns-2 md:columns-3">
+            {skills.map(s => <p key={s.id} className="text-gray-700">{s.name}</p>)}
+        </div>
+      </Section>}
+
+      {projects?.length > 0 && <Section title="Projects">
+        <div className="space-y-4">
+          {projects.map(proj => (
+            <div key={proj.id}>
+              <h3 className="font-semibold text-lg">{proj.name}
+                {proj.url && <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline ml-2 text-sm">[Link]</a>}
+              </h3>
+              <ul className="list-disc list-outside ml-5 space-y-1">
+                {formatDescription(proj.description)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Section>}
+
+      {certifications?.length > 0 && <Section title="Certifications">
+        <ul className="list-disc list-outside ml-5 space-y-1">
+            {certifications.map(cert => (
+                 <li key={cert.id}>{cert.name} - {cert.issuer} ({formatDate(cert.date)})</li>
+            ))}
+        </ul>
+      </Section>}
+
+      {achievements?.length > 0 && <Section title="Achievements">
+        <ul className="list-disc list-outside ml-5 space-y-1">
+          {achievements.map(ach => (
+            <li key={ach.id}>{ach.description}</li>
+          ))}
+        </ul>
+      </Section>}
+
+      {areasOfInterest?.length > 0 && <Section title="Areas of Interest">
+        <p className="text-gray-700">{areasOfInterest.map(interest => interest.name).join(' | ')}</p>
+      </Section>}
     </div>
   );
 }
