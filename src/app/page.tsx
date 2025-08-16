@@ -1,5 +1,4 @@
 
-import AdSpace from '@/components/ad-space';
 import SiteHeader from '@/components/site-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,10 +35,6 @@ export default function HomePage() {
           </Button>
         </div>
 
-        <section className="my-12">
-          <AdSpace adKey="home-ad"/>
-        </section>
-        
         <section className="mt-24 text-left">
             <h2 className="text-3xl font-bold text-center mb-12">All The Tools You Need</h2>
             <div className="max-w-4xl mx-auto bg-background p-8 rounded-lg shadow-lg">
