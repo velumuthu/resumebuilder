@@ -57,3 +57,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .resume-preview-container {
+    box-shadow: none;
+    border: none;
+  }
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}

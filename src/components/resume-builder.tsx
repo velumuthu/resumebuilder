@@ -5,7 +5,7 @@ import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { FileText, Loader2, Sparkles, Trash2, Home, Download } from 'lucide-react';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
 import Link from 'next/link';
@@ -21,8 +21,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -83,7 +81,6 @@ export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData>(initialData);
   const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     setIsClient(true);
@@ -150,54 +147,10 @@ export default function ResumeBuilder() {
     });
   };
   
-  const handleDownloadPdf = () => {
-    startTransition(async () => {
-      const resumeElement = document.getElementById('resume-preview-content');
-      if (!resumeElement) {
-        toast({ title: 'Error', description: 'Could not find resume content to download.', variant: 'destructive' });
-        return;
-      }
-
-      const canvas = await html2canvas(resumeElement, {
-        scale: 2,
-        useCORS: true,
-      });
-
-      const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'pt',
-        format: 'a4',
-      });
-      
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      
-      if (!canvasWidth || !canvasHeight) {
-          toast({ title: 'Error', description: 'Failed to capture resume dimensions. Please try again.', variant: 'destructive' });
-          return;
-      }
-
-      const ratio = canvasWidth / canvasHeight;
-      const widthInPdf = pdfWidth;
-      const heightInPdf = widthInPdf / ratio;
-      
-      if (heightInPdf > pdfHeight) {
-          console.warn("Resume is too long for a single PDF page. Cropping may occur.");
-      }
-
-      if (widthInPdf <= 0 || heightInPdf <= 0) {
-        toast({ title: 'Error', description: 'Invalid resume dimensions for PDF generation.', variant: 'destructive' });
-        return;
-      }
-
-      pdf.addImage(imgData, 'JPEG', 0, 0, widthInPdf, heightInPdf);
-      pdf.save(`${data.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
-    });
+  const handlePrint = () => {
+    window.print();
   };
+
 
   if (!isClient) {
     return (
@@ -215,20 +168,16 @@ export default function ResumeBuilder() {
 
   return (
     <>
-    <div className="flex flex-col min-h-screen bg-secondary/40">
-      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm">
+    <div className="flex flex-col min-h-screen bg-secondary/40 print:bg-white">
+      <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm print:hidden">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
               <Home className="h-5 w-5" />
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
-             <Button onClick={handleDownloadPdf} disabled={isPending}>
-              {isPending ? (
-                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Download className="mr-2 h-4 w-4" />
-              )}
+             <Button onClick={handlePrint}>
+              <Download className="mr-2 h-4 w-4" />
               Download PDF
             </Button>
             <AlertDialog>
@@ -256,9 +205,9 @@ export default function ResumeBuilder() {
         </div>
       </header>
       
-      <main className="flex-1 w-full">
+      <main className="flex-1 w-full print:p-0">
         {/* Desktop View */}
-        <div className="hidden lg:grid grid-cols-2 h-[calc(100vh-4rem)]">
+        <div className="hidden lg:grid grid-cols-2 h-[calc(100vh-4rem)] print:hidden">
            <div className="overflow-y-auto">
              <div className="p-8">
               <ResumeForm resumeData={data} setResumeData={setData} />
@@ -267,7 +216,7 @@ export default function ResumeBuilder() {
           <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2">
              <div className="p-4 md:p-8 h-full flex flex-col gap-4">
                 <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center">Resume Preview</h2>
-                <div id="resume-preview-container" className='p-4 md:p-8 h-full'>
+                <div id="resume-preview-container-desktop" className='p-4 md:p-8 h-full'>
                   <ResumePreview resumeData={data} />
                 </div>
             </div>
@@ -275,7 +224,7 @@ export default function ResumeBuilder() {
         </div>
         
         {/* Mobile View */}
-        <div className="lg:hidden">
+        <div className="lg:hidden print:hidden">
           <Tabs defaultValue="form" className="w-full">
             <TabsList className="grid w-full grid-cols-2 sticky top-16 z-20 rounded-none">
               <TabsTrigger value="form">Form</TabsTrigger>
@@ -292,6 +241,10 @@ export default function ResumeBuilder() {
               </div>
             </TabsContent>
           </Tabs>
+        </div>
+        {/* Print View */}
+        <div className="hidden print:block">
+            <ResumePreview resumeData={data} />
         </div>
       </main>
     </div>
