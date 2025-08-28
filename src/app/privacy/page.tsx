@@ -1,6 +1,16 @@
+
+'use client';
+
 import SiteHeader from "@/components/site-header";
+import { useEffect, useState } from "react";
 
 export default function PrivacyPolicy() {
+  const [lastUpdated, setLastUpdated] = useState('');
+
+  useEffect(() => {
+    setLastUpdated(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+  }, []);
+
   return (
     <div className="min-h-screen bg-secondary/40">
        <SiteHeader />
@@ -8,7 +18,7 @@ export default function PrivacyPolicy() {
         <div className="prose prose-invert max-w-4xl mx-auto bg-background p-8 rounded-lg shadow-lg">
             <h1>Privacy Policy for ResumAI</h1>
             
-            <p><strong>Last updated:</strong> {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p><strong>Last updated:</strong> {lastUpdated}</p>
 
             <p>Welcome to ResumAI ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and store your information when you use our AI-powered resume builder application (the "Service").</p>
 
