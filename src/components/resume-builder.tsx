@@ -90,45 +90,40 @@ export default function ResumeBuilder() {
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    try {
+      const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+      if (consent !== 'granted') {
+          setData(initialData);
+          return;
+      };
 
-  useEffect(() => {
-    if (isClient) {
-      try {
-        const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-        if (consent !== 'granted') {
-            setData(initialData);
-            return;
-        };
-
-        const item = localStorage.getItem(STORAGE_KEY);
-        if (item) {
-          const savedData = JSON.parse(item);
-          setData({
-            ...initialData,
-            ...savedData,
-            personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
-            experience: savedData.experience || initialData.experience,
-            education: savedData.education || initialData.education,
-            skills: savedData.skills || initialData.skills,
-            certifications: savedData.certifications || initialData.certifications,
-            projects: savedData.projects || initialData.projects,
-            achievements: savedData.achievements || initialData.achievements,
-            areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
-            template: savedData.template || initialData.template,
-          });
-        } else {
-            setData(initialData);
-        }
-      } catch (error) {
-        console.error('Failed to load data from localStorage', error);
-        toast({
-          title: 'Error',
-          description: 'Could not load saved data.',
-          variant: 'destructive',
+      const item = localStorage.getItem(STORAGE_KEY);
+      if (item) {
+        const savedData = JSON.parse(item);
+        setData({
+          ...initialData,
+          ...savedData,
+          personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
+          experience: savedData.experience || initialData.experience,
+          education: savedData.education || initialData.education,
+          skills: savedData.skills || initialData.skills,
+          certifications: savedData.certifications || initialData.certifications,
+          projects: savedData.projects || initialData.projects,
+          achievements: savedData.achievements || initialData.achievements,
+          areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
+          template: savedData.template || initialData.template,
         });
-        setData(initialData);
+      } else {
+          setData(initialData);
       }
+    } catch (error) {
+      console.error('Failed to load data from localStorage', error);
+      toast({
+        title: 'Error',
+        description: 'Could not load saved data.',
+        variant: 'destructive',
+      });
+      setData(initialData);
     }
   }, [isClient, toast]);
   
@@ -296,11 +291,14 @@ export default function ResumeBuilder() {
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-zinc-800/90 h-full overflow-y-auto">
-             <div className="p-8 h-full flex flex-col gap-4">
-                <h2 className="text-2xl font-bold text-primary-foreground sticky top-0 backdrop-blur-sm z-10 text-center bg-zinc-800/90 py-2">Resume Preview</h2>
+          <div className="bg-zinc-800/90 h-full overflow-y-auto p-8">
+              <div className="flex flex-col gap-4 h-full">
+                <div className='text-primary-foreground'>
+                  <h2 className="text-2xl font-bold">Preview</h2>
+                  <p className="text-sm text-muted-foreground">Your generated resume will appear here.</p>
+                </div>
                 <div id="resume-preview-container-desktop" className='flex-grow flex items-start justify-center pt-4'>
-                  <div className="w-full max-w-[8.5in] bg-background shadow-2xl">
+                  <div className="w-full max-w-[8.5in] bg-background shadow-2xl rounded-sm overflow-hidden">
                      <ResumePreview resumeData={data} />
                   </div>
                 </div>
@@ -342,3 +340,5 @@ export default function ResumeBuilder() {
     </>
   );
 }
+
+    
