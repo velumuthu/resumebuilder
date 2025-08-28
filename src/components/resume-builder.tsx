@@ -163,6 +163,7 @@ export default function ResumeBuilder() {
   
   const handleDownload = () => {
     setIsDownloading(true);
+    // The resume preview is in the 'resume-preview-content' div
     const resumeElement = document.getElementById('resume-preview-content');
     if (!resumeElement) {
         toast({
@@ -174,36 +175,32 @@ export default function ResumeBuilder() {
         return;
     }
 
+    // Use html2canvas to draw the resume element onto a canvas
     html2canvas(resumeElement, {
-        scale: 2, // Higher scale for better quality
+        scale: 3, // Higher scale for better quality
         useCORS: true, 
         logging: false,
+        backgroundColor: '#ffffff'
     }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
+        // A4 page dimensions in pixels at 96 DPI: 794x1123
+        const a4Ratio = 11 / 8.5;
+
+        // Create a new jsPDF instance
         const pdf = new jsPDF({
             orientation: 'portrait',
-            unit: 'in',
-            format: 'letter'
+            unit: 'px', // use pixels for units
+            format: 'a4' // A4 paper size
         });
-
+        
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const ratio = canvasHeight / canvasWidth;
+        const imgData = canvas.toDataURL('image/png');
 
-        let finalWidth = pdfWidth;
-        let finalHeight = finalWidth * ratio;
+        // Add the image to the PDF, letting jspdf handle the scaling
+        // to fit the page while maintaining aspect ratio.
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
-        if (finalHeight > pdfHeight) {
-            finalHeight = pdfHeight;
-            finalWidth = finalHeight / ratio;
-        }
-
-        const x = (pdfWidth - finalWidth) / 2;
-        const y = 0;
-
-        pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+        // Save the PDF
         pdf.save(`${data?.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
     }).catch(err => {
         console.error('Error generating PDF:', err);
