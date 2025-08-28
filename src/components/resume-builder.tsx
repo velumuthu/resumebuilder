@@ -90,6 +90,7 @@ export default function ResumeBuilder() {
 
   useEffect(() => {
     setIsClient(true);
+    let savedData;
     try {
       const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
       if (consent !== 'granted') {
@@ -99,22 +100,7 @@ export default function ResumeBuilder() {
 
       const item = localStorage.getItem(STORAGE_KEY);
       if (item) {
-        const savedData = JSON.parse(item);
-        setData({
-          ...initialData,
-          ...savedData,
-          personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
-          experience: savedData.experience && savedData.experience.length > 0 ? savedData.experience : initialData.experience,
-          education: savedData.education && savedData.education.length > 0 ? savedData.education : initialData.education,
-          skills: savedData.skills && savedData.skills.length > 0 ? savedData.skills : initialData.skills,
-          certifications: savedData.certifications || initialData.certifications,
-          projects: savedData.projects && savedData.projects.length > 0 ? savedData.projects : initialData.projects,
-          achievements: savedData.achievements || initialData.achievements,
-          areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
-          template: savedData.template || initialData.template,
-        });
-      } else {
-          setData(initialData);
+        savedData = JSON.parse(item);
       }
     } catch (error) {
       console.error('Failed to load data from localStorage', error);
@@ -123,7 +109,24 @@ export default function ResumeBuilder() {
         description: 'Could not load saved data.',
         variant: 'destructive',
       });
-      setData(initialData);
+    }
+
+    if (savedData) {
+      setData({
+        ...initialData,
+        ...savedData,
+        personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
+        experience: savedData.experience && savedData.experience.length > 0 ? savedData.experience : initialData.experience,
+        education: savedData.education && savedData.education.length > 0 ? savedData.education : initialData.education,
+        skills: savedData.skills && savedData.skills.length > 0 ? savedData.skills : initialData.skills,
+        certifications: savedData.certifications || initialData.certifications,
+        projects: savedData.projects && savedData.projects.length > 0 ? savedData.projects : initialData.projects,
+        achievements: savedData.achievements || initialData.achievements,
+        areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
+        template: savedData.template || initialData.template,
+      });
+    } else {
+        setData(initialData);
     }
   }, [toast]);
   
@@ -319,5 +322,3 @@ const handleDirectDownload = async () => {
     </>
   );
 }
-
-    
