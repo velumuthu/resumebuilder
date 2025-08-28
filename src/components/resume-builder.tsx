@@ -4,7 +4,7 @@
 import type { ResumeData } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { FileText, Loader2, Sparkles, Trash2, Home, Download } from 'lucide-react';
+import { FileText, Loader2, Sparkles, Trash2, Home, Printer } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ResumeForm from './resume-form';
 import ResumePreview from './resume-preview';
@@ -22,8 +22,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import TemplateSelector from './template-selector';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 
 const initialData: ResumeData = {
@@ -86,7 +84,6 @@ const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData | null>(null);
   const [isClient, setIsClient] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -161,57 +158,8 @@ export default function ResumeBuilder() {
     });
   };
   
- const handleDownload = async () => {
-    setIsDownloading(true);
-    const resumeElement = document.getElementById('resume-preview-content');
-
-    if (!resumeElement) {
-      toast({
-        title: 'Error',
-        description: 'Could not find resume content to download.',
-        variant: 'destructive'
-      });
-      setIsDownloading(false);
-      return;
-    }
-
-    try {
-      const canvas = await html2canvas(resumeElement, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff'
-      });
-      
-      const imgData = canvas.toDataURL('image/png');
-
-      // Create a new PDF in A4 standard size
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      // Add the image to the PDF, letting jspdf handle the scaling
-      // to fit the page while maintaining aspect ratio.
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-      // Save the PDF
-      pdf.save(`${data?.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
-
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      toast({
-        title: 'Download Failed',
-        description: 'An error occurred while generating the PDF. Please try again.',
-        variant: 'destructive'
-      });
-    } finally {
-      setIsDownloading(false);
-    }
+ const handlePrint = () => {
+    window.print();
 };
 
 
@@ -239,18 +187,9 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
-             <Button onClick={handleDownload} disabled={isDownloading}>
-                {isDownloading ? (
-                    <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Generating...
-                    </>
-                ) : (
-                    <>
-                        <Download className="mr-2 h-4 w-4" />
-                        Download PDF
-                    </>
-                )}
+             <Button onClick={handlePrint}>
+                <Printer className="mr-2 h-4 w-4" />
+                Print / Save PDF
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -338,3 +277,5 @@ export default function ResumeBuilder() {
     </>
   );
 }
+
+    
