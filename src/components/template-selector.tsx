@@ -11,7 +11,7 @@ interface TemplateSelectorProps {
 }
 
 const templates = [
-  { id: 'creative', name: 'Creative', imageUrl: 'https://i.imghippo.com/files/VVp1196wpo.png', aiHint: 'creative resume' },
+  { id: 'creative', name: 'Creative', imageUrl: 'https://i.imghippo.com/files/oL9251wag.png', aiHint: 'creative resume' },
   { id: 'classic', name: 'Classic', imageUrl: 'https://placehold.co/300x400.png?text=Classic', aiHint: 'classic resume' },
   { id: 'professional', name: 'Professional', imageUrl: 'https://placehold.co/300x400.png?text=Professional', aiHint: 'professional resume' },
   { id: 'technical', name: 'Technical', imageUrl: 'https://placehold.co/300x400.png?text=Technical', aiHint: 'technical resume' },
@@ -20,6 +20,7 @@ const templates = [
   { id: 'corporate', name: 'Corporate', imageUrl: 'https://placehold.co/300x400.png?text=Corporate', aiHint: 'corporate resume' },
   { id: 'elegant', name: 'Elegant', imageUrl: 'https://placehold.co/300x400.png?text=Elegant', aiHint: 'elegant resume' },
   { id: 'bold', name: 'Bold', imageUrl: 'https://placehold.co/300x400.png?text=Bold', aiHint: 'bold resume' },
+  { id: 'modern', name: 'Modern', imageUrl: 'https://placehold.co/300x400.png?text=Modern', aiHint: 'modern resume' },
 ] as const;
 
 export default function TemplateSelector({ selectedTemplate, onSelectTemplate }: TemplateSelectorProps) {
@@ -40,7 +41,7 @@ export default function TemplateSelector({ selectedTemplate, onSelectTemplate }:
               )}
             >
               <div className="aspect-[3/4] overflow-hidden rounded-md relative">
-                 <Image src={template.imageUrl} alt={`${template.name} template thumbnail`} layout="fill" className="object-cover" data-ai-hint={template.aiHint} />
+                 <Image src={template.imageUrl} alt={`${template.name} template thumbnail`} fill className="object-cover" data-ai-hint={template.aiHint} />
               </div>
               <p className="text-center text-sm font-medium mt-2">{template.name}</p>
             </div>
