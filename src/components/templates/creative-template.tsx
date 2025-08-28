@@ -62,7 +62,7 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
         </div>
         <div className="flex-shrink-0">
              <Image 
-                src="https://www.imghippo.com/i/VVp1196wpo.png" 
+                src="https://i.imghippo.com/files/VVp1196wpo.png" 
                 alt={personalInfo.name} 
                 width={80} 
                 height={80} 
