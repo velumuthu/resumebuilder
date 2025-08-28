@@ -66,21 +66,15 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  
-  .print-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 2cm;
+
+  /* Hide everything except the print container */
+  body > div:not(.print-container) {
+    display: none;
   }
   
-  .print-container > div {
-    transform-origin: top center;
+  .print-container {
+    padding: 0;
+    margin: 0;
   }
 
   @page {
