@@ -161,76 +161,57 @@ export default function ResumeBuilder() {
     });
   };
   
- const handleDownload = () => {
+ const handleDownload = async () => {
     setIsDownloading(true);
     const resumeElement = document.getElementById('resume-preview-content');
 
     if (!resumeElement) {
-        toast({
-            title: 'Error',
-            description: 'Could not find resume content to download.',
-            variant: 'destructive'
-        });
-        setIsDownloading(false);
-        return;
+      toast({
+        title: 'Error',
+        description: 'Could not find resume content to download.',
+        variant: 'destructive'
+      });
+      setIsDownloading(false);
+      return;
     }
 
-    html2canvas(resumeElement, {
-        scale: 2, 
+    try {
+      const canvas = await html2canvas(resumeElement, {
+        scale: 2,
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff'
-    }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        
-        const pdf = new jsPDF({
-            orientation: 'portrait',
-            unit: 'mm',
-            format: 'a4'
-        });
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
 
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const canvasAspectRatio = canvasWidth / canvasHeight;
-        
-        const pdfAspectRatio = pdfWidth / pdfHeight;
+      // Create a new PDF in A4 standard size
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
 
-        let imgWidth = pdfWidth;
-        let imgHeight = pdfHeight;
-        
-        if (canvasAspectRatio > pdfAspectRatio) {
-            imgHeight = imgWidth / canvasAspectRatio;
-        } else {
-            imgWidth = imgHeight * canvasAspectRatio;
-        }
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      // Add the image to the PDF, letting jspdf handle the scaling
+      // to fit the page while maintaining aspect ratio.
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
-        const x = (pdfWidth - imgWidth) / 2;
-        const y = (pdfHeight - imgHeight) / 2;
+      // Save the PDF
+      pdf.save(`${data?.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
 
-        try {
-          pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
-          pdf.save(`${data?.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
-        } catch (error) {
-           console.error('Error adding image to PDF:', error);
-           toast({
-                title: 'Download Failed',
-                description: 'An error occurred while generating the PDF image.',
-                variant: 'destructive'
-            });
-        }
-    }).catch(err => {
-        console.error('Error generating canvas:', err);
-        toast({
-            title: 'Download Failed',
-            description: 'An error occurred while generating the resume canvas.',
-            variant: 'destructive'
-        });
-    }).finally(() => {
-        setIsDownloading(false);
-    });
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast({
+        title: 'Download Failed',
+        description: 'An error occurred while generating the PDF. Please try again.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsDownloading(false);
+    }
 };
 
 
