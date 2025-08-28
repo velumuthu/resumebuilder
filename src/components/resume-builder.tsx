@@ -220,10 +220,10 @@ export default function ResumeBuilder() {
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-secondary h-[calc(100vh-4rem)] fixed right-0 top-16 w-1/2">
+          <div className="bg-secondary h-full overflow-hidden">
              <div className="p-4 md:p-8 h-full flex flex-col gap-4">
                 <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center">Resume Preview</h2>
-                <div id="resume-preview-container-desktop" className='p-4 md:p-8 h-full'>
+                <div id="resume-preview-container-desktop" className='h-full'>
                   <ResumePreview resumeData={data} />
                 </div>
             </div>
