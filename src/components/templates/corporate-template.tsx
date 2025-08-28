@@ -12,8 +12,7 @@ export default function CorporateTemplate({ resumeData }: TemplateProps) {
     if (!dateString || dateString.toLowerCase() === 'present') return 'PRESENT';
     try {
       const date = new Date(dateString);
-      const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-      return adjustedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase();
+      return new Date(date.getTime() + date.getTimezoneOffset() * 60000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase();
     } catch {
       return dateString;
     }

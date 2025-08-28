@@ -15,12 +15,10 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
   );
 
   const formatDate = (dateString: string) => {
-      if (!dateString) return 'Present';
+      if (!dateString || dateString.toLowerCase() === 'present') return 'Present';
       try {
         const date = new Date(dateString);
-        // Adjust for timezone offset
-        const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-        return adjustedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        return new Date(date.getTime() + date.getTimezoneOffset() * 60000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       } catch {
         return dateString;
       }
