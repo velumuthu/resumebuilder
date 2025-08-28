@@ -22,6 +22,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import TemplateSelector from './template-selector';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -80,52 +83,58 @@ const STORAGE_KEY = 'resumai-data';
 const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 
 export default function ResumeBuilder() {
-  const [data, setData] = useState<ResumeData>(initialData);
+  const [data, setData] = useState<ResumeData | null>(null);
   const [isClient, setIsClient] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     setIsClient(true);
-    try {
-      const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-      if (consent !== 'granted') {
-          setIsLoaded(true);
-          return;
-      };
+  }, []);
 
-      const item = localStorage.getItem(STORAGE_KEY);
-      if (item) {
-        const savedData = JSON.parse(item);
-        setData({
-          ...initialData,
-          ...savedData,
-          personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
-          experience: savedData.experience || initialData.experience,
-          education: savedData.education || initialData.education,
-          skills: savedData.skills || initialData.skills,
-          certifications: savedData.certifications || initialData.certifications,
-          projects: savedData.projects || initialData.projects,
-          achievements: savedData.achievements || initialData.achievements,
-          areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
-          template: savedData.template || initialData.template,
+  useEffect(() => {
+    if (isClient) {
+      try {
+        const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+        if (consent !== 'granted') {
+            setData(initialData);
+            return;
+        };
+
+        const item = localStorage.getItem(STORAGE_KEY);
+        if (item) {
+          const savedData = JSON.parse(item);
+          setData({
+            ...initialData,
+            ...savedData,
+            personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
+            experience: savedData.experience || initialData.experience,
+            education: savedData.education || initialData.education,
+            skills: savedData.skills || initialData.skills,
+            certifications: savedData.certifications || initialData.certifications,
+            projects: savedData.projects || initialData.projects,
+            achievements: savedData.achievements || initialData.achievements,
+            areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
+            template: savedData.template || initialData.template,
+          });
+        } else {
+            setData(initialData);
+        }
+      } catch (error) {
+        console.error('Failed to load data from localStorage', error);
+        toast({
+          title: 'Error',
+          description: 'Could not load saved data.',
+          variant: 'destructive',
         });
+        setData(initialData);
       }
-    } catch (error) {
-      console.error('Failed to load data from localStorage', error);
-      toast({
-        title: 'Error',
-        description: 'Could not load saved data.',
-        variant: 'destructive',
-      });
-    } finally {
-        setIsLoaded(true);
     }
-  }, [toast]);
+  }, [isClient, toast]);
   
 
   useEffect(() => {
-    if (isLoaded) {
+    if (data && isClient) {
       try {
         const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
         if (consent !== 'granted') return;
@@ -141,7 +150,7 @@ export default function ResumeBuilder() {
         });
       }
     }
-  }, [data, isLoaded, toast]);
+  }, [data, isClient, toast]);
 
   const handleReset = () => {
     setData(initialData);
@@ -156,12 +165,64 @@ export default function ResumeBuilder() {
     });
   };
   
-  const handlePrint = () => {
-    window.print();
-  };
+  const handleDownload = () => {
+    setIsDownloading(true);
+    const resumeElement = document.getElementById('resume-preview-content');
+    if (!resumeElement) {
+        toast({
+            title: 'Error',
+            description: 'Could not find resume content to download.',
+            variant: 'destructive'
+        });
+        setIsDownloading(false);
+        return;
+    }
+
+    html2canvas(resumeElement, {
+        scale: 2, // Higher scale for better quality
+        useCORS: true, 
+        logging: false,
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'in',
+            format: 'letter'
+        });
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasHeight / canvasWidth;
+
+        let finalWidth = pdfWidth;
+        let finalHeight = finalWidth * ratio;
+
+        if (finalHeight > pdfHeight) {
+            finalHeight = pdfHeight;
+            finalWidth = finalHeight / ratio;
+        }
+
+        const x = (pdfWidth - finalWidth) / 2;
+        const y = 0;
+
+        pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+        pdf.save(`${data?.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
+    }).catch(err => {
+        console.error('Error generating PDF:', err);
+        toast({
+            title: 'Download Failed',
+            description: 'An error occurred while generating the PDF.',
+            variant: 'destructive'
+        });
+    }).finally(() => {
+        setIsDownloading(false);
+    });
+};
 
 
-  if (!isClient || !isLoaded) {
+  if (!isClient || !data) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center bg-background gap-4">
         <div className="flex items-center gap-2 text-2xl font-semibold text-primary">
@@ -185,9 +246,18 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
-             <Button onClick={handlePrint}>
-              <Download className="mr-2 h-4 w-4" />
-              Download PDF
+             <Button onClick={handleDownload} disabled={isDownloading}>
+                {isDownloading ? (
+                    <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Generating...
+                    </>
+                ) : (
+                    <>
+                        <Download className="mr-2 h-4 w-4" />
+                        Download PDF
+                    </>
+                )}
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -221,16 +291,16 @@ export default function ResumeBuilder() {
              <div className="p-8">
               <TemplateSelector
                   selectedTemplate={data.template}
-                  onSelectTemplate={(template) => setData(prev => ({ ...prev, template }))}
+                  onSelectTemplate={(template) => setData(prev => ({ ...prev!, template }))}
               />
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-secondary/60 h-full overflow-y-auto">
+          <div className="bg-zinc-800/90 h-full overflow-y-auto">
              <div className="p-8 h-full flex flex-col gap-4">
-                <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center bg-secondary/60 py-2">Resume Preview</h2>
-                <div id="resume-preview-container-desktop" className='flex-grow flex items-start justify-center p-4'>
-                  <div className="w-full max-w-[8.5in] shadow-2xl">
+                <h2 className="text-2xl font-bold text-primary-foreground sticky top-0 backdrop-blur-sm z-10 text-center bg-zinc-800/90 py-2">Resume Preview</h2>
+                <div id="resume-preview-container-desktop" className='flex-grow flex items-start justify-center pt-4'>
+                  <div className="w-full max-w-[8.5in] bg-background shadow-2xl">
                      <ResumePreview resumeData={data} />
                   </div>
                 </div>
@@ -249,7 +319,7 @@ export default function ResumeBuilder() {
               <div className="p-4">
                  <TemplateSelector
                     selectedTemplate={data.template}
-                    onSelectTemplate={(template) => setData(prev => ({ ...prev, template }))}
+                    onSelectTemplate={(template) => setData(prev => ({ ...prev!, template }))}
                   />
                 <ResumeForm resumeData={data} setResumeData={setData} />
               </div>

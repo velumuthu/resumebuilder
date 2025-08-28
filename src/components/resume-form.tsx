@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -13,16 +14,16 @@ import SupportCard from './support-card';
 
 interface ResumeFormProps {
   resumeData: ResumeData;
-  setResumeData: Dispatch<SetStateAction<ResumeData>>;
+  setResumeData: Dispatch<SetStateAction<ResumeData | null>>;
 }
 
 export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
   
   const handlePersonalInfoChange = (field: keyof PersonalInfo, value: string) => {
-    setResumeData(prev => ({
+    setResumeData(prev => prev ? ({
       ...prev,
       personalInfo: { ...prev.personalInfo, [field]: value },
-    }));
+    }) : null);
   };
 
   const handleSectionChange = <T extends keyof ResumeData>(
@@ -32,24 +33,25 @@ export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProp
     value: string
   ) => {
     setResumeData(prev => {
-      const newSection = [...(prev[section] as any[])];
-      newSection[index] = { ...newSection[index], [field]: value };
-      return { ...prev, [section]: newSection };
+        if (!prev) return null;
+        const newSection = [...(prev[section] as any[])];
+        newSection[index] = { ...newSection[index], [field]: value };
+        return { ...prev, [section]: newSection };
     });
   };
 
   const addSectionItem = <T extends keyof ResumeData>(section: T, newItem: any) => {
-    setResumeData(prev => ({
+    setResumeData(prev => prev ? ({
       ...prev,
       [section]: [...(prev[section] as any[]), newItem],
-    }));
+    }) : null);
   };
 
   const removeSectionItem = <T extends keyof ResumeData>(section: T, id: string) => {
-    setResumeData(prev => ({
+    setResumeData(prev => prev ? ({
       ...prev,
       [section]: (prev[section] as any[]).filter(item => item.id !== id),
-    }));
+    }) : null);
   };
 
   return (
