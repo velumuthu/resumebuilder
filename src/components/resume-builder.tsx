@@ -176,14 +176,13 @@ export default function ResumeBuilder() {
     }
 
     html2canvas(resumeElement, {
-        scale: 3, // Higher scale for better quality
+        scale: 2, 
         useCORS: true,
         logging: false,
         backgroundColor: '#ffffff'
     }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         
-        // A4 page in portrait mode (210mm x 297mm)
         const pdf = new jsPDF({
             orientation: 'portrait',
             unit: 'mm',
@@ -197,18 +196,17 @@ export default function ResumeBuilder() {
         const canvasHeight = canvas.height;
         const canvasAspectRatio = canvasWidth / canvasHeight;
         
-        // Calculate the width and height to fit the A4 page
-        let imgWidth = pdfWidth;
-        let imgHeight = imgWidth / canvasAspectRatio;
+        const pdfAspectRatio = pdfWidth / pdfHeight;
 
-        // If the calculated height is greater than the PDF height,
-        // recalculate based on the height
-        if (imgHeight > pdfHeight) {
-            imgHeight = pdfHeight;
+        let imgWidth = pdfWidth;
+        let imgHeight = pdfHeight;
+        
+        if (canvasAspectRatio > pdfAspectRatio) {
+            imgHeight = imgWidth / canvasAspectRatio;
+        } else {
             imgWidth = imgHeight * canvasAspectRatio;
         }
 
-        // Center the image on the PDF page
         const x = (pdfWidth - imgWidth) / 2;
         const y = (pdfHeight - imgHeight) / 2;
 
@@ -359,7 +357,3 @@ export default function ResumeBuilder() {
     </>
   );
 }
-
-    
-
-    
