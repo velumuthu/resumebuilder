@@ -1,4 +1,6 @@
 
+'use client'
+
 import SiteHeader from '@/components/site-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,8 +10,15 @@ import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+  
   const features = [
     'AI-powered suggestions for impactful resume content',
     'Real-time preview as you type',
@@ -237,10 +246,11 @@ export default function HomePage() {
                   <a href="#contact" className="underline hover:text-primary">Contact</a>
                   <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
               </div>
-              <p>&copy; {new Date().getFullYear()} ResumAI. All Rights Reserved.</p>
+              <p>&copy; {year} ResumAI. All Rights Reserved.</p>
           </div>
       </footer>
     </div>
   );
 }
 
+    
