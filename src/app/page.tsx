@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useEffect, useState } from 'react';
 
 export default function HomePage() {
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState<number | null>(null);
 
   useEffect(() => {
     setYear(new Date().getFullYear());
