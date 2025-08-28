@@ -15,7 +15,7 @@ const templates = [
   { id: 'classic', name: 'Classic', imageUrl: 'https://i.imghippo.com/files/QFoF9685iA.png', aiHint: 'classic resume' },
   { id: 'professional', name: 'Professional', imageUrl: 'https://i.imghippo.com/files/bunG6603vA.png', aiHint: 'professional resume' },
   { id: 'technical', name: 'Technical', imageUrl: 'https://i.imghippo.com/files/Bwq5964uU.png', aiHint: 'technical resume' },
-  { id: 'minimalist', name: 'Minimalist', imageUrl: 'https://placehold.co/300x400.png?text=Minimalist', aiHint: 'minimalist resume' },
+  { id: 'minimalist', name: 'Minimalist', imageUrl: 'https://i.imghippo.com/files/OpV7754i.png', aiHint: 'minimalist resume' },
   { id: 'academic', name: 'Academic', imageUrl: 'https://placehold.co/300x400.png?text=Academic', aiHint: 'academic cv' },
   { id: 'corporate', name: 'Corporate', imageUrl: 'https://placehold.co/300x400.png?text=Corporate', aiHint: 'corporate resume' },
   { id: 'elegant', name: 'Elegant', imageUrl: 'https://placehold.co/300x400.png?text=Elegant', aiHint: 'elegant resume' },
