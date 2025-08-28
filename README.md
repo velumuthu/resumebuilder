@@ -2,8 +2,6 @@
 
 This is an AI-powered resume builder app created with Next.js and Firebase Studio.
 
-## Features
-
 - **AI Content Suggestions**: Get AI-powered suggestions for your resume's bullet points based on your job history and the target job description.
 - **Real-Time Preview**: See your resume update live as you type.
 - **Customizable Template**: Choose from professionally designed templates.
