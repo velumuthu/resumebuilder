@@ -18,7 +18,7 @@ const templates = [
   { id: 'minimalist', name: 'Minimalist', imageUrl: 'https://i.imghippo.com/files/OpV7754i.png', aiHint: 'minimalist resume' },
   { id: 'academic', name: 'Academic', imageUrl: 'https://i.imghippo.com/files/jrJS7434DBo.png', aiHint: 'academic cv' },
   { id: 'corporate', name: 'Corporate', imageUrl: 'https://i.imghippo.com/files/mM6306YPQ.png', aiHint: 'corporate resume' },
-  { id: 'elegant', name: 'Elegant', imageUrl: 'https://placehold.co/300x400.png?text=Elegant', aiHint: 'elegant resume' },
+  { id: 'elegant', name: 'Elegant', imageUrl: 'https://i.imghippo.com/files/S0gWf1722429953.png', aiHint: 'elegant resume' },
   { id: 'bold', name: 'Bold', imageUrl: 'https://placehold.co/300x400.png?text=Bold', aiHint: 'bold resume' },
   { id: 'modern', name: 'Modern', imageUrl: 'https://placehold.co/300x400.png?text=Modern', aiHint: 'modern resume' },
 ] as const;
