@@ -161,10 +161,10 @@ export default function ResumeBuilder() {
     });
   };
   
-  const handleDownload = () => {
+ const handleDownload = () => {
     setIsDownloading(true);
-    // The resume preview is in the 'resume-preview-content' div
     const resumeElement = document.getElementById('resume-preview-content');
+
     if (!resumeElement) {
         toast({
             title: 'Error',
@@ -175,38 +175,59 @@ export default function ResumeBuilder() {
         return;
     }
 
-    // Use html2canvas to draw the resume element onto a canvas
     html2canvas(resumeElement, {
         scale: 3, // Higher scale for better quality
-        useCORS: true, 
+        useCORS: true,
         logging: false,
         backgroundColor: '#ffffff'
     }).then(canvas => {
-        // A4 page dimensions in pixels at 96 DPI: 794x1123
-        const a4Ratio = 11 / 8.5;
-
-        // Create a new jsPDF instance
+        const imgData = canvas.toDataURL('image/png');
+        
+        // A4 page in portrait mode (210mm x 297mm)
         const pdf = new jsPDF({
             orientation: 'portrait',
-            unit: 'px', // use pixels for units
-            format: 'a4' // A4 paper size
+            unit: 'mm',
+            format: 'a4'
         });
-        
+
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgData = canvas.toDataURL('image/png');
+        
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const canvasAspectRatio = canvasWidth / canvasHeight;
+        
+        // Calculate the width and height to fit the A4 page
+        let imgWidth = pdfWidth;
+        let imgHeight = imgWidth / canvasAspectRatio;
 
-        // Add the image to the PDF, letting jspdf handle the scaling
-        // to fit the page while maintaining aspect ratio.
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        // If the calculated height is greater than the PDF height,
+        // recalculate based on the height
+        if (imgHeight > pdfHeight) {
+            imgHeight = pdfHeight;
+            imgWidth = imgHeight * canvasAspectRatio;
+        }
 
-        // Save the PDF
-        pdf.save(`${data?.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
+        // Center the image on the PDF page
+        const x = (pdfWidth - imgWidth) / 2;
+        const y = (pdfHeight - imgHeight) / 2;
+
+        try {
+          pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+          pdf.save(`${data?.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
+        } catch (error) {
+           console.error('Error adding image to PDF:', error);
+           toast({
+                title: 'Download Failed',
+                description: 'An error occurred while generating the PDF image.',
+                variant: 'destructive'
+            });
+        }
     }).catch(err => {
-        console.error('Error generating PDF:', err);
+        console.error('Error generating canvas:', err);
         toast({
             title: 'Download Failed',
-            description: 'An error occurred while generating the PDF.',
+            description: 'An error occurred while generating the resume canvas.',
             variant: 'destructive'
         });
     }).finally(() => {
@@ -338,5 +359,7 @@ export default function ResumeBuilder() {
     </>
   );
 }
+
+    
 
     
