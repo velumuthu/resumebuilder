@@ -163,10 +163,6 @@ export default function ResumeBuilder() {
     });
   };
   
- const handlePrint = () => {
-    window.print();
-};
-
 const handleDirectDownload = async () => {
     const element = document.getElementById('resume-preview-content');
     if (!element || !data) {
@@ -201,7 +197,7 @@ const handleDirectDownload = async () => {
     if (isDesktop) {
         handleDirectDownload();
     } else {
-        handlePrint();
+        window.print();
     }
  }
 
@@ -222,7 +218,7 @@ const handleDirectDownload = async () => {
 
   return (
     <>
-    <div className="flex flex-col min-h-screen bg-secondary/40 print:bg-white">
+    <div className="flex flex-col min-h-screen bg-secondary/40 print:hidden">
       <header className="sticky top-0 z-30 w-full border-b bg-background/80 backdrop-blur-sm print:hidden">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
@@ -311,11 +307,11 @@ const handleDirectDownload = async () => {
             </TabsContent>
           </Tabs>
         </div>
-        {/* Print View */}
-        <div className="hidden print:block print-container">
-            <ResumePreview resumeData={data} />
-        </div>
       </main>
+    </div>
+    {/* Print View */}
+    <div className="hidden print:block print-container">
+        <ResumePreview resumeData={data} />
     </div>
     </>
   );
