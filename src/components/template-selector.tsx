@@ -11,7 +11,7 @@ interface TemplateSelectorProps {
 }
 
 const templates = [
-  { id: 'creative', name: 'Creative', imageUrl: 'https://i.imghippo.com/files/oL9251wag.png', aiHint: 'creative resume' },
+  { id: 'creative', name: 'Creative', imageUrl: 'https://i.imghippo.com/files/eJei9784iM.png', aiHint: 'creative resume' },
   { id: 'classic', name: 'Classic', imageUrl: 'https://placehold.co/300x400.png?text=Classic', aiHint: 'classic resume' },
   { id: 'professional', name: 'Professional', imageUrl: 'https://placehold.co/300x400.png?text=Professional', aiHint: 'professional resume' },
   { id: 'technical', name: 'Technical', imageUrl: 'https://placehold.co/300x400.png?text=Technical', aiHint: 'technical resume' },

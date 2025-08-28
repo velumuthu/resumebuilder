@@ -61,11 +61,11 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
             </div>
         </div>
         <div className="flex-shrink-0">
-             <Image 
-                src="https://i.imghippo.com/files/oL9251wag.png" 
-                alt={personalInfo.name} 
-                width={80} 
-                height={80} 
+             <Image
+                src="https://i.imghippo.com/files/eJei9784iM.png"
+                alt={personalInfo.name}
+                width={80}
+                height={80}
                 className="rounded-full w-16 h-16 md:w-20 md:h-20 object-cover"
                 data-ai-hint="person photo"
             />
