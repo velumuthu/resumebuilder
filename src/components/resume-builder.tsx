@@ -28,22 +28,22 @@ import jsPDF from 'jspdf';
 
 const initialData: ResumeData = {
   personalInfo: {
-    name: 'Your Name',
-    email: 'your.email@example.com',
-    phone: '123-456-7890',
+    name: 'Alex Doe',
+    email: 'alex.doe@example.com',
+    phone: '(123) 456-7890',
     address: 'City, State',
-    website: 'your-portfolio.com',
-    summary: 'A brief professional summary about yourself. Highlight your key skills and career goals.',
+    website: 'alexdoe.dev',
+    summary: 'Enthusiastic and motivated recent Computer Science graduate with a strong foundation in software development and web technologies. Eager to leverage academic knowledge and hands-on project experience to contribute to a dynamic engineering team.',
   },
   experience: [
     {
       id: '1',
-      jobTitle: 'Software Engineer',
-      company: 'Tech Corp',
-      location: 'San Francisco, CA',
-      startDate: '2020-01-01',
-      endDate: 'Present',
-      description: '- Developed and maintained web applications using React and Node.js.\\n- Collaborated with cross-functional teams to deliver high-quality software.',
+      jobTitle: 'Software Development Intern',
+      company: 'Innovatech Solutions',
+      location: 'Remote',
+      startDate: '2023-06-01',
+      endDate: '2023-08-31',
+      description: '- Assisted in the development of a new feature for the company\'s flagship product using React and TypeScript.\\n- Participated in daily stand-ups and sprint planning meetings, contributing to an agile development environment.',
     },
   ],
   education: [
@@ -52,29 +52,30 @@ const initialData: ResumeData = {
       school: 'University of Technology',
       degree: 'B.S. in Computer Science',
       location: 'Anytown, USA',
-      startDate: '2016-09-01',
-      endDate: '2020-05-01',
+      startDate: '2020-09-01',
+      endDate: '2024-05-01',
     },
   ],
   skills: [
-    { id: '1', name: 'React' },
-    { id: '2', name: 'TypeScript' },
+    { id: '1', name: 'JavaScript' },
+    { id: '2', name: 'React' },
     { id: '3', name: 'Node.js' },
-    { id: '4', name: 'Tailwind CSS' },
+    { id: '4', name: 'Python' },
+    { id: '5', name: 'SQL' },
+    { id: '6', name: 'Git' },
   ],
   certifications: [
-    { id: '1', name: 'Certified Kubernetes Application Developer', issuer: 'Cloud Native Computing Foundation', date: '2022-08-15' },
   ],
   projects: [
-    { id: '1', name: 'Personal Portfolio Website', description: 'A responsive website to showcase my projects and skills.', url: 'your-portfolio.com' },
+    { id: '1', name: 'E-commerce Website', description: 'Developed a full-stack e-commerce platform for a university project, featuring product listings, a shopping cart, and a checkout system using the MERN stack.', url: 'github.com/alexdoe/e-commerce' },
   ],
   achievements: [
-    { id: '1', description: 'Employee of the Month - Q3 2021' },
-    { id: '2', description: 'Published a technical article on Medium' },
+    { id: '1', description: 'Dean\'s List - 4 Semesters' },
+    { id: '2', description: 'Winner, University Hackathon 2023' },
   ],
   areasOfInterest: [
-    { id: '1', name: 'Open Source Contribution' },
-    { id: '2', name: 'Competitive Programming' },
+    { id: '1', name: 'Machine Learning' },
+    { id: '2', name: 'Open Source Contribution' },
   ],
   template: 'creative',
 };
@@ -104,11 +105,11 @@ export default function ResumeBuilder() {
           ...initialData,
           ...savedData,
           personalInfo: { ...initialData.personalInfo, ...savedData.personalInfo },
-          experience: savedData.experience || initialData.experience,
-          education: savedData.education || initialData.education,
-          skills: savedData.skills || initialData.skills,
+          experience: savedData.experience && savedData.experience.length > 0 ? savedData.experience : initialData.experience,
+          education: savedData.education && savedData.education.length > 0 ? savedData.education : initialData.education,
+          skills: savedData.skills && savedData.skills.length > 0 ? savedData.skills : initialData.skills,
           certifications: savedData.certifications || initialData.certifications,
-          projects: savedData.projects || initialData.projects,
+          projects: savedData.projects && savedData.projects.length > 0 ? savedData.projects : initialData.projects,
           achievements: savedData.achievements || initialData.achievements,
           areasOfInterest: savedData.areasOfInterest || initialData.areasOfInterest,
           template: savedData.template || initialData.template,
@@ -125,7 +126,7 @@ export default function ResumeBuilder() {
       });
       setData(initialData);
     }
-  }, [isClient, toast]);
+  }, [toast]);
   
 
   useEffect(() => {
