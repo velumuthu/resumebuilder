@@ -82,13 +82,17 @@ const COOKIE_CONSENT_KEY = 'resumai_cookie_consent';
 export default function ResumeBuilder() {
   const [data, setData] = useState<ResumeData>(initialData);
   const [isClient, setIsClient] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     setIsClient(true);
     try {
       const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-      if (consent !== 'granted') return;
+      if (consent !== 'granted') {
+          setIsLoaded(true);
+          return;
+      };
 
       const item = localStorage.getItem(STORAGE_KEY);
       if (item) {
@@ -114,12 +118,14 @@ export default function ResumeBuilder() {
         description: 'Could not load saved data.',
         variant: 'destructive',
       });
+    } finally {
+        setIsLoaded(true);
     }
   }, [toast]);
   
 
   useEffect(() => {
-    if (isClient) {
+    if (isLoaded) {
       try {
         const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
         if (consent !== 'granted') return;
@@ -135,7 +141,7 @@ export default function ResumeBuilder() {
         });
       }
     }
-  }, [data, isClient, toast]);
+  }, [data, isLoaded, toast]);
 
   const handleReset = () => {
     setData(initialData);
@@ -155,7 +161,7 @@ export default function ResumeBuilder() {
   };
 
 
-  if (!isClient) {
+  if (!isClient || !isLoaded) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center bg-background gap-4">
         <div className="flex items-center gap-2 text-2xl font-semibold text-primary">
@@ -220,11 +226,13 @@ export default function ResumeBuilder() {
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
-          <div className="bg-secondary h-full overflow-hidden">
-             <div className="p-4 md:p-8 h-full flex flex-col gap-4">
-                <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center">Resume Preview</h2>
-                <div id="resume-preview-container-desktop" className='h-full'>
-                  <ResumePreview resumeData={data} />
+          <div className="bg-secondary/60 h-full overflow-y-auto">
+             <div className="p-8 h-full flex flex-col gap-4">
+                <h2 className="text-2xl font-bold text-primary sticky top-0 backdrop-blur-sm z-10 text-center bg-secondary/60 py-2">Resume Preview</h2>
+                <div id="resume-preview-container-desktop" className='flex-grow flex items-start justify-center p-4'>
+                  <div className="w-full max-w-[8.5in] shadow-2xl">
+                     <ResumePreview resumeData={data} />
+                  </div>
                 </div>
             </div>
           </div>
@@ -248,7 +256,9 @@ export default function ResumeBuilder() {
             </TabsContent>
             <TabsContent value="preview">
                <div id="resume-preview-container-mobile" className="p-4 bg-secondary">
-                <ResumePreview resumeData={data} />
+                 <div className="shadow-lg">
+                  <ResumePreview resumeData={data} />
+                 </div>
               </div>
             </TabsContent>
           </Tabs>

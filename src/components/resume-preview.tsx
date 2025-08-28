@@ -11,7 +11,7 @@ import AcademicTemplate from './templates/academic-template';
 import CorporateTemplate from './templates/corporate-template';
 import ElegantTemplate from './templates/elegant-template';
 import BoldTemplate from './templates/bold-template';
-import { ScrollArea } from './ui/scroll-area';
+import ModernTemplate from './templates/modern-template';
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
@@ -38,20 +38,20 @@ const ResumePreview = ({ resumeData }: ResumePreviewProps) => {
                 return <ElegantTemplate resumeData={resumeData} />;
             case 'bold':
                 return <BoldTemplate resumeData={resumeData} />;
+            case 'modern':
+                return <ModernTemplate resumeData={resumeData} />;
             default:
                 return <CreativeTemplate resumeData={resumeData} />;
         }
     };
 
     return (
-      <ScrollArea className="h-full w-full print:h-full print:overflow-visible bg-card shadow-lg print:shadow-none rounded-lg">
         <div
           id="resume-preview-content"
-          className="w-full h-full print:p-0"
+          className="w-full aspect-[8.5/11] print:p-0 bg-white"
         >
             {renderTemplate()}
         </div>
-      </ScrollArea>
     );
 };
 
