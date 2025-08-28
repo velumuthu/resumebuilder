@@ -22,6 +22,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import TemplateSelector from './template-selector';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 const initialData: ResumeData = {
@@ -162,6 +164,44 @@ export default function ResumeBuilder() {
     window.print();
 };
 
+const handleDirectDownload = async () => {
+    const element = document.getElementById('resume-preview-content');
+    if (!element || !data) {
+        toast({ title: 'Error', description: 'Could not find resume content to download.', variant: 'destructive' });
+        return;
+    }
+
+    try {
+        const canvas = await html2canvas(element, { scale: 3, useCORS: true });
+        const imgData = canvas.toDataURL('image/png');
+
+        const pdf = new jsPDF({
+            orientation: 'p',
+            unit: 'in',
+            format: 'a4',
+        });
+        
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`${data.personalInfo.name.replace(' ', '-')}-Resume.pdf`);
+
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+        toast({ title: 'Download Failed', description: 'An error occurred while generating the PDF.', variant: 'destructive' });
+    }
+};
+
+ const handleDownloadOrPrint = () => {
+    const isDesktop = window.innerWidth >= 1024;
+    if (isDesktop) {
+        handleDirectDownload();
+    } else {
+        handlePrint();
+    }
+ }
+
 
   if (!isClient || !data) {
     return (
@@ -187,9 +227,9 @@ export default function ResumeBuilder() {
               <span className='hidden sm:inline'>ResumAI Home</span>
           </Link>
           <div className="flex items-center gap-2 md:gap-3">
-             <Button onClick={handlePrint}>
+             <Button onClick={handleDownloadOrPrint}>
                 <Printer className="mr-2 h-4 w-4" />
-                Print / Save PDF
+                Download / Print
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
