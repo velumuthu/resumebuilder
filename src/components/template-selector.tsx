@@ -39,8 +39,8 @@ export default function TemplateSelector({ selectedTemplate, onSelectTemplate }:
                 selectedTemplate === template.id ? 'border-primary' : 'border-transparent'
               )}
             >
-              <div className="aspect-[3/4] overflow-hidden rounded-md">
-                 <img src={template.imageUrl} alt={`${template.name} template thumbnail`} className="w-full h-full object-cover" data-ai-hint={template.aiHint} />
+              <div className="aspect-[3/4] overflow-hidden rounded-md relative">
+                 <Image src={template.imageUrl} alt={`${template.name} template thumbnail`} layout="fill" className="object-cover" data-ai-hint={template.aiHint} />
               </div>
               <p className="text-center text-sm font-medium mt-2">{template.name}</p>
             </div>
