@@ -1,3 +1,4 @@
+
 import type { ResumeData } from '@/lib/types';
 import { Mail, Phone, Globe, MapPin } from 'lucide-react';
 
@@ -30,7 +31,6 @@ export default function CorporateTemplate({ resumeData }: TemplateProps) {
         {/* Left Sidebar */}
         <div className="w-1/3 bg-gray-800 text-white p-8">
           <h1 className="text-3xl font-bold tracking-tight text-white">{personalInfo.name || 'Your Name'}</h1>
-          {experience[0] && <p className="text-lg text-gray-300 mt-1">{experience[0].jobTitle}</p>}
           
           <div className="mt-8 space-y-4 text-sm">
             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 border-b border-gray-600 pb-1">Contact</h2>

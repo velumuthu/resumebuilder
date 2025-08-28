@@ -1,3 +1,4 @@
+
 import type { ResumeData } from '@/lib/types';
 import { Mail, Phone, Globe, Github, Linkedin } from 'lucide-react';
 
@@ -41,7 +42,6 @@ export default function TechnicalTemplate({ resumeData }: TemplateProps) {
     <div className="bg-[#1e1e1e] text-gray-200 font-['Fira_Code',_monospace] text-[10pt] w-full max-w-4xl mx-auto p-8 print:p-0">
       <header className="mb-6">
         <h1 className="text-3xl font-bold text-green-400">{personalInfo.name || 'Your Name'}</h1>
-        <p className="text-lg text-gray-400 mt-1">{experience[0]?.jobTitle || 'Software Developer'}</p>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-400 mt-3">
             {personalInfo.email && <div className="flex items-center gap-1.5"><Mail size={14} /> <a href={`mailto:${personalInfo.email}`} className="text-green-400 hover:underline">{personalInfo.email}</a></div>}
             {personalInfo.phone && <div className="flex items-center gap-1.5"><Phone size={14} /> {personalInfo.phone}</div>}

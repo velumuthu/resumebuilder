@@ -1,3 +1,4 @@
+
 import type { ResumeData } from '@/lib/types';
 
 interface TemplateProps {
@@ -36,7 +37,6 @@ export default function ElegantTemplate({ resumeData }: TemplateProps) {
     <div className="bg-white text-gray-800 font-['Lato',_sans-serif] text-[11pt] w-full max-w-4xl mx-auto p-12 print:p-0">
       <header className="text-center mb-10">
         <h1 className="text-5xl font-thin tracking-wider">{personalInfo.name || 'Your Name'}</h1>
-        <p className="text-lg text-gray-500 mt-2 tracking-widest">{experience[0]?.jobTitle || 'Professional Title'}</p>
         <div className="border-b border-gray-200 my-6 w-1/4 mx-auto"></div>
         <p className="text-sm text-gray-600">
           {personalInfo.address} | {personalInfo.phone} | <a href={`mailto:${personalInfo.email}`} className="text-cyan-700 hover:underline">{personalInfo.email}</a>

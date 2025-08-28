@@ -1,3 +1,4 @@
+
 import type { ResumeData } from '@/lib/types';
 import { Mail, Phone, Globe, MapPin } from 'lucide-react';
 
@@ -39,7 +40,6 @@ export default function BoldTemplate({ resumeData }: TemplateProps) {
     <div className="bg-white text-gray-800 font-['Montserrat',_sans-serif] text-[10pt] w-full max-w-4xl mx-auto p-10 print:p-0">
       <header className="mb-8">
         <h1 className="text-6xl font-extrabold tracking-tighter">{personalInfo.name || 'Your Name'}</h1>
-        <p className="text-2xl text-gray-600 font-medium">{experience[0]?.jobTitle || 'Professional Title'}</p>
         <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-500 mt-4">
           <span>{personalInfo.address}</span>
           <span>{personalInfo.phone}</span>

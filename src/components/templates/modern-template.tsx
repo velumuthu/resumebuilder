@@ -1,3 +1,4 @@
+
 import type { ResumeData } from '@/lib/types';
 import { Mail, Phone, Globe, MapPin } from 'lucide-react';
 
@@ -33,7 +34,6 @@ export default function ModernTemplate({ resumeData }: TemplateProps) {
         <div className="col-span-4 pr-6 border-r border-gray-200">
           <header className="text-left mb-8">
             <h1 className="text-3xl font-bold text-gray-800 tracking-tight">{personalInfo.name || 'Your Name'}</h1>
-            {experience.length > 0 && <p className="text-lg text-blue-600 font-medium mt-1">{experience[0].jobTitle}</p>}
           </header>
 
           <section className="mb-6">
