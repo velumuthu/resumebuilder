@@ -1,5 +1,7 @@
+
 import type { ResumeData } from '@/lib/types';
 import { Mail, Phone, Globe, Linkedin, Github } from 'lucide-react';
+import Image from 'next/image';
 
 interface TemplateProps {
   resumeData: ResumeData;
@@ -48,13 +50,25 @@ export default function CreativeTemplate({ resumeData }: TemplateProps) {
 
   return (
     <div className="bg-white text-gray-800 font-sans text-[8pt] md:text-[10pt] leading-normal w-full max-w-4xl mx-auto p-4 md:p-6 print:p-0 tracking-wide">
-      <header className="text-center pb-2">
-        <h1 className="text-xl md:text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
-        <div className="flex justify-center items-center flex-wrap gap-x-3 text-xs mt-2 text-gray-600">
-            {personalInfo.address && <span>{personalInfo.address}</span>}
-            {personalInfo.phone && <><span>|</span><span>{personalInfo.phone}</span></>}
-            {personalInfo.email && <><span>|</span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></>}
-            {personalInfo.website && <><span>|</span><a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Portfolio</a></>}
+      <header className="flex items-center justify-between pb-2">
+        <div className="flex-grow text-center">
+            <h1 className="text-xl md:text-2xl font-bold tracking-wider uppercase text-gray-800">{personalInfo.name || 'Your Name'}</h1>
+            <div className="flex justify-center items-center flex-wrap gap-x-3 text-xs mt-2 text-gray-600">
+                {personalInfo.address && <span>{personalInfo.address}</span>}
+                {personalInfo.phone && <><span>|</span><span>{personalInfo.phone}</span></>}
+                {personalInfo.email && <><span>|</span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></>}
+                {personalInfo.website && <><span>|</span><a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Portfolio</a></>}
+            </div>
+        </div>
+        <div className="flex-shrink-0">
+             <Image 
+                src="https://i.imghippo.com/files/VVp1196wpo.png" 
+                alt={personalInfo.name} 
+                width={80} 
+                height={80} 
+                className="rounded-full w-16 h-16 md:w-20 md:h-20 object-cover"
+                data-ai-hint="person photo"
+            />
         </div>
       </header>
       
