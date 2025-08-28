@@ -67,14 +67,25 @@
     print-color-adjust: exact;
   }
 
-  /* Hide everything except the print container */
-  body > div:not(.print-container) {
-    display: none;
+  /* Hide everything on the page */
+  body * {
+    visibility: hidden;
   }
   
+  /* Make the print container and its children visible */
+  .print-container, .print-container * {
+    visibility: visible;
+  }
+
+  /* Position the print container to fill the page */
   .print-container {
-    padding: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     margin: 0;
+    padding: 0;
   }
 
   @page {
