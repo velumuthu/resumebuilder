@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -62,14 +63,28 @@
   body {
     background: white;
     color: black;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
-  .resume-preview-container {
-    box-shadow: none;
-    border: none;
+  
+  .print-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 2cm;
   }
+  
+  .print-container > div {
+    transform-origin: top center;
+  }
+
   @page {
     size: A4;
     margin: 0;
-    margin-top: 2cm;
   }
 }

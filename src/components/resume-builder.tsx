@@ -269,8 +269,10 @@ export default function ResumeBuilder() {
           </Tabs>
         </div>
         {/* Print View */}
-        <div className="hidden print:block">
+        <div className="hidden print:block print-container">
+          <div className="mx-auto w-[8.5in] h-[11in]">
             <ResumePreview resumeData={data} />
+          </div>
         </div>
       </main>
     </div>
