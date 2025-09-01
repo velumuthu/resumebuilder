@@ -1,8 +1,10 @@
+
 'use client';
 
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -38,6 +40,7 @@ export default function VideoPlayer({ videoId }: VideoPlayerProps) {
       <DialogContent className="max-w-4xl p-0 border-0">
         <DialogHeader className="sr-only">
           <DialogTitle>ResumAI Video Tutorial</DialogTitle>
+          <DialogDescription>A video player showing a tutorial for ResumAI.</DialogDescription>
         </DialogHeader>
         <div className="aspect-video">
           <iframe

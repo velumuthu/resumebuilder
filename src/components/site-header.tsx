@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { FileText, Menu, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -54,6 +54,9 @@ export default function SiteHeader() {
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="right">
+                        <SheetHeader>
+                          <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                        </SheetHeader>
                         <div className="flex flex-col gap-6 pt-10">
                              <Link href="/" className="flex items-center gap-2 font-semibold text-lg" onClick={() => setOpen(false)}>
                                 <FileText />
