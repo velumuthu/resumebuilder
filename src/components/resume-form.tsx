@@ -83,6 +83,9 @@ export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProp
             </div>
              <div>
               <Label htmlFor="summary">Professional Summary</Label>
+              <p className="text-xs text-muted-foreground mt-1 mb-2">
+                A brief, 2-3 sentence summary of your career, skills, and goals. Tailor this to the job you are applying for.
+              </p>
               <Textarea id="summary" value={resumeData.personalInfo.summary} onChange={e => handlePersonalInfoChange('summary', e.target.value)} rows={5} />
             </div>
           </AccordionContent>
