@@ -73,6 +73,7 @@
   
   .print-container {
     display: block;
+    padding-top: 2rem;
   }
 
   @page {
