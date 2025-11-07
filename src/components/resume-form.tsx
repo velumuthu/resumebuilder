@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import type { ResumeData, PersonalInfo } from '@/lib/types';
+import type { ResumeData, PersonalInfo, Experience, Education, Skill, Certification, Project, Achievement, AreaOfInterest } from '@/lib/types';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import type { Dispatch, SetStateAction } from 'react';
 import AiSuggester from './ai-suggester';
@@ -17,6 +17,8 @@ interface ResumeFormProps {
   setResumeData: Dispatch<SetStateAction<ResumeData | null>>;
 }
 
+type ArraySection = 'experience' | 'education' | 'skills' | 'certifications' | 'projects' | 'achievements' | 'areasOfInterest';
+
 export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProps) {
   
   const handlePersonalInfoChange = (field: keyof PersonalInfo, value: string) => {
@@ -26,10 +28,10 @@ export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProp
     }) : null);
   };
 
-  const handleSectionChange = <T extends keyof ResumeData>(
+  const handleSectionChange = <T extends ArraySection>(
     section: T,
     index: number,
-    field: keyof NonNullable<ResumeData[T]>[number],
+    field: keyof ResumeData[T][number],
     value: string
   ) => {
     setResumeData(prev => {
@@ -40,14 +42,17 @@ export default function ResumeForm({ resumeData, setResumeData }: ResumeFormProp
     });
   };
 
-  const addSectionItem = <T extends keyof ResumeData>(section: T, newItem: any) => {
+  const addSectionItem = <T extends ArraySection>(
+    section: T, 
+    newItem: ResumeData[T][number]
+  ) => {
     setResumeData(prev => prev ? ({
       ...prev,
       [section]: [...(prev[section] as any[]), newItem],
     }) : null);
   };
 
-  const removeSectionItem = <T extends keyof ResumeData>(section: T, id: string) => {
+  const removeSectionItem = <T extends ArraySection>(section: T, id: string) => {
     setResumeData(prev => prev ? ({
       ...prev,
       [section]: (prev[section] as any[]).filter(item => item.id !== id),

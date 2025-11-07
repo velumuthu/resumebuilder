@@ -2,10 +2,8 @@
 'use client';
 
 import type { ResumeData } from '@/lib/types';
-import CreativeTemplate from './templates/creative-template';
 import ClassicTemplate from './templates/classic-template';
 import ProfessionalTemplate from './templates/professional-template';
-import TechnicalTemplate from './templates/technical-template';
 import MinimalistTemplate from './templates/minimalist-template';
 import AcademicTemplate from './templates/academic-template';
 import CorporateTemplate from './templates/corporate-template';
@@ -20,14 +18,10 @@ interface ResumePreviewProps {
 const ResumePreview = ({ resumeData }: ResumePreviewProps) => {
     const renderTemplate = () => {
         switch (resumeData.template) {
-            case 'creative':
-                return <CreativeTemplate resumeData={resumeData} />;
             case 'classic':
                 return <ClassicTemplate resumeData={resumeData} />;
             case 'professional':
                 return <ProfessionalTemplate resumeData={resumeData} />;
-            case 'technical':
-                return <TechnicalTemplate resumeData={resumeData} />;
             case 'minimalist':
                 return <MinimalistTemplate resumeData={resumeData} />;
             case 'academic':
@@ -41,7 +35,7 @@ const ResumePreview = ({ resumeData }: ResumePreviewProps) => {
             case 'modern':
                 return <ModernTemplate resumeData={resumeData} />;
             default:
-                return <CreativeTemplate resumeData={resumeData} />;
+                return <ClassicTemplate resumeData={resumeData} />;
         }
     };
 

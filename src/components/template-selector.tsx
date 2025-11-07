@@ -11,10 +11,8 @@ interface TemplateSelectorProps {
 }
 
 const templates = [
-  { id: 'creative', name: 'Creative', imageUrl: 'https://i.imghippo.com/files/eJei9784iM.png', aiHint: 'creative resume' },
   { id: 'classic', name: 'Classic', imageUrl: 'https://i.imghippo.com/files/QFoF9685iA.png', aiHint: 'classic resume' },
   { id: 'professional', name: 'Professional', imageUrl: 'https://i.imghippo.com/files/bunG6603vA.png', aiHint: 'professional resume' },
-  { id: 'technical', name: 'Technical', imageUrl: 'https://i.imghippo.com/files/Bwq5964uU.png', aiHint: 'technical resume' },
   { id: 'minimalist', name: 'Minimalist', imageUrl: 'https://i.imghippo.com/files/OpV7754i.png', aiHint: 'minimalist resume' },
   { id: 'academic', name: 'Academic', imageUrl: 'https://i.imghippo.com/files/jrJS7434DBo.png', aiHint: 'academic cv' },
   { id: 'corporate', name: 'Corporate', imageUrl: 'https://i.imghippo.com/files/mM6306YPQ.png', aiHint: 'corporate resume' },
