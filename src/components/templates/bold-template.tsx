@@ -19,15 +19,24 @@ export default function BoldTemplate({ resumeData }: TemplateProps) {
     }
   };
 
+  const formatUrl = (url: string) => {
+    if (!url) return '#';
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return `https://${url}`;
+  };
+
   const formatDescription = (desc: string) => {
-    return desc.split(/\\n|\n/).filter(line => line.trim()).map((line, i) => (
+    if (!desc) return null;
+    return desc.split(/\n|\n/).filter(line => line.trim()).map((line, i) => (
       <li key={i}>{line.replace(/^- /, '')}</li>
     ));
   };
 
   const Section = ({ title, children }: { title: string, children: React.ReactNode }) => (
     <section className="mb-6">
-      <h2 className="text-2xl font-extrabold text-gray-800 tracking-tight pb-1 mb-4" style={{borderBottom: '3px solid black'}}>
+      <h2 className="text-2xl font-extrabold text-gray-800 tracking-tight pb-1 mb-4 border-b-4 border-black">
         {title}
       </h2>
       <div className="text-gray-700">
@@ -41,10 +50,10 @@ export default function BoldTemplate({ resumeData }: TemplateProps) {
       <header className="mb-8">
         <h1 className="text-6xl font-extrabold tracking-tighter">{personalInfo.name || 'Your Name'}</h1>
         <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-500 mt-4">
-          <span>{personalInfo.address}</span>
-          <span>{personalInfo.phone}</span>
-          <span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></span>
-          <span><a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{personalInfo.website}</a></span>
+          {personalInfo.address && <span>{personalInfo.address}</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
+          {personalInfo.email && <span><a href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a></span>}
+          {personalInfo.website && <span><a href={formatUrl(personalInfo.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{personalInfo.website}</a></span>}
         </div>
       </header>
 
@@ -94,7 +103,7 @@ export default function BoldTemplate({ resumeData }: TemplateProps) {
           {projects.map(proj => (
             <div key={proj.id}>
               <h3 className="text-xl font-bold">{proj.name}
-                {proj.url && <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2 text-sm">[VIEW]</a>}
+                {proj.url && <a href={formatUrl(proj.url)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2 text-sm">[VIEW]</a>}
               </h3>
                <ul className="list-disc list-outside ml-5 mt-2 space-y-1">
                 {formatDescription(proj.description)}

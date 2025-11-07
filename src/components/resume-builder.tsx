@@ -22,6 +22,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import TemplateSelector from './template-selector';
+import JobDescriptionAnalyzer from './job-description-analyzer';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -77,7 +78,7 @@ const initialData: ResumeData = {
     { id: '1', name: 'Machine Learning' },
     { id: '2', name: 'Open Source Contribution' },
   ],
-  template: 'creative',
+  template: 'classic',
 };
 
 const STORAGE_KEY = 'resumai-data';
@@ -149,6 +150,26 @@ export default function ResumeBuilder() {
       }
     }
   }, [data, isClient, toast]);
+
+  const handleAnalysisComplete = (suggestedSkills: string[], suggestedSummary: string) => {
+    setData(prev => {
+      if (!prev) return null;
+
+      const newSkills = suggestedSkills.map((skill, i) => ({
+        id: `skill-${Date.now()}-${i}`,
+        name: skill,
+      }));
+
+      return {
+        ...prev,
+        personalInfo: {
+          ...prev.personalInfo,
+          summary: suggestedSummary,
+        },
+        skills: [...prev.skills, ...newSkills],
+      };
+    });
+  };
 
   const handleReset = () => {
     setData(initialData);
@@ -264,6 +285,7 @@ const handleDirectDownload = async () => {
                   selectedTemplate={data.template}
                   onSelectTemplate={(template) => setData(prev => ({ ...prev!, template }))}
               />
+              <JobDescriptionAnalyzer onAnalysisComplete={handleAnalysisComplete} />
               <ResumeForm resumeData={data} setResumeData={setData} />
             </div>
           </div>
@@ -295,6 +317,7 @@ const handleDirectDownload = async () => {
                     selectedTemplate={data.template}
                     onSelectTemplate={(template) => setData(prev => ({ ...prev!, template }))}
                   />
+                <JobDescriptionAnalyzer onAnalysisComplete={handleAnalysisComplete} />
                 <ResumeForm resumeData={data} setResumeData={setData} />
               </div>
             </TabsContent>

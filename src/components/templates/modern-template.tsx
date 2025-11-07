@@ -21,8 +21,17 @@ export default function ModernTemplate({ resumeData }: TemplateProps) {
     }
   };
 
+  const formatUrl = (url: string) => {
+    if (!url) return '#';
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return `https://${url}`;
+  };
+
   const formatDescription = (desc: string) => {
-    return desc.split(/\\n|\n/).filter(line => line.trim()).map((line, i) => (
+    if (!desc) return null;
+    return desc.split(/\n|\n/).filter(line => line.trim()).map((line, i) => (
       <li key={i} className="text-gray-600">{line.replace(/^- /, '')}</li>
     ));
   };
@@ -41,7 +50,7 @@ export default function ModernTemplate({ resumeData }: TemplateProps) {
             <div className="space-y-2 text-sm text-gray-600">
               {personalInfo.email && <div className="flex items-center gap-2"><Mail size={14} /><a href={`mailto:${personalInfo.email}`} className="hover:underline">{personalInfo.email}</a></div>}
               {personalInfo.phone && <div className="flex items-center gap-2"><Phone size={14} /><span>{personalInfo.phone}</span></div>}
-              {personalInfo.website && <div className="flex items-center gap-2"><Globe size={14} /><a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{personalInfo.website}</a></div>}
+              {personalInfo.website && <div className="flex items-center gap-2"><Globe size={14} /><a href={formatUrl(personalInfo.website)} target="_blank" rel="noopener noreferrer" className="hover:underline">{personalInfo.website}</a></div>}
               {personalInfo.address && <div className="flex items-center gap-2"><MapPin size={14} /><span>{personalInfo.address}</span></div>}
             </div>
           </section>
@@ -107,7 +116,7 @@ export default function ModernTemplate({ resumeData }: TemplateProps) {
               {projects.map(proj => (
                 <div key={proj.id}>
                   <h3 className="font-semibold text-gray-800">{proj.name}
-                    {proj.url && <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2 text-sm">[Link]</a>}
+                    {proj.url && <a href={formatUrl(proj.url)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2 text-sm">[Link]</a>}
                   </h3>
                    <ul className="mt-1 list-disc list-outside ml-4 space-y-1">
                     {formatDescription(proj.description)}

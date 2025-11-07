@@ -18,8 +18,17 @@ export default function ElegantTemplate({ resumeData }: TemplateProps) {
     }
   };
 
+  const formatUrl = (url: string) => {
+    if (!url) return '#';
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return `https://${url}`;
+  };
+
   const formatDescription = (desc: string) => {
-    return desc.split(/\\n|\n/).filter(line => line.trim()).map((line, i) => (
+    if (!desc) return null;
+    return desc.split(/\n|\n/).filter(line => line.trim()).map((line, i) => (
       <li key={i} className="text-gray-600">{line.replace(/^- /, '')}</li>
     ));
   };
@@ -40,7 +49,7 @@ export default function ElegantTemplate({ resumeData }: TemplateProps) {
         <div className="border-b border-gray-200 my-6 w-1/4 mx-auto"></div>
         <p className="text-sm text-gray-600">
           {personalInfo.address} | {personalInfo.phone} | <a href={`mailto:${personalInfo.email}`} className="text-cyan-700 hover:underline">{personalInfo.email}</a>
-          {personalInfo.website && <> | <a href={`https://${personalInfo.website}`} target="_blank" rel="noreferrer noopener" className="text-cyan-700 hover:underline">Portfolio</a></>}
+          {personalInfo.website && <> | <a href={formatUrl(personalInfo.website)} target="_blank" rel="noreferrer noopener" className="text-cyan-700 hover:underline">Portfolio</a></>}
         </p>
       </header>
       
@@ -93,7 +102,7 @@ export default function ElegantTemplate({ resumeData }: TemplateProps) {
           {projects.map(proj => (
             <div key={proj.id}>
               <h3 className="text-xl font-semibold">{proj.name}
-                {proj.url && <a href={`https://${proj.url}`} target="_blank" rel="noopener noreferrer" className="text-cyan-700 hover:underline ml-2 text-sm">[Link]</a>}
+                {proj.url && <a href={formatUrl(proj.url)} target="_blank" rel="noopener noreferrer" className="text-cyan-700 hover:underline ml-2 text-sm">[Link]</a>}
               </h3>
               <ul className="list-disc list-outside ml-5 mt-2 space-y-1">
                 {formatDescription(proj.description)}
