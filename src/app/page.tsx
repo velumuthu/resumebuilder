@@ -13,6 +13,9 @@ import { useEffect, useState } from 'react';
 
 export default function HomePage() {
   const [year, setYear] = useState<number | null>(null);
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactMessage, setContactMessage] = useState('');
 
   useEffect(() => {
     setYear(new Date().getFullYear());
@@ -25,6 +28,12 @@ export default function HomePage() {
     'Download your resume as a pixel-perfect PDF',
     'Your data is saved securely in your browser',
   ];
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const mailtoLink = `mailto:velumuthu.cse@gmail.com?subject=Contact%20Form%20Submission&body=Name:%20${encodeURIComponent(contactName)}%0AEmail:%20${encodeURIComponent(contactEmail)}%0AMessage:%20${encodeURIComponent(contactMessage)}`;
+    window.location.href = mailtoLink;
+  };
 
   return (
     <div className="min-h-screen bg-secondary/40 text-foreground">
@@ -117,7 +126,7 @@ export default function HomePage() {
            <Card className="bg-background shadow-lg max-w-4xl mx-auto">
               <CardContent className="p-8">
                   <div className="prose prose-invert max-w-none text-muted-foreground space-y-4">
-                      <p>ResumAI was born from a simple idea: everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. This tool was built by me, <strong>Velumuthu M</strong>, a passionate software developer dedicated to creating tools that empower people to achieve their career goals. Having seen many talented individuals struggle to effectively communicate their value on a resume, I was motivated to create a solution.</p>
+                      <p>ResumAI was born from a simple idea: everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. This tool was built by me, <strong>Velumuthu</strong>, a passionate software developer dedicated to creating tools that empower people to achieve their career goals. Having seen many talented individuals struggle to effectively communicate their value on a resume, I was motivated to create a solution.</p>
                       <p>I built ResumAI to level the playing field. By leveraging the power of artificial intelligence, this tool helps you articulate your experience and skills in the most impactful way possible. It's more than just a resume builder; it's your personal career assistant, designed to help you shine and make a lasting impression on potential employers.</p>
                       
                       <h3 className="text-xl font-semibold text-foreground !mt-8">Our Mission & Commitment</h3>
@@ -171,19 +180,21 @@ export default function HomePage() {
                   <CardTitle>Send a Message</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="Your Name" />
-                  </div>
-                  <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="your.email@example.com" />
-                  </div>
-                  <div className="space-y-2">
-                      <Label htmlFor="message">Message</Label>
-                      <Textarea id="message" placeholder="How can I help you?" rows={5} />
-                  </div>
-                  <Button className="w-full">Send Message</Button>
+                    <form onSubmit={handleContactSubmit}>
+                      <div className="space-y-2">
+                          <Label htmlFor="name">Name</Label>
+                          <Input id="name" placeholder="Your Name" value={contactName} onChange={(e) => setContactName(e.target.value)} />
+                      </div>
+                      <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input id="email" type="email" placeholder="your.email@example.com" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} />
+                      </div>
+                      <div className="space-y-2">
+                          <Label htmlFor="message">Message</Label>
+                          <Textarea id="message" placeholder="How can I help you?" rows={5} value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} />
+                      </div>
+                      <Button type="submit" className="w-full mt-4">Send Message</Button>
+                    </form>
                   </CardContent>
               </Card>
               </div>
