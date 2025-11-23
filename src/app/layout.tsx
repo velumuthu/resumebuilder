@@ -63,6 +63,7 @@ export default function RootLayout({
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2060063571353216" crossOrigin="anonymous"></script>
         <script async data-cfasync="false" src="//pl28121169.effectivegatecpm.com/0b2761533619c7ae9692d519a7e5bcbf/invoke.js"></script>
         <script type='text/javascript' src='//pl28121157.effectivegatecpm.com/c1/07/c6/c107c6279db4c9be955b16a5f0a9b2b7.js'></script>
+        <script type='text/javascript' src='https://www.effectivegatecpm.com/ds3z4pn4?key=ab323940b5f2a19e67e927c3cee73326'></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
