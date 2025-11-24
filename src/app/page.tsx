@@ -11,8 +11,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useEffect, useState } from 'react';
 import AnimatedLogo from '@/components/animated-logo';
-import AnimatedCodeIcon from '@/components/animated-code-icon';
-import AnimatedSparkleIcon from '@/components/animated-sparkle-icon';
+import AnimatedEyeIcon from '@/components/animated-eye-icon';
+import AnimatedPencilIcon from '@/components/animated-pencil-icon';
 import AnimatedDownloadIcon from '@/components/animated-download-icon';
 
 export default function HomePage() {
@@ -61,12 +61,12 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="flex flex-col items-center">
-              <AnimatedCodeIcon />
+              <AnimatedEyeIcon />
               <h3 className="text-xl font-semibold mb-2">1. Pick a Template</h3>
               <p className="text-muted-foreground">Choose from our professionally designed resume templates.</p>
             </div>
             <div className="flex flex-col items-center">
-              <AnimatedSparkleIcon />
+              <AnimatedPencilIcon />
               <h3 className="text-xl font-semibold mb-2">2. Fill in Your Details</h3>
               <p className="text-muted-foreground">Add your personal information, work experience, and skills.</p>
             </div>
