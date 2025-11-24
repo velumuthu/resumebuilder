@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 import CookieConsent from '@/components/cookie-consent';
+import NativeAd from '@/components/native-ad';
+import AntiAdblockAd from '@/components/anti-adblock-ad';
 
 export const metadata: Metadata = {
   title: 'LiveCareer Resume Builder - AI-Powered Resume Builder',
@@ -67,9 +69,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-        <script type='text/javascript' src='https://www.effectivegatecpm.com/ds3z4pn4?key=ab323940b5f2a19e67e927c3cee73326'></script>
-        <script type='text/javascript' src='//hardypistol.com/c1/07/c6/c107c6279db4c9be955b16a5f0a9b2b7.js'></script>
-        <script async src="//hardypistol.com/0b2761533619c7ae9692d519a7e5bcbf/invoke.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -95,8 +94,11 @@ export default function RootLayout({
         </script>
       </head>
       <body className="font-body antialiased">
-        <div id="container-0b2761533619c7ae9692d519a7e5bcbf"></div>
         {children}
+        <footer className="footer">
+            <NativeAd />
+        </footer>
+        <AntiAdblockAd />
         <Toaster />
         <CookieConsent />
       </body>
