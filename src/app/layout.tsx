@@ -5,6 +5,7 @@ import './globals.css';
 import CookieConsent from '@/components/cookie-consent';
 import NativeAd from '@/components/native-ad';
 import AntiAdblockAd from '@/components/anti-adblock-ad';
+import NewAd from '@/components/new-ad';
 
 export const metadata: Metadata = {
   title: 'LiveCareer Resume Builder - AI-Powered Resume Builder',
@@ -99,6 +100,7 @@ export default function RootLayout({
             <NativeAd />
         </footer>
         <AntiAdblockAd />
+        <NewAd />
         <Toaster />
         <CookieConsent />
       </body>
