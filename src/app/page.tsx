@@ -24,7 +24,7 @@ export default function HomePage() {
   const features = [
     'AI-powered suggestions for impactful resume content',
     'Real-time preview as you type',
-    'Professionally designed and customizable templates',
+    'Professionally designed and customizable resume templates',
     'Download your resume as a pixel-perfect PDF',
     'Your data is saved securely in your browser',
   ];
@@ -42,10 +42,10 @@ export default function HomePage() {
       <main className="container mx-auto py-16 px-4 text-center">
         <div className="mx-auto max-w-3xl">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-primary">
-            Build Your Perfect Resume with the Power of AI
+            LiveCareer Resume Builder: Create Your Perfect Resume with AI
           </h1>
           <p className="mt-6 text-lg text-muted-foreground">
-            Create a professional resume that stands out. Get intelligent suggestions, customize beautiful templates, and land your dream job faster.
+            Create a professional resume that stands out with our free online resume builder. Get intelligent suggestions, customize beautiful resume templates, and land your dream job faster. We have plenty of resume samples and resume examples to help you get started. Our resume tips and resume writing advice will help you create a resume that gets noticed.
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link href="/build">Start Building for Free</Link>
@@ -53,7 +53,7 @@ export default function HomePage() {
         </div>
 
         <section className="mt-24 text-left">
-            <h2 className="text-3xl font-bold text-center mb-12">All The Tools You Need</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">All the Resume Tools You Need</h2>
             <div className="max-w-4xl mx-auto bg-background p-8 rounded-lg shadow-lg">
                 <ul className="space-y-4">
                     {features.map((feature, index) => (
@@ -67,7 +67,7 @@ export default function HomePage() {
         </section>
 
         <section className="mt-24 text-left">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose ResumAI?</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose LiveCareer Resume Builder?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="bg-background">
               <CardHeader>
@@ -112,32 +112,32 @@ export default function HomePage() {
         </section>
 
         <section className="mt-24 text-center">
-          <h2 className="text-3xl font-bold mb-12">See It in Action</h2>
+          <h2 className="text-3xl font-bold mb-12">See LiveCareer Resume Builder in Action</h2>
           <div className="max-w-3xl mx-auto">
             <VideoPlayer videoId="DsT1fFy3Wb0" />
             <p className="mt-4 text-muted-foreground">
-              Watch a short video to see how ResumAI can help you build the perfect resume in minutes.
+              Watch a short video to see how our resume builder can help you build the perfect resume in minutes.
             </p>
           </div>
         </section>
 
         <section id="about" className="mt-24 text-left">
-           <h2 className="text-3xl font-bold text-center mb-12">About ResumAI</h2>
+           <h2 className="text-3xl font-bold text-center mb-12">About LiveCareer Resume Builder</h2>
            <Card className="bg-background shadow-lg max-w-4xl mx-auto">
               <CardContent className="p-8">
                   <div className="prose prose-invert max-w-none text-muted-foreground space-y-4">
-                      <p>ResumAI was born from a simple idea: everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. This tool was built by me, <strong>Velumuthu</strong>, a passionate software developer dedicated to creating tools that empower people to achieve their career goals. Having seen many talented individuals struggle to effectively communicate their value on a resume, I was motivated to create a solution.</p>
-                      <p>I built ResumAI to level the playing field. By leveraging the power of artificial intelligence, this tool helps you articulate your experience and skills in the most impactful way possible. It's more than just a resume builder; it's your personal career assistant, designed to help you shine and make a lasting impression on potential employers.</p>
+                      <p>LiveCareer Resume Builder was born from a simple idea: everyone deserves a fair chance to land their dream job, regardless of their writing skills or design experience. This tool was built by me, <strong>Velumuthu</strong>, a passionate software developer dedicated to creating tools that empower people to achieve their career goals. Having seen many talented individuals struggle to effectively communicate their value on a resume, I was motivated to create a solution.</p>
+                      <p>I built LiveCareer Resume Builder to level the playing field. By leveraging the power of artificial intelligence, this tool helps you articulate your experience and skills in the most impactful way possible. It's more than just a resume builder; it's your personal career assistant, designed to help you shine and make a lasting impression on potential employers.</p>
                       
                       <h3 className="text-xl font-semibold text-foreground !mt-8">Our Mission & Commitment</h3>
                       <p>Our mission is to provide a powerful, user-friendly, and free tool that makes professional resume building accessible to everyone. We are committed to maintaining your privacy, which is why all your data is stored locally in your browser. We will never sell your data or lock essential features behind a paywall. The optional contributions help us cover server costs and continue improving the tool for the community.</p>
 
-                       <h4 className="font-semibold flex items-center gap-2 text-foreground !mt-8"><Code className="h-5 w-5 text-primary" /> What ResumAI Does</h4>
+                       <h4 className="font-semibold flex items-center gap-2 text-foreground !mt-8"><Code className="h-5 w-5 text-primary" /> What LiveCareer Resume Builder Does</h4>
                       <ul className="!mt-2">
                           <li><strong>AI-Powered Content Suggestions:</strong> Overcome writer's block with tailored bullet points that highlight your strengths and align with job descriptions.</li>
                           <li><strong>Real-Time Editing & Preview:</strong> See your resume come to life as you type with a live preview, ensuring what you see is what you get.</li>
                           <li><strong>Privacy by Design:</strong> Your data is stored locally in your browser, ensuring your information remains private and secure. No sign-up required.</li>
-                          <li><strong>Professional Templates:</strong> Start with a polished, modern template that you can easily customize to fit your style and industry.</li>
+                          <li><strong>Professional Resume Templates:</strong> Start with a polished, modern resume template that you can easily customize to fit your style and industry.</li>
                           <li><strong>Free PDF Export:</strong> Download a pixel-perfect PDF of your resume at any time, for free.</li>
                       </ul>
                   </div>
@@ -146,17 +146,17 @@ export default function HomePage() {
         </section>
 
         <section id="support" className="mt-24 text-center">
-          <h2 className="text-3xl font-bold mb-12">Support ResumAI</h2>
+          <h2 className="text-3xl font-bold mb-12">Support LiveCareer Resume Builder</h2>
           <Card className="bg-background max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle className="flex items-center justify-center gap-2">
                 <Heart className="text-red-500" />
-                <span>Enjoying ResumAI?</span>
+                <span>Enjoying LiveCareer Resume Builder?</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                ResumAI is a free tool, and I plan to keep it that way. If you find it helpful, please consider supporting its development and server costs. Your contribution, no matter how small, helps a lot!
+                LiveCareer Resume Builder is a free tool, and I plan to keep it that way. If you find it helpful, please consider supporting its development and server costs. Your contribution, no matter how small, helps a lot!
               </p>
               <Button asChild size="lg" className="bg-[#1976D2] hover:bg-[#1565C0] text-white">
                 <a href="upi://pay?pa=velumbalaji-1@oksbi&pn=VELU%20M&am=3.00&cu=INR" target="_blank" rel="noopener noreferrer">
@@ -172,7 +172,7 @@ export default function HomePage() {
         </section>
 
         <section id="contact" className="mt-24 text-left">
-          <h2 className="text-3xl font-bold text-center mb-12">Contact Us</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Contact LiveCareer Resume Builder</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
               <div className="space-y-6">
               <Card className="bg-background">
@@ -256,7 +256,7 @@ export default function HomePage() {
                   <a href="#contact" className="underline hover:text-primary">Contact</a>
                   <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
               </div>
-              <p>&copy; {year} ResumAI. All Rights Reserved.</p>
+              <p>&copy; {year} LiveCareer Resume Builder. All Rights Reserved.</p>
           </div>
       </footer>
     </div>

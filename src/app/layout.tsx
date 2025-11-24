@@ -6,8 +6,8 @@ import CookieConsent from '@/components/cookie-consent';
 import AdsenseScript from '@/components/adsense-script';
 
 export const metadata: Metadata = {
-  title: 'ResumAI - AI-Powered Resume Builder',
-  description: 'Create professional resumes for free with AI-driven content suggestions. Build your CV with our smart resume maker and land your dream job.',
+  title: 'LiveCareer Resume Builder - AI-Powered Resume Builder',
+  description: 'Create a professional resume with LiveCareer Resume Builder, the best online resume builder. We offer a wide variety of resume templates, resume samples and resume examples to help you create the perfect resume. Our resume tips and resume writing guide will help you land your dream job.',
   keywords: [
     'resume builder', 
     'AI resume builder', 
@@ -44,7 +44,16 @@ export const metadata: Metadata = {
     'essential career tool',
     'build resume in minutes',
     'quick resume creator',
-    'instant resume download'
+    'instant resume download',
+    'LiveCareer Resume Builder',
+    'resume samples',
+    'resume examples',
+    'resume',
+    'resumes',
+    'resume tips',
+    'online resume',
+    'resume writing',
+    'create resume'
   ],
   icons: {
     icon: 'https://i.ibb.co/L6wVwLd/btechnologies-high-resolution-logo-transparent.png',
@@ -72,10 +81,10 @@ export default function RootLayout({
             {
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
-              "name": "ResumAI",
+              "name": "LiveCareer Resume Builder",
               "applicationCategory": "Productivity",
               "operatingSystem": "Web",
-              "description": "Create professional resumes for free with AI-driven content suggestions. Build your CV with our smart resume maker and land your dream job.",
+              "description": "Create a professional resume with LiveCareer Resume Builder, the best online resume builder. We offer a wide variety of resume templates, resume samples and resume examples to help you create the perfect resume. Our resume tips and resume writing guide will help you land your dream job.",
               "offers": {
                 "@type": "Offer",
                 "price": "0"
