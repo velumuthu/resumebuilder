@@ -2,13 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import React from 'react';
 
-interface SectionProps extends React.HTMLAttributes<HTMLElement> {
+type SectionProps = {
   children: React.ReactNode;
-}
+  className?: string;
+  id?: string;
+};
 
-const Section = ({ children, className, ...props }: SectionProps) => {
+const Section = ({ children, className, id }: SectionProps) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -21,7 +22,7 @@ const Section = ({ children, className, ...props }: SectionProps) => {
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.5 }}
       className={className}
-      {...props}
+      id={id}
     >
       {children}
     </motion.section>
