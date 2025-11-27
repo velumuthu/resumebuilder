@@ -1,30 +1,27 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, HTMLMotionProps } from 'framer-motion';
 import React, { useRef } from 'react';
 
-// Define only the props we need to avoid type conflicts.
-interface SectionProps {
+// Base the component's props on HTMLMotionProps to ensure type safety
+// with framer-motion, while allowing for standard HTML attributes.
+interface SectionProps extends HTMLMotionProps<"section"> {
     children: React.ReactNode;
-    className?: string;
-    id?: string;
 }
 
-const Section = ({ children, className, id }: SectionProps) => {
+const Section = ({ children, ...rest }: SectionProps) => {
   const ref = useRef(null);
-  // The 'once' option ensures the animation only runs once.
-  // The 'amount' option means 10% of the element needs to be in view to trigger.
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
     <motion.section
       ref={ref}
-      id={id}
-      className={className}
+      // Set the initial and animate props for the reveal animation.
       initial={{ opacity: 0, y: 50 }}
-      // Animate to the target state when in view. The initial state is used otherwise.
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
+      // Spread the rest of the props, which are now guaranteed to be compatible.
+      {...rest}
     >
       {children}
     </motion.section>
