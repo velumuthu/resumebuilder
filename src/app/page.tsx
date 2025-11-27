@@ -14,6 +14,8 @@ import AnimatedLogo from '@/components/animated-logo';
 import AnimatedEyeIcon from '@/components/animated-eye-icon';
 import AnimatedPencilIcon from '@/components/animated-pencil-icon';
 import AnimatedDownloadIcon from '@/components/animated-download-icon';
+import CountUp from '@/components/count-up';
+import Section from '@/components/section';
 
 export default function HomePage() {
   const [year, setYear] = useState<number | null>(null);
@@ -44,6 +46,7 @@ export default function HomePage() {
       <SiteHeader />
 
       <main className="container mx-auto py-16 px-4 text-center">
+        <Section>
         <div className="mx-auto max-w-3xl">
         <AnimatedLogo />
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-primary">
@@ -56,8 +59,9 @@ export default function HomePage() {
             <Link href="/build">Start Building for Free</Link>
           </Button>
         </div>
+        </Section>
 
-        <section className="mt-24 text-left">
+        <Section className="mt-24 text-left">
           <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="flex flex-col items-center">
@@ -76,9 +80,33 @@ export default function HomePage() {
               <p className="text-muted-foreground">Download your resume as a PDF and start applying for jobs.</p>
             </div>
           </div>
-        </section>
+        </Section>
 
-        <section className="mt-24 text-left">
+        <Section className="mt-24 bg-primary/10 py-16">
+          <div className="container mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-8 text-primary">Our Impact</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="flex flex-col items-center">
+                <h3 className="text-4xl font-bold text-primary"><CountUp end={1000} />+</h3>
+                <p className="text-muted-foreground mt-2">Site Visits</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <h3 className="text-4xl font-bold text-primary"><CountUp end={500} />+</h3>
+                <p className="text-muted-foreground mt-2">Happy Clients</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <h3 className="text-4xl font-bold text-primary"><CountUp end={750} />+</h3>
+                <p className="text-muted-foreground mt-2">Resumes Built</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <h3 className="text-4xl font-bold text-primary"><CountUp end={2} />+</h3>
+                <p className="text-muted-foreground mt-2">Years of Excellence</p>
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        <Section className="mt-24 text-left">
             <h2 className="text-3xl font-bold text-center mb-12">All the Resume Tools You Need</h2>
             <div className="max-w-4xl mx-auto bg-background p-8 rounded-lg shadow-lg">
                 <ul className="space-y-4">
@@ -90,9 +118,9 @@ export default function HomePage() {
                     ))}
                 </ul>
             </div>
-        </section>
+        </Section>
 
-        <section className="mt-24 text-left">
+        <Section className="mt-24 text-left">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose LiveCareer Resume Builder?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="bg-background">
@@ -135,9 +163,9 @@ export default function HomePage() {
               </CardContent>
             </Card>
           </div>
-        </section>
+        </Section>
 
-        <section className="mt-24 text-center">
+        <Section className="mt-24 text-center">
           <h2 className="text-3xl font-bold mb-12">See LiveCareer Resume Builder in Action</h2>
           <div className="max-w-3xl mx-auto">
             <VideoPlayer videoId="DsT1fFy3Wb0" />
@@ -145,9 +173,9 @@ export default function HomePage() {
               Watch a short video to see how our resume builder can help you build the perfect resume in minutes.
             </p>
           </div>
-        </section>
+        </Section>
 
-        <section id="about" className="mt-24 text-left">
+        <Section id="about" className="mt-24 text-left">
            <h2 className="text-3xl font-bold text-center mb-12">About LiveCareer Resume Builder</h2>
            <Card className="bg-background shadow-lg max-w-4xl mx-auto">
               <CardContent className="p-8">
@@ -169,9 +197,9 @@ export default function HomePage() {
                   </div>
               </CardContent>
            </Card>
-        </section>
+        </Section>
 
-        <section id="support" className="mt-24 text-center">
+        <Section id="support" className="mt-24 text-center">
           <h2 className="text-3xl font-bold mb-12">Support LiveCareer Resume Builder</h2>
           <Card className="bg-background max-w-2xl mx-auto">
             <CardHeader>
@@ -195,9 +223,9 @@ export default function HomePage() {
               </div>
             </CardContent>
           </Card>
-        </section>
+        </Section>
 
-        <section id="contact" className="mt-24 text-left">
+        <Section id="contact" className="mt-24 text-left">
           <h2 className="text-3xl font-bold text-center mb-12">Contact LiveCareer Resume Builder</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
               <div className="space-y-6">
@@ -271,7 +299,7 @@ export default function HomePage() {
                   </div>
               </div>
           </div>
-        </section>
+        </Section>
       </main>
       
       <footer className="w-full border-t bg-background p-4 print:hidden mt-16">

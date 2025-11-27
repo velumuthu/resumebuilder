@@ -6,6 +6,9 @@ import CookieConsent from '@/components/cookie-consent';
 import NativeAd from '@/components/native-ad';
 import AntiAdblockAd from '@/components/anti-adblock-ad';
 import NewAd from '@/components/new-ad';
+import PageLoader from '@/components/page-loader';
+import ScrollProgress from '@/components/scroll-progress';
+import ScrollToTopButton from '@/components/scroll-to-top-button';
 
 export const metadata: Metadata = {
   title: 'LiveCareer Resume Builder - AI-Powered Resume Builder',
@@ -95,6 +98,8 @@ export default function RootLayout({
         </script>
       </head>
       <body className="font-body antialiased">
+        <PageLoader />
+        <ScrollProgress />
         {children}
         <footer className="footer">
             <NativeAd />
@@ -103,6 +108,7 @@ export default function RootLayout({
         <NewAd />
         <Toaster />
         <CookieConsent />
+        <ScrollToTopButton />
       </body>
     </html>
   );
