@@ -3,22 +3,28 @@
 import { motion, useInView } from 'framer-motion';
 import React, { useRef } from 'react';
 
-interface SectionProps extends React.HTMLAttributes<HTMLElement> {
+// Define only the props we need to avoid type conflicts.
+interface SectionProps {
     children: React.ReactNode;
+    className?: string;
+    id?: string;
 }
 
-const Section = ({ children, className, ...rest }: SectionProps) => {
+const Section = ({ children, className, id }: SectionProps) => {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+  // The 'once' option ensures the animation only runs once.
+  // The 'amount' option means 10% of the element needs to be in view to trigger.
+  const inView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
     <motion.section
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.5 }}
+      id={id}
       className={className}
-      {...rest}
+      initial={{ opacity: 0, y: 50 }}
+      // Animate to the target state when in view. The initial state is used otherwise.
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, ease: "easeOut" }}
     >
       {children}
     </motion.section>
