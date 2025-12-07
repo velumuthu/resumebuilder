@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ResumeData } from '../../lib/types';
+import type { ResumeData } from '@/lib/types';
 import ClassicTemplate from './templates/classic-template';
 import ModernTemplate from './templates/modern-template';
 import ProfessionalTemplate from './templates/professional-template';
