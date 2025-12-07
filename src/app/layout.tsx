@@ -128,6 +128,10 @@ export default function RootLayout({
   	'params' : {}
   };
 </script>
+<script
+  type="text/javascript"
+  src="//hardypistol.com/0dda2f2d0f7beb3b23e264405e06a0e0/invoke.js"
+></script>
       </body>
     </html>
   );
