@@ -103,7 +103,7 @@ export default function ClassicTemplate({ resumeData, handleContentChange }: Tem
             <li key={ach.id} contentEditable onBlur={(e) => handleContentChange?.(e, 'achievements', ach.id, 'description')} dangerouslySetInnerHTML={{ __html: ach.description }}></li>
           ))}
         </ul>
-      </Section>}
+</Section>}
 
       {areasOfInterest?.length > 0 && <Section title="Areas of Interest">
         <p className="text-center text-gray-700">{areasOfInterest.map(interest => <span key={interest.id} contentEditable onBlur={(e) => handleContentChange?.(e, 'areasOfInterest', interest.id, 'name')} dangerouslySetInnerHTML={{ __html: interest.name }}></span>).reduce((prev, curr) => <>{prev} • {curr}</>)}</p>

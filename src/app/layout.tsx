@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
@@ -79,7 +78,7 @@ export default function RootLayout({
         <script type="application/ld+json">
           {`
             {
-              "@context": "https://schema.org",
+              "@context": "https.schema.org",
               "@type": "SoftwareApplication",
               "name": "LiveCareer Resume Builder",
               "applicationCategory": "Productivity",
@@ -96,6 +95,9 @@ export default function RootLayout({
             }
           `}
         </script>
+        <script async src="https://hardypistol.com/ds3z4pn4?key=ab323940b5f2a19e67e927c3cee73326"></script>
+        <script type="text/javascript" src="//hardypistol.com/4d/09/50/4d0950eb16db62c65c79345b6c4312c6.js"></script>
+        <script type="text/javascript" src="//hardypistol.com/c1/07/c6/c107c6279db4c9be955b16a5f0a9b2b7.js"></script>
       </head>
       <body className="font-body antialiased">
         <PageLoader />
