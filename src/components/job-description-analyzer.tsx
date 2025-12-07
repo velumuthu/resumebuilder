@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Wand2 } from 'lucide-react';
+import { getAiSuggestionsFromJobDescription } from '@/app/actions';
 
 interface JobDescriptionAnalyzerProps {
   onAnalysisComplete: (suggestedSkills: string[], suggestedSummary: string) => void;
@@ -29,22 +30,13 @@ export default function JobDescriptionAnalyzer({ onAnalysisComplete }: JobDescri
     setIsLoading(true);
 
     try {
-      // This is a placeholder for the actual analysis logic.
-      // In a real application, this would involve an API call to a backend service
-      // that uses a large language model to analyze the job description.
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      const result = await getAiSuggestionsFromJobDescription({ jobDescription });
 
-      const suggestedSkills = [
-        'React',
-        'TypeScript',
-        'Node.js',
-        'Agile Methodologies',
-        'Problem Solving',
-      ];
-      const suggestedSummary =
-        'A results-oriented software developer with a proven track record of designing, developing, and deploying high-quality web applications. Proficient in React, TypeScript, and Node.js, with a strong understanding of agile methodologies. Seeking to leverage my skills and experience to contribute to a challenging and innovative development team.';
+      if (result.error) {
+        throw new Error(result.error);
+      }
 
-      onAnalysisComplete(suggestedSkills, suggestedSummary);
+      onAnalysisComplete(result.suggestedSkills, result.suggestedSummary);
 
       toast({
         title: 'Analysis Complete',

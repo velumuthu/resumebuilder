@@ -26,15 +26,15 @@ import JobDescriptionAnalyzer from './job-description-analyzer';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-
 const initialData: ResumeData = {
   personalInfo: {
-    name: 'Alex Doe',
-    email: 'alex.doe@example.com',
+    name: 'velumuthu',
+    email: 'velumuthu.cse@gmail.com',
     phone: '(123) 456-7890',
     address: 'City, State',
-    website: 'alexdoe.dev',
+    website: 'velumuthu.netlify.app',
     summary: 'Enthusiastic and motivated recent Computer Science graduate with a strong foundation in software development and web technologies. Eager to leverage academic knowledge and hands-on project experience to contribute to a dynamic engineering team.',
+    profilePicture: '',
   },
   experience: [
     {
@@ -44,7 +44,7 @@ const initialData: ResumeData = {
       location: 'Remote',
       startDate: '2023-06-01',
       endDate: '2023-08-31',
-      description: '- Assisted in the development of a new feature for the company\'s flagship product using React and TypeScript.\\n- Participated in daily stand-ups and sprint planning meetings, contributing to an agile development environment.',
+      description: '- Assisted in the development of a new feature for the company\'s flagship product using React and TypeScript.\n- Participated in daily stand-ups and sprint planning meetings, contributing to an agile development environment.',
     },
   ],
   education: [
@@ -130,7 +130,6 @@ export default function ResumeBuilder() {
         setData(initialData);
     }
   }, [toast]);
-  
 
   useEffect(() => {
     if (data && isClient) {
@@ -222,7 +221,6 @@ const handleDirectDownload = async () => {
     }
  }
 
-
   if (!isClient || !data) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center bg-background gap-4">
@@ -297,7 +295,7 @@ const handleDirectDownload = async () => {
                 </div>
                 <div id="resume-preview-container-desktop" className='flex-grow flex items-start justify-center pt-4'>
                   <div className="w-full max-w-[8.5in] bg-background shadow-2xl rounded-sm overflow-hidden">
-                     <ResumePreview resumeData={data} />
+                     <ResumePreview resumeData={data} setResumeData={setData} />
                   </div>
                 </div>
             </div>
@@ -324,7 +322,7 @@ const handleDirectDownload = async () => {
             <TabsContent value="preview">
                <div id="resume-preview-container-mobile" className="p-4 bg-secondary">
                  <div className="shadow-lg">
-                  <ResumePreview resumeData={data} />
+                  <ResumePreview resumeData={data} setResumeData={setData} />
                  </div>
               </div>
             </TabsContent>
@@ -334,7 +332,7 @@ const handleDirectDownload = async () => {
     </div>
     {/* Print View */}
     <div className="hidden print:block print-container">
-        <ResumePreview resumeData={data} />
+        <ResumePreview resumeData={data} setResumeData={setData} />
     </div>
     </>
   );

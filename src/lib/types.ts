@@ -5,6 +5,7 @@ export interface PersonalInfo {
   address: string;
   website: string;
   summary: string;
+  profilePicture?: string;
 }
 
 export interface Experience {
@@ -64,5 +65,5 @@ export interface ResumeData {
   projects: Project[];
   achievements: Achievement[];
   areasOfInterest: AreaOfInterest[];
-  template: 'classic' | 'professional' | 'minimalist' | 'academic' | 'corporate' | 'elegant' | 'bold' | 'modern';
+  template: 'classic' | 'professional' | 'minimalist' | 'academic' | 'corporate' | 'elegant' | 'bold' | 'modern' | 'creative' | 'swiss' | 'ats-friendly' | 'visual';
 }

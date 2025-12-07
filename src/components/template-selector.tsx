@@ -1,51 +1,49 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CheckCircle2 } from 'lucide-react';
+import type { Template } from '@/lib/types';
 
-'use client';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { cn } from '@/lib/utils';
-import type { ResumeData } from '@/lib/types';
-import Image from 'next/image';
+const templates: { name: Template; label: string }[] = [
+    { name: 'classic', label: 'Classic' },
+    { name: 'modern', label: 'Modern' },
+    { name: 'professional', label: 'Professional' },
+    { name: 'elegant', label: 'Elegant' },
+    { name: 'corporate', label: 'Corporate' },
+    { name: 'minimalist', label: 'Minimalist' },
+    { name: 'bold', label: 'Bold' },
+    { name: 'academic', label: 'Academic' },
+    { name: 'creative', label: 'Creative' },
+    { name: 'swiss', label: 'Swiss' },
+    { name: 'ats-friendly', label: 'ATS-Friendly' },
+    { name: 'visual', label: 'Visual' },
+];
 
 interface TemplateSelectorProps {
-  selectedTemplate: ResumeData['template'];
-  onSelectTemplate: (template: ResumeData['template']) => void;
+    selectedTemplate: Template;
+    onSelectTemplate: (template: Template) => void;
 }
 
-const templates = [
-  { id: 'classic', name: 'Classic', imageUrl: 'https://i.imghippo.com/files/QFoF9685iA.png', aiHint: 'classic resume' },
-  { id: 'professional', name: 'Professional', imageUrl: 'https://i.imghippo.com/files/bunG6603vA.png', aiHint: 'professional resume' },
-  { id: 'minimalist', name: 'Minimalist', imageUrl: 'https://i.imghippo.com/files/OpV7754i.png', aiHint: 'minimalist resume' },
-  { id: 'academic', name: 'Academic', imageUrl: 'https://i.imghippo.com/files/jrJS7434DBo.png', aiHint: 'academic cv' },
-  { id: 'corporate', name: 'Corporate', imageUrl: 'https://i.imghippo.com/files/mM6306YPQ.png', aiHint: 'corporate resume' },
-  { id: 'elegant', name: 'Elegant', imageUrl: 'https://i.imghippo.com/files/XuF5864Yvg.png', aiHint: 'elegant resume' },
-  { id: 'bold', name: 'Bold', imageUrl: 'https://i.imghippo.com/files/MwX4896mA.png', aiHint: 'bold resume' },
-  { id: 'modern', name: 'Modern', imageUrl: 'https://i.imghippo.com/files/XuF5864Yvg.png', aiHint: 'modern resume' },
-] as const;
-
 export default function TemplateSelector({ selectedTemplate, onSelectTemplate }: TemplateSelectorProps) {
-  return (
-    <Card className="mb-6">
-      <CardHeader>
-        <CardTitle>Select a Template</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {templates.map((template) => (
-            <div
-              key={template.id}
-              onClick={() => onSelectTemplate(template.id)}
-              className={cn(
-                'cursor-pointer rounded-lg border-2 bg-secondary/30 p-2 transition-all hover:opacity-90',
-                selectedTemplate === template.id ? 'border-primary' : 'border-transparent'
-              )}
-            >
-              <div className="aspect-[3/4] overflow-hidden rounded-md relative">
-                 <Image src={template.imageUrl} alt={`${template.name} template thumbnail`} fill className="object-cover" data-ai-hint={template.aiHint} />
-              </div>
-              <p className="text-center text-sm font-medium mt-2">{template.name}</p>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Select a Template</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 gap-4">
+                    {templates.map(({ name, label }) => (
+                        <div
+                            key={name}
+                            className={`relative border-2 p-4 rounded-lg cursor-pointer transition-all duration-200 ${selectedTemplate === name ? 'border-primary shadow-lg' : 'border-border hover:border-primary/60'}`}
+                            onClick={() => onSelectTemplate(name)}
+                        >
+                            {selectedTemplate === name && (
+                                <CheckCircle2 className="absolute top-2 right-2 h-5 w-5 text-primary" />
+                            )}
+                            <div className="text-sm font-semibold text-center">{label}</div>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+    );
 }
