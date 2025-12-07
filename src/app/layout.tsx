@@ -111,27 +111,20 @@ export default function RootLayout({
         <Toaster />
         <CookieConsent />
         <ScrollToTopButton />
-        <script
-  type="text/javascript"
-  src="//hardypistol.com/4d/09/50/4d0950eb16db62c65c79345b6c4312c6.js"
-></script>
-<script
-  type="text/javascript"
-  src="//hardypistol.com/c1/07/c6/c107c6279db4c9be955b16a5f0a9b2b7.js"
-></script>
-<script type="text/javascript">
-  atOptions = {
-  	'key' : '0dda2f2d0f7beb3b23e264405e06a0e0',
-  	'format' : 'iframe',
-  	'height' : 60,
-  	'width' : 468,
-  	'params' : {}
-  };
-</script>
-<script
-  type="text/javascript"
-  src="//hardypistol.com/0dda2f2d0f7beb3b23e264405e06a0e0/invoke.js"
-></script>
+        <Script type="text/javascript" src="//hardypistol.com/4d/09/50/4d0950eb16db62c65c79345b6c4312c6.js" strategy="afterInteractive" />
+        <Script type="text/javascript" src="//hardypistol.com/c1/07/c6/c107c6279db4c9be955b16a5f0a9b2b7.js" strategy="afterInteractive" />
+        <Script id="ad-config" strategy="afterInteractive">
+          {`
+            atOptions = {
+              'key' : '0dda2f2d0f7beb3b23e264405e06a0e0',
+              'format' : 'iframe',
+              'height' : 60,
+              'width' : 468,
+              'params' : {}
+            };
+          `}
+        </Script>
+        <Script type="text/javascript" src="//hardypistol.com/0dda2f2d0f7beb3b23e264405e06a0e0/invoke.js" strategy="afterInteractive" />
       </body>
     </html>
   );
