@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ResumeData } from '@/lib/types';
+import type { ResumeData, Experience, Education, Skill, Certification, Project, Achievement, AreaOfInterest } from '@/lib/types';
 import ClassicTemplate from './templates/classic-template';
 import ModernTemplate from './templates/modern-template';
 import ProfessionalTemplate from './templates/professional-template';
@@ -20,7 +20,7 @@ interface ResumePreviewProps {
 
 export default function ResumePreview({ resumeData, setResumeData }: ResumePreviewProps) {
   const handleContentChange = (
-    e: React.FormEvent<HTMLDivElement>,
+    e: React.FocusEvent<HTMLElement>,
     section: keyof ResumeData,
     id: string,
     field: string
@@ -28,18 +28,50 @@ export default function ResumePreview({ resumeData, setResumeData }: ResumePrevi
     const newText = e.currentTarget.textContent || '';
     const newData = { ...resumeData };
 
-    if (Array.isArray(newData[section])) {
-      newData[section] = (newData[section] as any[]).map(item => {
-        if (item.id === id) {
-          return { ...item, [field]: newText };
-        }
-        return item;
-      });
-    } else {
-      newData[section] = {
-        ...(newData[section] as object),
-        [field]: newText
-      };
+    switch (section) {
+      case 'experience':
+        newData.experience = newData.experience.map((item: Experience) =>
+          item.id === id ? { ...item, [field]: newText } : item
+        );
+        break;
+      case 'education':
+        newData.education = newData.education.map((item: Education) =>
+          item.id === id ? { ...item, [field]: newText } : item
+        );
+        break;
+      case 'skills':
+        newData.skills = newData.skills.map((item: Skill) =>
+          item.id === id ? { ...item, [field]: newText } : item
+        );
+        break;
+      case 'certifications':
+        newData.certifications = newData.certifications.map((item: Certification) =>
+          item.id === id ? { ...item, [field]: newText } : item
+        );
+        break;
+      case 'projects':
+        newData.projects = newData.projects.map((item: Project) =>
+          item.id === id ? { ...item, [field]: newText } : item
+        );
+        break;
+      case 'achievements':
+        newData.achievements = newData.achievements.map((item: Achievement) =>
+            item.id === id ? { ...item, [field]: newText } : item
+        );
+        break;
+      case 'areasOfInterest':
+        newData.areasOfInterest = newData.areasOfInterest.map((item: AreaOfInterest) =>
+            item.id === id ? { ...item, [field]: newText } : item
+        );
+        break;
+      case 'personalInfo':
+        newData.personalInfo = {
+          ...newData.personalInfo,
+          [field]: newText,
+        };
+        break;
+      default:
+        break;
     }
     
     setResumeData(newData);

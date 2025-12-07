@@ -56,6 +56,8 @@ export interface AreaOfInterest {
   name: string;
 }
 
+export type Template = 'classic' | 'professional' | 'minimalist' | 'academic' | 'corporate' | 'elegant' | 'bold' | 'modern' | 'creative' | 'swiss' | 'ats-friendly' | 'visual';
+
 export interface ResumeData {
   personalInfo: PersonalInfo;
   experience: Experience[];
@@ -65,5 +67,5 @@ export interface ResumeData {
   projects: Project[];
   achievements: Achievement[];
   areasOfInterest: AreaOfInterest[];
-  template: 'classic' | 'professional' | 'minimalist' | 'academic' | 'corporate' | 'elegant' | 'bold' | 'modern' | 'creative' | 'swiss' | 'ats-friendly' | 'visual';
+  template: Template;
 }
