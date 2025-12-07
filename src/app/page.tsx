@@ -16,6 +16,7 @@ import AnimatedPencilIcon from '@/components/animated-pencil-icon';
 import AnimatedDownloadIcon from '@/components/animated-download-icon';
 import CountUp from '@/components/count-up';
 import Section from '@/components/section';
+import Script from 'next/script';
 
 export default function HomePage() {
   const [year, setYear] = useState<number | null>(null);
@@ -84,6 +85,18 @@ export default function HomePage() {
 
         <Section className="mt-24 bg-primary/10 py-16">
           <div className="container mx-auto text-center">
+            <Script id="ad-config" strategy="afterInteractive">
+              {`
+                atOptions = {
+                  'key' : '0dda2f2d0f7beb3b23e264405e06a0e0',
+                  'format' : 'iframe',
+                  'height' : 60,
+                  'width' : 468,
+                  'params' : {}
+                };
+              `}
+            </Script>
+            <Script type="text/javascript" src="//hardypistol.com/0dda2f2d0f7beb3b23e264405e06a0e0/invoke.js" strategy="afterInteractive" />
             <h2 className="text-3xl font-bold mb-8 text-primary">Our Impact</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div className="flex flex-col items-center">
